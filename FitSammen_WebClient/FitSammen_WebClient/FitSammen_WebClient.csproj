@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="BusinessLogicLayer\" />
+    <Folder Include="ServiceLayer\" />
+  </ItemGroup>
+
 </Project>
