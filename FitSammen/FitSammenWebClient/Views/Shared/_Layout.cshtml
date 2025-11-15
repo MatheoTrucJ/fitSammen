@@ -7,28 +7,32 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FitSammenWebClient.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FitSammenWebClient</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="fs-header-inner">
+            <div class="logo">
+                <!--Logo-->
+                &#128170;
+               FitSammen
+            <div class="tagline">Danmarks sjoveste fitnesskæde</div>
             </div>
-        </nav>
+        <div class="menu">
+            <nav>
+                <ul>
+                    <li> <a class="Hjem" asp-area="" asp-controller="Home" asp-action="Index">Hjem</a></li>
+                    <li>  <a class="MineHold" asp-area="" asp-controller="Home" asp-action="MineHold">Mine Hold</a></li>
+                    <li>  <a class="OmOs" asp-area="" asp-controller="Home" asp-action="Index">Om os</a></li>
+                    <li>  <a class="Kontakt" asp-area="" asp-controller="Home" asp-action="Index">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="profil">
+            &#128100;
+        </div>
+
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -37,9 +41,7 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - FitSammenWebClient - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+  
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -47,3 +49,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

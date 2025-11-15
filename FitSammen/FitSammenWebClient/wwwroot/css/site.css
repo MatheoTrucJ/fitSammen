@@ -1,22 +1,108 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
+/*Header*/
+.fs-header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu ul {
+    display: flex;
+    gap: 4rem; /*Afstand mellem links*/
+    list-style: none; /*Fjerner bullets*/
+    margin: 0;
+    padding: 0;
+    margin-left: 400px;
+    font;
+}
+
+.logo {
+    font-size: 40px;
+}
+
+.tagline {
+    font-size: 20px;
+    color: gray;
+}
+
+.profil {
+    font-size: 40px
+}
+
+
+/*Hero*/
+
+.Hero {
+    margin-top: 2rem;
+}
+
+.Hero-inner {
+    background-image: linear-gradient(to right, green, yellow);
+    border-radius: 40px;
+    padding: 2rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.overskrift {
+    font: bold 50px "Poppins", sans-serif;
+    color: white;
+}
+
+.underoverskrift {
+    margin-top: -25px;
+    font: 30px "Poppins", sans-serif;
+    color: white;
+}
+
+.filterbar {
+    display: flex;
+    justify-content: center;
+    gap: 7rem;
+}
+
+    .filterbar select,
+    .filterbar input[type="date"] {
+        border-radius: 200px;
+        padding: 0.5rem 1.5rem;
+        border: none;
+        outline: none;
+        background-color: #3bb273;
+        color: #e5fff2;
+        font: "Poppins", sans-serif;
+        font-size: 18px;
+    }
+
+    .filterbar input[type="submit"] {
+        border-radius: 200px;
+        padding: 0.5rem 1.5rem;
+        border-color: darkgreen;
+        outline: none;
+        background-color: white;
+        font: 20px "Poppins", sans-serif;
+        color: #3bb273
+    }
+
+    

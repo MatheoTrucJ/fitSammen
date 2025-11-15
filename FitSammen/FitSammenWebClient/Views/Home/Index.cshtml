@@ -1,8 +1,40 @@
 ﻿@{
+   var tests = new[]
+    {
+        new { Name = "Yoga" },
+        new { Name = "Bodybuilding"},
+        new { Name = "Pilates"}
+    };
+
+}
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="Hero">
+    <div class="Hero-inner">
+        <div class="text-center">
+            <h1 class="overskrift">Fitness sjovere sammen</h1>
+            <p class="underoverskrift">Motivation er lettest sammen</p>
+        </div>
+        <form method="get">
+            <div class="filterbar">
+                <select name="centre" id="centre">
+                    <option value="all">Alle centre</option>
+                    <option value="aalborg">Aalborg</option>
+                    <option value="aarhus">Aarhus</option>
+                    <option value="odense">Odense</option>
+                </select>
+                <select name="hold" id="hold">
+                    @foreach(var item in tests)
+                    {
+                        <option value="@item.Name">@item.Name</option>
+                    }
+                </select>
+                <input type="date" />
+                <input type="submit" value="Søg" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</section>
