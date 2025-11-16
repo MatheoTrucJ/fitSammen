@@ -9,6 +9,27 @@
 }
 
 @{
+    var test2 = new[]
+                    {
+                new { Name = "Yoga", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Bodybuilding", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Pilates", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Stram op", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "TRX", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Yoga", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Bodybuilding", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Pilates", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Stram op", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "TRX", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Yoga", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Bodybuilding", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Pilates", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "Stram op", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
+                new { Name = "TRX", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"}
+    };
+}
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -36,5 +57,24 @@
                 <input type="submit" value="Søg" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+</section>
+<section>
+    <div class="hold">
+        <button type="button" class="hold-arrow Hold-arrow-left">‹</button>
+
+        <div class="hold-liste">
+            @foreach(var item in test2)
+            {
+                <div class="hold-card">
+                    <br /> <b>Hold: </b> @item.Name
+                    <br /> <b>Lokation: </b>@item.Location
+                    <br /> <b>Kapacitet: </b>@item.Capacity
+                    <br /> <b>Hvornår: </b> @item.StartTime
+                    <br /> <b>Længde: </b>@item.Duration
+                </div>
+            }
+        </div>
+        <button type="button" class="hold-arrow Hold-arrow-right">›</button>
     </div>
 </section>

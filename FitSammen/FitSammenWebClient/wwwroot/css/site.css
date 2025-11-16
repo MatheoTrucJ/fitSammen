@@ -23,9 +23,9 @@ body {
 
 /*Header*/
 .fs-header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; /*Laver flexgrid*/
+    justify-content: space-between; /*Laver mellemrum mellem hvert element*/
+    align-items: center; /*Centrerer*/
 }
 
 .menu ul {
@@ -34,9 +34,16 @@ body {
     list-style: none; /*Fjerner bullets*/
     margin: 0;
     padding: 0;
-    margin-left: 400px;
-    font;
+    margin-left: 400px; /*Rykker menu til højre*/
 }
+
+.menu a {
+    font-size: 20px;
+    text-decoration: none; /*Fjerner understreg */
+    color: black; /*Gør link sort*/
+}
+
+
 
 .logo {
     font-size: 40px;
@@ -48,8 +55,13 @@ body {
 }
 
 .profil {
-    font-size: 40px
+    margin-right: 20px; /*Rykker profil længere til venstre*/
 }
+
+    .profil ul {
+        font-size: 40px;
+        list-style: none;
+    }
 
 
 /*Hero*/
@@ -105,4 +117,26 @@ body {
         color: #3bb273
     }
 
+.hold{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.hold-arrow{
+    font-size: 20rem;
+    border:none;
     
+}
+
+.hold-liste {
+    display: flex;
+    overflow: hidden; /*Skjuler det, der er udenfor vinduet*/
+    flex: 1;
+    scroll-behavior: smooth; /*Gør scrollingen glidende*/
+}
+
+.hold-card{
+    flex: 0 0 auto;
+    width: 200px;
+    margin-right: 1rem;
+}

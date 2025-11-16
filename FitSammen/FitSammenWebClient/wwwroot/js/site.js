@@ -2,3 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+document.querySelector('hold-liste')
+track.scrollBy({ left: +amount, behavior: 'smooth' });
+document.querySelector('hold-liste').scrollBy({ left: +amount, behavior: 'smooth' });
