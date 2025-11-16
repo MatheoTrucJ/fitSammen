@@ -22,6 +22,9 @@ namespace FitSammen_API.Model
             UserNumber = userNumber;
             UserType = userType;
         }
+        protected User()
+        {
+        }
     }
     public enum UserType
     {
