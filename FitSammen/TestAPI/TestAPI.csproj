@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FitSammen_API\FitSammen_API.csproj" />
+    <ProjectReference Include="..\FitsammenMVCTests\FitsammenMVCTests.csproj" />
   </ItemGroup>
 
 </Project>

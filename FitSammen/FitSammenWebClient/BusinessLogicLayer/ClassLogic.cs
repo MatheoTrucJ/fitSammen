@@ -1,4 +1,4 @@
-﻿using FitSammen_API.Model;
+﻿using FitSammenWebClient.Models;
 
 namespace FitSammenWebClient.BusinessLogicLayer
 {

@@ -1,19 +1,14 @@
-﻿using FitSammen_API.Model;
+﻿using FitSammenWebClient.Models;
 using FitSammenWebClient.ServiceLayer;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FitsammenMVCTests
 {
-    public class ServiceLayer
+    public class ServiceLayerTest
     {
         private readonly ClassService _service;
 
-        public ServiceLayer()
+        public ServiceLayerTest()
         {
             // Arrange
 
@@ -32,10 +27,10 @@ namespace FitsammenMVCTests
         }
 
         [Fact]
-        public async void GetAllClassesFromApiReturnsList_ReturnListOfClases()
+        public async Task GetAllClassesFromApiReturnsList_ReturnListOfClases()
         {
             //Act
-            IEnumerable<Class> result = await _service.GetClasses();
+            var result = (IEnumerable<Class>)await _service.GetClasses();
 
             // Assert
             Assert.NotNull(result);
@@ -54,7 +49,7 @@ namespace FitsammenMVCTests
             var list = result?.ToList();
 
             // Assert
-            Assert.Single(list);       
+            Assert.Single(list); // // hvis endpointet returnerer præcis én class
             Assert.Equal(id, list[0].Id);
             Assert.Equal(1, list.Count());
         }

@@ -14,13 +14,14 @@
         public int DurationInMinutes { get; set; }
         public TimeOnly StartTime { get; set; }
         public ClassType ClassType { get; set; }
-        
-        public Class(int id, TrainingDate trainingDate, Employee instructor, 
+
+        public Class(int id, TrainingDate trainingDate, Employee instructor, string description,
             Room room, string name, int capacity, int durationInMinutes, TimeOnly startTime, ClassType classType)
         {
             Id = id;
             TrainingDate = trainingDate;
             Instructor = instructor;
+            Description = description;
             Room = room;
             Name = name;
             Capacity = capacity;

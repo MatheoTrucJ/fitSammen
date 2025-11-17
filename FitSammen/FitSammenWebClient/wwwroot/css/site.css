@@ -117,26 +117,44 @@ body {
         color: #3bb273
     }
 
+.vælg-hold-overskrift{
+    margin-top: 40px;
+    font: "Poppins", sans-serif;
+}
+
 .hold{
+    margin-top: 20px;
     display: flex;
     align-items: center;
     gap: 1rem;
+   
 }
+
+
 .hold-arrow{
-    font-size: 20rem;
     border:none;
-    
+    font-size: 50px;
 }
 
 .hold-liste {
-    display: flex;
-    overflow: hidden; /*Skjuler det, der er udenfor vinduet*/
-    flex: 1;
-    scroll-behavior: smooth; /*Gør scrollingen glidende*/
+    display: flex; /*De forskellige hold står på linje*/
+    overflow-x: hidden; /*Skjuler det, der er udenfor vinduet*/
+    scroll-snap-type: x mandatory; /*Sikrer at scroll rammer et nyt card*/
+    flex: 1; /*Giver samme længde uafhængig af indhold*/
 }
 
 .hold-card{
-    flex: 0 0 auto;
-    width: 200px;
-    margin-right: 1rem;
+    flex: 0 0 25%; /*Element må ikke vokse, krympe og er baseret på width*/
+    max-width: 300px; /*Størrelse på card*/
+    min-width: 160px;
+    margin-right: 0.5rem; /*Afstand mellem cards*/
+    margin-left: 0.5rem;
+    scroll-snap-align: start; /*Starter scroll snap ved starten af elementet*/
 }
+
+    .hold-card input[type="submit"] {
+        border-radius: 200px; /*Rundede kanter*/
+        margin-top: 10px; /*Rykker knap ned*/
+        background-color: #3bb273;
+        border:none;
+    }

@@ -3,6 +3,19 @@
 
 // Write your JavaScript code.
 
-document.querySelector('hold-liste')
-track.scrollBy({ left: +amount, behavior: 'smooth' });
-document.querySelector('hold-liste').scrollBy({ left: +amount, behavior: 'smooth' });
+function ClickLeft() {
+    
+    const liste = document.querySelector('.hold-liste');
+    liste.scrollBy({
+        left: -270,
+        behavior: 'smooth'
+    });
+}
+
+function ClickRight() {
+    const liste = document.querySelector('.hold-liste');
+    liste.scrollBy({
+        left: 270,
+        behavior: 'smooth'
+    });
+}
