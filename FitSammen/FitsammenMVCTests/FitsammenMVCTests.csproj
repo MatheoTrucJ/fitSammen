@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitSammenWebClient\FitSammenWebClient.csproj" />
-    <ProjectReference Include="..\FitSammen_API\FitSammen_API.csproj" />
   </ItemGroup>
 
   <ItemGroup>
