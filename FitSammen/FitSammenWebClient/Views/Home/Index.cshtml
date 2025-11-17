@@ -60,8 +60,9 @@
     </div>
 </section>
 <section>
+    <h1 class="vælg-hold-overskrift">Vælg Hold</h1>
     <div class="hold">
-        <button type="button" class="hold-arrow Hold-arrow-left">‹</button>
+        <button type="button" onclick="ClickLeft()" class="hold-arrow Hold-arrow-left">&#10094;</button>
 
         <div class="hold-liste">
             @foreach(var item in test2)
@@ -72,9 +73,12 @@
                     <br /> <b>Kapacitet: </b>@item.Capacity
                     <br /> <b>Hvornår: </b> @item.StartTime
                     <br /> <b>Længde: </b>@item.Duration
+                   <br/> <input type="submit" value="tilmeld" class="btn btn-primary" />
                 </div>
             }
         </div>
-        <button type="button" class="hold-arrow Hold-arrow-right">›</button>
+        <button type="button" onclick="ClickRight()" class="hold-arrow Hold-arrow-right">&#10095;</button>
     </div>
 </section>
+
+<script src="~/js/site.js" asp-append-version="true"></script>
