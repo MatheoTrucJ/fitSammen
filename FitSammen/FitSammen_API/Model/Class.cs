@@ -6,7 +6,8 @@
         public TrainingDate TrainingDate { get; set; }
         public Employee Instructor { get; set; }
         public Room Room { get; set; }
-        public String Name { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public IEnumerable<MemberBooking> Participants { get; set; }
         public IEnumerable<WaitingListEntry> WaitingListEntries { get; set; }
         public int Capacity { get; set; }
