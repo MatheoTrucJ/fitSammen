@@ -6,22 +6,23 @@
         public DateOnly EndDate { get; set; }
         public MembershipStatus Status { get; set; }
         public Member Member { get; set; }
-        public Payment? Payment { get; set; }
+        public IEnumerable<Payment>? Payments { get; set; }
 
-        public Membership(DateOnly startDate, DateOnly endDate, MembershipStatus status, Member member, Payment? payment)
+        public Membership(DateOnly startDate, DateOnly endDate, MembershipStatus status, Member member)
         {
             StartDate = startDate;
             EndDate = endDate;
             Status = status;
             Member = member;
-            Payment = payment;
         }
     }
-    public enum MembershipStatus
+
+    public record MembershipType(string Name, double Price);
+    public class MembershipStatus
     {
-        basic,
-        premium,
-        paused,
-        cancelled
+        public static readonly MembershipType Basic = new MembershipType("Basic", 199.99);
+        public static readonly MembershipType Premium = new MembershipType("Premium", 299.99);
+        public static readonly MembershipType Paused = new MembershipType("Paused", 0.0);
+        public static readonly MembershipType Cancelled = new MembershipType("Cancelled", 0.0);
     }
 }
