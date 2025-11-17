@@ -1,5 +1,6 @@
 ﻿using FitSammenWebClient.BusinessLogicLayer;
 using FitSammenWebClient.Models;
+using Microsoft.Extensions.Configuration;
 namespace FitsammenMVCTests
 {
     public class BusinessLogicLayerTest
@@ -7,6 +8,16 @@ namespace FitsammenMVCTests
         [Fact]
         public void SignUpMemberWhenClassIsFull_ReturnIsFull()
         {
+            // Arrange: fake IConfiguration
+            var settings = new Dictionary<string, string?>
+            {
+                { "ServiceUrlToUse", "https://localhost:7033/api/" }
+            };
+
+            IConfiguration config = new ConfigurationBuilder()
+                .AddInMemoryCollection(settings)
+                .Build();
+
             //Arrange
             Member m1 = new Member("Joe", "Hansen", "Fake1@email.dk", "12345678", DateOnly.FromDateTime(DateTime.Now), 1, UserType.Customer);
             Member m2 = new Member("John", "Johnny", "Fake2@email.dk", "87654321", DateOnly.FromDateTime(DateTime.Now), 2, UserType.Customer);
@@ -23,7 +34,7 @@ namespace FitsammenMVCTests
                 new MemberBooking { Member = m2 }
             };
 
-            ClassLogic classLogic = new ClassLogic();
+            ClassLogic classLogic = new ClassLogic(config);
 
             //Act
             Boolean res = classLogic.signUpAMember(testMember, fullClass);
@@ -37,6 +48,16 @@ namespace FitsammenMVCTests
         [Fact]
         public void SignUpMemberWhenClassIsNotFull_ReturnIsSuccess()
         {
+            // Arrange: fake IConfiguration
+            var settings = new Dictionary<string, string?>
+            {
+                { "ServiceUrlToUse", "https://localhost:7033/api/" } 
+            };
+
+            IConfiguration config = new ConfigurationBuilder()
+                .AddInMemoryCollection(settings)
+                .Build();
+
             //Arrange
             Member m1 = new Member("Joe", "Hansen", "Fake1@email.dk", "12345678", DateOnly.FromDateTime(DateTime.Now), 1, UserType.Customer);
             Member m2 = new Member("John", "Johnny", "Fake2@email.dk", "87654321", DateOnly.FromDateTime(DateTime.Now), 2, UserType.Customer);
@@ -53,7 +74,7 @@ namespace FitsammenMVCTests
                 new MemberBooking { Member = m2 }
             };
 
-            ClassLogic classLogic = new ClassLogic();
+            ClassLogic classLogic = new ClassLogic(config);
 
             //Act
             Boolean res = classLogic.signUpAMember(testMember, notFullClass);
