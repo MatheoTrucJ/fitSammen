@@ -1,4 +1,6 @@
 ﻿using FitSammen_API.Model;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 
 namespace FitSammen_API.DatabaseAccessLayer
 {
@@ -18,11 +20,12 @@ namespace FitSammen_API.DatabaseAccessLayer
 
         public string? ConnectionString { get; }
 
-        public IEnumerable<Class> MemberGetAllClasses()
+        public IEnumerable<Class> GetUpcomingClasses()
         {
-            try
-            {
-                string sqlQuery = @"SELECT
+            IEnumerable<Class>? classes = null;
+
+            // Prepare the SQL query
+            string queryString = @"SELECT
                 c.class_ID,
                 c.trainingDate,
                 c.startTime,
@@ -57,12 +60,65 @@ namespace FitSammen_API.DatabaseAccessLayer
                 ORDER BY
                     c.trainingDate,
                     c.startTime;";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, conn))
+                {
+                    if(conn != null)
+                    {
+                        conn.Open();
+
+                        SqlDataReader reader = readCommand.ExecuteReader();
+                        classes = UpcomingClassesBuilder(reader);
+                    } else
+                    {
+                        
+                    }
+                }
+
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.WriteLine(sqlEx.Message);
+            }
+
+            return null;
+
+        }
+
+        private IEnumerable<Class> UpcomingClassesBuilder(SqlDataReader reader)
+        {
+            List<Class> classes = new List<Class>();
+            try { 
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(reader.GetOrdinal("class_ID"));
+                DateOnly trainingDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("trainingDate")));
+                Employee instructor = new Employee
+                {
+                    FirstName = reader.GetString(reader.GetOrdinal("InstructorFirstName")),
+                    LastName = reader.GetString(reader.GetOrdinal("InstructorLastName"))
+                };
+                String description = reader.GetString(reader.GetOrdinal("description"));
+                Room room = new Room
+                {
+                    RoomName = reader.GetString(reader.GetOrdinal("roomName")),
+                };
+                string name = reader.GetString(reader.GetOrdinal("name"));
+                int capacity = reader.GetInt32(reader.GetOrdinal("capacity"));
+                int durationInMinutes = reader.GetInt32(reader.GetOrdinal("duration"));
+                TimeOnly StartTime = TimeOnly.FromTimeSpan(reader.GetTimeSpan(reader.GetOrdinal("startTime")));
+                ClassType classType = Enum.Parse<ClassType>(reader.GetString(reader.GetOrdinal("classType")));
+                Class cls = new Class(id, trainingDate, instructor, description, room, name, capacity, durationInMinutes, StartTime, classType);
+                classes.Add(cls);
+            }
             }
             catch
             {
-            }
-            return null;
 
+            }
+            return classes;
         }
     }
 }

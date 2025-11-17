@@ -34,7 +34,7 @@ namespace FitsammenAPITest
                 ClassType.Yoga);
 
             //Act
-            IEnumerable<Class> retrievedClasses = _classAccess.MemberGetAllClasses();
+            IEnumerable<Class> retrievedClasses = _classAccess.GetUpcomingClasses();
 
             //Assert
             Assert.NotEmpty(retrievedClasses);

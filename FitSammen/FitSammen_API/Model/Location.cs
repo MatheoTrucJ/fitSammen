@@ -3,18 +3,19 @@
     public class Location
     {
         public string StreetName { get; set; }
-        public int Housenumber { get; set; }
+        public int HouseNumber { get; set; }
         public Zipcode Zipcode { get; set; }
 
         public Location(string streetName, int housenumber, int zipCodeNumber, string cityName, string countryName)
         {
             StreetName = streetName;
-            Housenumber = housenumber;
+            HouseNumber = housenumber;
             Country country = new Country { CountryName = countryName };
             City city = new City { CityName = cityName, Country = country };
             Zipcode zipcode = new Zipcode { ZipcodeNumber = zipCodeNumber, City = city };
             Zipcode = zipcode;
         }
+
     }
 
     public class Zipcode
