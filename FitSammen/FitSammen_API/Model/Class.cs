@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public TrainingDate TrainingDate { get; set; }
-        public IEnumerable<Employee> Instructors { get; set; }
+        public Employee Instructor { get; set; }
         public Room Room { get; set; }
         public String Name { get; set; }
         public IEnumerable<MemberBooking> Participants { get; set; }
@@ -14,12 +14,12 @@
         public TimeOnly StartTime { get; set; }
         public ClassType ClassType { get; set; }
 
-        public Class(int id, TrainingDate trainingDate, IEnumerable<Employee> instructors, 
+        public Class(int id, TrainingDate trainingDate, Employee instructor, 
             Room room, string name, int capacity, int durationInMinutes, TimeOnly startTime, ClassType classType)
         {
             Id = id;
             TrainingDate = trainingDate;
-            Instructors = instructors;
+            Instructor = instructor;
             Room = room;
             Name = name;
             Capacity = capacity;
