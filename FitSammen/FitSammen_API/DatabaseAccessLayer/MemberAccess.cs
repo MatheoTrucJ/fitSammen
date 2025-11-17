@@ -2,7 +2,7 @@
 
 namespace FitSammen_API.DatabaseAccessLayer
 {
-    public class MemberAccess
+    public class MemberAccess : IMemberAccess
     {
         public MemberAccess(IConfiguration inConfiguration)
         {

@@ -11,6 +11,11 @@ namespace FitSammen_API.DatabaseAccessLayer
             ConnectionString = useConnectionString is not null ? inConfiguration.GetConnectionString(useConnectionString) : null;
         }
 
+        public ClassAccess(string inConnectionString)
+        {
+            ConnectionString = inConnectionString;
+        }
+
         public string? ConnectionString { get; }
 
         public IEnumerable<Class> GetAllClasses(ClassType classType, Location location, DateOnly endDate)
@@ -47,7 +52,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                     ON u.userNumber = e.employeeUserNumber_FK
                 WHERE
                     c.trainingDate BETWEEN CAST(GETDATE() AS DATE)
-                        AND CAST('2025-11-20' AS DATE)
+                        AND CAST(@EndDate AS DATE)
                         AND l.location_ID = @LocationId
                         AND ct.classType = @ClassType
                 ORDER BY
