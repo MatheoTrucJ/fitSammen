@@ -139,7 +139,7 @@ body {
 .hold-liste {
     display: flex; /*De forskellige hold står på linje*/
     overflow-x: hidden; /*Skjuler det, der er udenfor vinduet*/
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x mandatory; /*Sikrer at scroll rammer et nyt card*/
     flex: 1; /*Giver samme længde uafhængig af indhold*/
 }
 
@@ -149,7 +149,7 @@ body {
     min-width: 160px;
     margin-right: 0.5rem; /*Afstand mellem cards*/
     margin-left: 0.5rem;
-    scroll-snap-align: start;
+    scroll-snap-align: start; /*Starter scroll snap ved starten af elementet*/
 }
 
     .hold-card input[type="submit"] {
