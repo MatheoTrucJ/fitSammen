@@ -47,6 +47,7 @@ namespace TestModelConversion
                 id: 1,
                 trainingDate: trainingDate,
                 instructor: instructor,
+                description: "Best morning workout ever",
                 room: room,
                 name: "Morning Strength",
                 capacity: 10,
@@ -54,6 +55,10 @@ namespace TestModelConversion
                 startTime: new TimeOnly(9, 0),
                 classType: ClassType.StrengthTraining
             );
+            
+            cls.addMember(new MemberBooking());
+            cls.addMember(new MemberBooking());
+            cls.addMember(new MemberBooking());
 
             // act
             var dto = ModelConversion.ToClassListItemDTO(cls);
@@ -64,7 +69,7 @@ namespace TestModelConversion
             Assert.True(dto.IsAvailable);
             Assert.Equal("Morning Strength", dto.ClassName);
             Assert.Equal("John Doe", dto.InstructorName);
-            Assert.Equal("Morning Strength", dto.Description);
+            Assert.Equal("Best morning workout ever", dto.Description);
             Assert.Equal(ClassType.StrengthTraining, dto.ClassType);
             Assert.Equal(new TimeOnly(9, 0), dto.StartTime);
             Assert.Equal(60, dto.DurationInMinutes);

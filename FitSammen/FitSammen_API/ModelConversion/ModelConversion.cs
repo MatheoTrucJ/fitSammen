@@ -23,7 +23,7 @@ namespace FitSammen_API.ModelConversion
                     ? $"{cls.Instructor.FirstName} {cls.Instructor.LastName}"
                     : string.Empty,
 
-                Description = cls.TrainingDate.Comment ?? string.Empty,
+                Description = cls.Description,
                 ClassType = cls.ClassType,
 
                 StartTime = cls.StartTime,
