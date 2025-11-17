@@ -8,7 +8,7 @@
         public Room Room { get; set; }
         public String Name { get; set; }
         public IEnumerable<MemberBooking> Participants { get; set; }
-        public WaitingList WaitingList { get; set; }
+        public IEnumerable<WaitingListEntry> WaitingListEntries { get; set; }
         public int Capacity { get; set; }
         public int DurationInMinutes { get; set; }
         public TimeOnly StartTime { get; set; }
