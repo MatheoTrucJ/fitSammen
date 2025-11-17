@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitsammenMVCTests", "Fitsam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAPI", "TestAPI\TestAPI.csproj", "{4461F151-A4A6-48D1-8EE9-FBB220206CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModelConversion", "TestModelConversion\TestModelConversion.csproj", "{B0C3328D-A850-4993-9773-792F26C72631}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{4461F151-A4A6-48D1-8EE9-FBB220206CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4461F151-A4A6-48D1-8EE9-FBB220206CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4461F151-A4A6-48D1-8EE9-FBB220206CC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0C3328D-A850-4993-9773-792F26C72631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0C3328D-A850-4993-9773-792F26C72631}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0C3328D-A850-4993-9773-792F26C72631}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0C3328D-A850-4993-9773-792F26C72631}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,7 +48,6 @@ Global
 		{CCAF7366-38E1-4A96-A72A-726FC3A6948D} = {3EF43FBC-7ACD-4019-A812-7F9AA73960A1}
 		{E68BC6EE-E1C4-4DB0-8A8B-C7887EB47D98} = {3EF43FBC-7ACD-4019-A812-7F9AA73960A1}
 		{4461F151-A4A6-48D1-8EE9-FBB220206CC8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{B0C3328D-A850-4993-9773-792F26C72631} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1500AF9B-6C7C-4C67-A4F8-036ABC59E863}
