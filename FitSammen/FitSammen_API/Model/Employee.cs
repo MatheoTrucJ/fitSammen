@@ -1,5 +1,4 @@
-﻿
-namespace FitSammen_API.Model
+﻿namespace FitSammen_API.Model
 {
     public class Employee : User
     {
@@ -8,6 +7,11 @@ namespace FitSammen_API.Model
         base(firstName, lastName, email, phone, birthDate, userNumber, userType)
         {
             this.CPRNumber = CPRNumber;
+        }
+
+        public Employee() : base()
+        {
+            this.CPRNumber = string.Empty;
         }
     }
 }

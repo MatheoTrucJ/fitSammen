@@ -14,5 +14,9 @@
             Capacity = capacity;
             Location = location;
         }
+
+        public Room()
+        {
+        }
     }
 }
