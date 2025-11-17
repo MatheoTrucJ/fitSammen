@@ -1,4 +1,6 @@
+using FitSammenWebClient.BusinessLogicLayer;
 using FitSammenWebClient.Models;
+using FitSammenWebClient.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +9,24 @@ namespace FitSammenWebClient.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ClassLogic _classLogic;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration inConfiguration)
         {
             _logger = logger;
+            _classLogic = new ClassLogic(inConfiguration);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var classes = await _classLogic.GetAllClassesAsync();
+
+            var allClassesViewModel = new ClassListViewModel
+            {
+                Classes = classes.ToList()
+            };
+
+            return View(allClassesViewModel);
         }
 
         public IActionResult Privacy()

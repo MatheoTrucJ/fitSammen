@@ -30,7 +30,7 @@ namespace FitsammenMVCTests
         public async Task GetAllClassesFromApiReturnsList_ReturnListOfClases()
         {
             //Act
-            var result = (IEnumerable<Class>)await _service.GetClasses();
+            var result = (IEnumerable<Class>?)await _service.GetClasses();
 
             // Assert
             Assert.NotNull(result);

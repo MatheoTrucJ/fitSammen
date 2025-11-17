@@ -13,10 +13,9 @@ namespace FitsammenMVCTests
             Member testMember = new Member("TEST", "TEST", "TEST2@email.dk", "77777777", DateOnly.FromDateTime(DateTime.Now), 2, UserType.Customer);
 
             Employee instructor = new Employee("Kim", "Kimmer", "kim@12.dk", "23232323", DateOnly.FromDateTime(DateTime.Now), 3, UserType.Employee, "230802-2342");
-            TrainingDate trainingDate = new TrainingDate(DateOnly.FromDateTime(DateTime.Now), true, "test");
             Location location = new Location("TestGade", 10, 9000, "Aalborg", "Danmark");
             Room room = new Room(1, "Room1", 2, location);
-            Class fullClass = new Class(1, trainingDate, instructor, "Fyldt klasse" , room, "YOGA", 2, 120, TimeOnly.FromDateTime(DateTime.Now), ClassType.Yoga);
+            Class fullClass = new Class(1, DateOnly.FromDateTime(DateTime.Now), instructor, "Fyldt klasse", room, "YOGA", 2, 120, TimeOnly.FromDateTime(DateTime.Now), ClassType.Yoga);
 
             fullClass.Participants = new List<MemberBooking>
             {
@@ -44,10 +43,9 @@ namespace FitsammenMVCTests
             Member testMember = new Member("TEST", "TEST", "TEST2@email.dk", "77777777", DateOnly.FromDateTime(DateTime.Now), 2, UserType.Customer);
 
             Employee instructor = new Employee("Kim", "Kimmer", "kim@12.dk", "23232323", DateOnly.FromDateTime(DateTime.Now), 3, UserType.Employee, "230802-2342");
-            TrainingDate trainingDate = new TrainingDate(DateOnly.FromDateTime(DateTime.Now), true, "test");
             Location location = new Location("TestGade", 10, 9000, "Aalborg", "Danmark");
             Room room = new Room(1, "Room1", 2, location);
-            Class notFullClass = new Class(1, trainingDate, instructor, "Ikke Fyldt klasse" , room, "YOGA", 3, 120, TimeOnly.FromDateTime(DateTime.Now), ClassType.Yoga);
+            Class notFullClass = new Class(1, DateOnly.FromDateTime(DateTime.Now), instructor, "Ikke Fyldt klasse", room, "YOGA", 3, 120, TimeOnly.FromDateTime(DateTime.Now), ClassType.Yoga);
 
             notFullClass.Participants = new List<MemberBooking>
             {
