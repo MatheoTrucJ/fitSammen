@@ -1,32 +1,7 @@
-﻿@{
-   var tests = new[]
-    {
-        new { Name = "Yoga" },
-        new { Name = "Bodybuilding"},
-        new { Name = "Pilates"}
-    };
+﻿@model FitSammenWebClient.ViewModel.ClassListViewModel
 
-}
-
-@{
-    var test2 = new[]
-                    {
-                new { Name = "Yoga", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Bodybuilding", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Pilates", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Stram op", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "TRX", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Yoga", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Bodybuilding", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Pilates", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Stram op", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "TRX", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Yoga", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Bodybuilding", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Pilates", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "Stram op", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"},
-                new { Name = "TRX", Location = "Aalborg", Capacity = 20, StartTime = "13:00", Duration = "1"}
-    };
+@{ 
+       var member = new { UserNumber = 2 }; 
 }
 
 @{
@@ -43,15 +18,16 @@
             <div class="filterbar">
                 <select name="centre" id="centre">
                     <option value="all">Alle centre</option>
-                    <option value="aalborg">Aalborg</option>
+                    <option value="aalborg">Kastetvej</option>
                     <option value="aarhus">Aarhus</option>
                     <option value="odense">Odense</option>
                 </select>
                 <select name="hold" id="hold">
-                    @foreach(var item in tests)
-                    {
-                        <option value="@item.Name">@item.Name</option>
-                    }
+
+                    <option value="">Aalborg</option>
+                    <option value="">Aarhus</option>
+                    <option value="">Odense</option>
+
                 </select>
                 <input type="date" />
                 <input type="submit" value="Søg" class="btn btn-primary" />
@@ -65,15 +41,22 @@
         <button type="button" onclick="ClickLeft()" class="hold-arrow Hold-arrow-left">&#10094;</button>
 
         <div class="hold-liste">
-            @foreach(var item in test2)
+            @foreach (var item in Model.Classes)
             {
                 <div class="hold-card">
-                    <br /> <b>Hold: </b> @item.Name
-                    <br /> <b>Lokation: </b>@item.Location
-                    <br /> <b>Kapacitet: </b>@item.Capacity
-                    <br /> <b>Hvornår: </b> @item.StartTime
-                    <br /> <b>Længde: </b>@item.Duration
-                   <br/> <input type="submit" value="tilmeld" class="btn btn-primary" />
+                    <br /> <b>Holdtype: </b> @item.ClassType
+                    <br /> <b>Hold: </b> @item.ClassType
+                    <br /> <b>Lokation: </b>@item.Room.Location.StreetName
+                    <b>, </b>@item.Room.Location.Zipcode.City.CityName
+                    <br /> <b>Kapacitet: </b>@item.Capacity pladser
+                    <br /> <b>Kl: </b> @item.StartTime
+                    <br /> <b>Længde: </b>@item.DurationInMinutes minutter
+                    <br /> <b>Pladser tilbage: </b>@item.Remainingspots
+                    <form asp-action="SignUpToClass">
+                        <input name="User" id="UserNumber" value="@member" hidden="hidden" />
+                        <input name="ClassId" id="ClassId" value="@item.Id" hidden="hidden" />
+                    <br /> <input type="submit" value="tilmeld" class="btn btn-primary" />
+                    </form>
                 </div>
             }
         </div>

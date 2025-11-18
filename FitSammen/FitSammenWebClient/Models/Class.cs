@@ -14,6 +14,12 @@
         public int DurationInMinutes { get; set; }
         public TimeOnly StartTime { get; set; }
         public ClassType ClassType { get; set; }
+        private int _RemainingSpots;
+        public int Remainingspots
+        {
+            get { return _RemainingSpots; }
+        }
+        
 
         public Class(int id, DateOnly trainingDate, Employee employee, string description,
             Room room, string name, int capacity, int durationInMinutes, TimeOnly startTime, ClassType classType)
@@ -29,6 +35,7 @@
             StartTime = startTime;
             ClassType = classType;
             Participants = new List<MemberBooking>();
+            _RemainingSpots = capacity - Participants.Count();
         }
 
         public void addMember(MemberBooking booking)

@@ -11,7 +11,7 @@ namespace FitSammenWebClient.BusinessLogicLayer
             _classService = new ClassService(inConfiguration);
         }
 
-        public Boolean signUpAMember(Member member, Class theClass)
+        public async Task<Boolean> signUpAMember(Member member, Class theClass)
         {
             if (theClass.Participants.Count() >= theClass.Capacity)
             {
@@ -25,11 +25,11 @@ namespace FitSammenWebClient.BusinessLogicLayer
                     Class = theClass,
                 };
                 theClass.addMember(newBooking);
-                return true;
+                return = _classService
             }
         }
 
-        public async Task<IEnumerable<Class>> GetAllClassesAsync()
+        public async Task<IEnumerable<Class>> GetAllClassesAsync(int id = -1)
         {
             IEnumerable<Class>? allClasses = null;
 
