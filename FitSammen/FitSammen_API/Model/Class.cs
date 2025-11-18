@@ -31,6 +31,10 @@
             Participants = new List<MemberBooking>();
         }
 
+        public Class()
+        {
+        }
+
         public void addMember(MemberBooking booking)
         {
            Participants = Participants.Append(booking);

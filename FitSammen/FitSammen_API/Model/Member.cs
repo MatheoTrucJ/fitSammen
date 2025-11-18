@@ -8,5 +8,9 @@ namespace FitSammen_API.Model
         base(firstName, lastName, email, phone, birthDate, userNumber, userType)
         {
         }
+        public Member() : base()
+        {
+            this.Memberships = Array.Empty<Membership>();
+        }
     }
 }

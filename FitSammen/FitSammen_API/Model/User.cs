@@ -30,7 +30,7 @@ namespace FitSammen_API.Model
     public enum UserType
     {
         Administrator,
-        Customer,
+        Member,
         Employee
     }
 }
