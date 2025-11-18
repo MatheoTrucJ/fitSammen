@@ -22,6 +22,11 @@ namespace FitSammenWebClient.Models
             UserNumber = userNumber;
             UserType = userType;
         }
+
+        protected User()
+        {
+            
+        }
     }
     public enum UserType
     {
@@ -29,4 +34,5 @@ namespace FitSammenWebClient.Models
         Customer,
         Employee
     }
+
 }

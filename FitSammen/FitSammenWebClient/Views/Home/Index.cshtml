@@ -1,7 +1,7 @@
 ﻿@model FitSammenWebClient.ViewModel.ClassListViewModel
 
-@{ 
-       var member = new { UserNumber = 2 }; 
+@{
+    var member = new Member();
 }
 
 @{
@@ -52,7 +52,7 @@
                     <br /> <b>Kl: </b> @item.StartTime
                     <br /> <b>Længde: </b>@item.DurationInMinutes minutter
                     <br /> <b>Pladser tilbage: </b>@item.Remainingspots
-                    <form asp-action="SignUpToClass">
+                    <form method="post" asp-action="SignUpToClass">
                         <input name="User" id="UserNumber" value="@member" hidden="hidden" />
                         <input name="ClassId" id="ClassId" value="@item.Id" hidden="hidden" />
                     <br /> <input type="submit" value="tilmeld" class="btn btn-primary" />

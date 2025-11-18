@@ -8,5 +8,10 @@ namespace FitSammenWebClient.Models
         base(firstName, lastName, email, phone, birthDate, userNumber, userType)
         {
         }
+
+        public Member()
+        {
+            
+        }
     }
 }

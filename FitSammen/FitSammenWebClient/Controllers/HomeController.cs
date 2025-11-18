@@ -31,15 +31,17 @@ namespace FitSammenWebClient.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SignUpToClass(Member user, int ClassId)
+        public async Task<ActionResult> SignUpToClass(Member User, int ClassId)
         {
+            User.UserNumber = 2;
 
+            Boolean result = false;
             IEnumerable<Class> classes = await _classLogic.GetAllClassesAsync(ClassId);
             var currentClass = classes.ElementAt(0);
             
-            Boolean result = _classLogic.signUpAMember(user, currentClass);
+            result = await _classLogic.signUpAMember(User, currentClass);
 
+            return RedirectToAction("Index");
 
         }
 

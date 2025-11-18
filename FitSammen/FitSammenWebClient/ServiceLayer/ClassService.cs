@@ -1,5 +1,6 @@
 ﻿using FitSammenWebClient.Models;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace FitSammenWebClient.ServiceLayer
 {
@@ -7,7 +8,7 @@ namespace FitSammenWebClient.ServiceLayer
     {
         public ClassService(IConfiguration inBaseUrl) : base(inBaseUrl["ServiceUrlToUse"])
         {
-            
+
         }
 
         public async Task<IEnumerable<Class>?> GetClasses(int id = -1)
@@ -52,6 +53,38 @@ namespace FitSammenWebClient.ServiceLayer
             }
 
             return result;
+        }
+
+        public async Task<bool> SignUpMemberToClass(Member member, Class theClass)
+        {
+            bool savedOk = false;
+
+            UseUrl = BaseUrl;
+            UseUrl += "MemberBooking";
+
+            var request = new MemberBookingRequest
+            {
+                MemberId = member.UserNumber,
+                ClassId = theClass.Id
+            };
+
+            try
+            {
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var serviceResponse = await CallServicePost(content); 
+
+                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                {
+                    savedOk = true;
+                }
+            }
+            catch
+            {
+                savedOk = false;
+            }
+            return savedOk;
         }
     }
 }
