@@ -29,6 +29,20 @@ namespace FitSammenWebClient.Controllers
             return View(allClassesViewModel);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SignUpToClass(Member user, int ClassId)
+        {
+
+            IEnumerable<Class> classes = await _classLogic.GetAllClassesAsync(ClassId);
+            var currentClass = classes.ElementAt(0);
+            
+            Boolean result = _classLogic.signUpAMember(user, currentClass);
+
+
+        }
+
         public IActionResult Privacy()
         {
             return View();
