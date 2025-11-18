@@ -8,6 +8,19 @@
     ViewData["Title"] = "Home Page";
 }
 
+@{
+    var signUpMessage = TempData["SignUpMessage"] as string;
+    var signUpStatus = TempData["SignUpStatus"] as string;
+}
+
+@if (!string.IsNullOrEmpty(signUpMessage))
+{
+    String cssClass = signUpStatus == "success" ? "alert-success" : "alert-danger";
+    <div class="alert @cssClass" role="alert">
+        @signUpMessage
+    </div>
+}
+
 <section class="Hero">
     <div class="Hero-inner">
         <div class="text-center">

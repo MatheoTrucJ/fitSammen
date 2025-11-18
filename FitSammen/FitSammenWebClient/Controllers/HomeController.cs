@@ -36,10 +36,21 @@ namespace FitSammenWebClient.Controllers
             User.UserNumber = 2;
 
             Boolean result = false;
-            IEnumerable<Class> classes = await _classLogic.GetAllClassesAsync(ClassId);
-            var currentClass = classes.ElementAt(0);
+            IEnumerable<Class>? classes = await _classLogic.GetAllClassesAsync(ClassId);
+            Class currentClass = classes.ElementAt(0);
             
             result = await _classLogic.signUpAMember(User, currentClass);
+
+            if (result)
+            {
+                TempData["SignUpStatus"] = "success";
+                TempData["SignUpMessage"] = "Du er nu tilmeldt holdet.";
+            }
+            else
+            {
+                TempData["SignUpStatus"] = "error";
+                TempData["SignUpMessage"] = "Tilmelding mislykkedes. Holdet Er fuldt.";
+            }
 
             return RedirectToAction("Index");
 
