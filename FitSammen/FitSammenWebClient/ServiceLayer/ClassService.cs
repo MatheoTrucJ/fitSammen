@@ -26,12 +26,12 @@ namespace FitSammenWebClient.ServiceLayer
 
             try
             {
-                var response = await CallServiceGet();
+                HttpResponseMessage? response = await CallServiceGet();
                 bool wasResponse = (response != null);
 
                 if (wasResponse && response != null && response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStringAsync();
+                    string? content = await response.Content.ReadAsStringAsync();
                     if (hasValidId)
                     {
                         Class? foundClass = JsonConvert.DeserializeObject<Class>(content);
@@ -63,32 +63,39 @@ namespace FitSammenWebClient.ServiceLayer
             UseUrl = BaseUrl;
             UseUrl += "classes/" + classId + "/bookings";
 
-            var request = new MemberBookingRequest
+            MemberBookingRequest request = new MemberBookingRequest
             {
                 MemberId = userNumber,
             };
 
             try
             {
-                var json = JsonConvert.SerializeObject(request);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                string? json = JsonConvert.SerializeObject(request);
+                StringContent? content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var serviceResponse = await CallServicePost(content);
+                HttpResponseMessage? serviceResponse = await CallServicePost(content);
 
-                var responseContent = await serviceResponse.Content.ReadAsStringAsync();
+                if (serviceResponse != null)
+                {
+                    string? responseContent = await serviceResponse.Content.ReadAsStringAsync();
+                    Reponse = JsonConvert.DeserializeObject<MemberBookingResponse>(responseContent);
+                }
 
-                Reponse = JsonConvert.DeserializeObject<MemberBookingResponse>(responseContent);
-
-                if (serviceResponse != null && Reponse !=null)
+                if (serviceResponse != null && Reponse != null)
                 {
                     return Reponse;
                 }
             }
             catch
             {
-                Reponse = null;
+
             }
-            return Reponse;
+            return new MemberBookingResponse
+            {
+                BookingId = 0,
+                Status = "Failed",
+                Message = "Booking could not be completed."
+            };
         }
     }
 }

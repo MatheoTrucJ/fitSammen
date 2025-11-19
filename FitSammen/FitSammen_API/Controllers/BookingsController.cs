@@ -21,9 +21,9 @@ namespace FitSammen_API.Controllers
         [HttpPost]
         public ActionResult<BookingResponseDTO> CreateBooking(int classId, [FromBody] BookingRequestDTO request)
         {
-            var result = _bookingService.BookClass(request.MemberId, classId);
+            BookingResult? result = _bookingService.BookClass(request.MemberId, classId);
 
-            var dto = ModelConversion.ToBookingResponseDTO(result);
+            BookingResponseDTO dto = ModelConversion.ToBookingResponseDTO(result);
 
             return result.Status switch
             {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FitSammen_API.Mapping;
 using System.Linq;
+using FitSammen_API.Model;
 
 namespace FitSammen_API.Controllers
 {
@@ -21,9 +22,9 @@ namespace FitSammen_API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ClassListItemDTO>> GetAvailableClasses()
         {
-            IEnumerable<Model.Class> classes = _classService.GetUpcomingClasses();
+            IEnumerable<Class> classes = _classService.GetUpcomingClasses();
 
-            var dtoList = classes
+            List<ClassListItemDTO> dtoList = classes
                 .Select(c => ModelConversion.ToClassListItemDTO(c))
                 .ToList();
 

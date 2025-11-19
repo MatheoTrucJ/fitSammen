@@ -14,7 +14,7 @@ namespace FitSammen_API.Mapping
             room.Location.Zipcode.City = new City();
             room.Location.StreetName = cls.Room.Location.StreetName;
             room.Location.StreetName += " " + cls.Room.Location.HouseNumber;
-            room.Location.Zipcode.City.CityName = 
+            room.Location.Zipcode.City.CityName =
                 cls.Room.Location.Zipcode.City.CityName;
 
             return new ClassListItemDTO

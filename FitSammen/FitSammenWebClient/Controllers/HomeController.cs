@@ -19,11 +19,11 @@ namespace FitSammenWebClient.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var classes = await _classLogic.GetAllClassesAsync();
+            IEnumerable<Class>? classes = await _classLogic.GetAllClassesAsync();
 
-            var allClassesViewModel = new ClassListViewModel
+            ClassListViewModel? allClassesViewModel = new ClassListViewModel
             {
-                Classes = classes.ToList()
+                Classes = classes?.ToList() ?? new List<Class>()
             };
 
             return View(allClassesViewModel);
@@ -33,19 +33,17 @@ namespace FitSammenWebClient.Controllers
         [HttpPost]
         public async Task<ActionResult> SignUpToClass(int userNumber, int ClassId)
         {
-            var user = new Member
+            MemberBookingResponse? result = await _classLogic.signUpAMember(userNumber, ClassId);
+
+            if (result == null)
             {
-                User_Id = userNumber
-            };
+                TempData["SignUpStatus"] = "error";
+                TempData["SignUpMessage"] = "Der opstod en fejl under tilmelding. Prøv igen.";
+                return RedirectToAction("Index");
+            }
 
-            MemberBookingResponse result = null;
-
-            result = await _classLogic.signUpAMember(userNumber, ClassId);
-
-            // result.Status er en string, fx "Success"
-            if (!Enum.TryParse<BookingStatus>(result.Status, ignoreCase: true, out var status))
+            if (!Enum.TryParse<BookingStatus>(result.Status, ignoreCase: true, out BookingStatus status))
             {
-                // Hvis vi ikke kan parse, betragter vi det som en fejl
                 status = BookingStatus.Error;
             }
 

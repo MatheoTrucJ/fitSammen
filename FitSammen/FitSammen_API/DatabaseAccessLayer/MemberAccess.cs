@@ -38,7 +38,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                 "END;";
             try
             {
-                var tOptions = new TransactionOptions
+                TransactionOptions tOptions = new TransactionOptions
                 {
                     IsolationLevel = IsolationLevel.ReadUncommitted
                 };
