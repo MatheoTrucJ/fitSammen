@@ -78,7 +78,7 @@ namespace FitsammenAPITest
 
             //Act - create a member booking for member with user number 2 for class with id 1
             int memberBookingId = _memberAccess.CreateMemberBooking(2, 1);
-            bool res = _memberAccess.IsMemberBookingThereForTest(memberBookingId);
+            bool res = _memberAccess.IsMemberSignedUp(2, 1);
 
             //Assert
             Assert.True(res);

@@ -97,7 +97,7 @@ namespace FitSammen_APITest
                 return NewBookingId;
             }
 
-            public bool IsMemberBookingThereForTest(int memberBookingId)
+            public bool IsMemberSignedUp(int memberBookingId)
             {
                 throw new NotImplementedException();
             }

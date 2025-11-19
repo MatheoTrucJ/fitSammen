@@ -9,17 +9,17 @@ namespace FitSammen_API.Model
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateOnly BirthDate { get; set; }
-        public int UserNumber { get; set; }
+        public int User_ID { get; set; }
         public UserType UserType { get; set; }
 
-        protected User(string firstName, string lastName, string email, string phone, DateOnly birthDate, int userNumber, UserType userType)
+        protected User(string firstName, string lastName, string email, string phone, DateOnly birthDate, int userID, UserType userType)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
             Phone = phone;
             BirthDate = birthDate;
-            UserNumber = userNumber;
+            User_ID = userID;
             UserType = userType;
         }
 

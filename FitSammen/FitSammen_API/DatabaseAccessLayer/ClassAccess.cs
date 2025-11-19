@@ -45,9 +45,9 @@ namespace FitSammen_API.DatabaseAccessLayer
                 "JOIN ClassType ct " +
                     "ON ct.classType_ID = c.classType_ID_FK " +
                 "JOIN Employee e " +
-                    "ON e.employeeUserNumber_FK = c.employeeUserNumber_FK " +
+                    "ON e.employeeUser_ID_FK = c.employeeUser_ID_FK " +
                 "JOIN [User] u " +
-                    "ON u.userNumber = e.employeeUserNumber_FK " +
+                    "ON u.user_ID = e.employeeUser_ID_FK " +
                 "JOIN Room r " +
                     "ON r.room_ID = c.room_ID_FK " +
                 "JOIN [Location] l " +

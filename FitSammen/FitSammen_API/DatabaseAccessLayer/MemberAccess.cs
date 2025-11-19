@@ -22,7 +22,7 @@ namespace FitSammen_API.DatabaseAccessLayer
 
         public string? ConnectionString { get; }
 
-        public int CreateMemberBooking(int memberUserNumber, int classId)
+        public int CreateMemberBooking(int memberUserID, int classId)
         {
             int createdMemberBookingId = 0;
             // Prepare the SQL query
@@ -32,9 +32,9 @@ namespace FitSammen_API.DatabaseAccessLayer
                 "AND memberCount < capacity; " +
                 "IF @@ROWCOUNT = 1 " +
                 "BEGIN " +
-                "INSERT INTO MemberBooking(memberUserNumber_FK, class_ID_FK) " +
+                "INSERT INTO MemberBooking(memberUser_ID_FK, class_ID_FK) " +
                 "OUTPUT INSERTED.memberBookingID " +
-                "VALUES(@MemberUserNumber, @ClassId); " +
+                "VALUES(@MemberUserID, @ClassId); " +
                 "END;";
             try
             {
@@ -48,7 +48,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                     using (SqlCommand readCommand = new SqlCommand(queryString, conn))
 
                     {
-                        readCommand.Parameters.AddWithValue("@MemberUserNumber", memberUserNumber);
+                        readCommand.Parameters.AddWithValue("@MemberUserNumber", memberUserID);
                         readCommand.Parameters.AddWithValue("@ClassId", classId);
 
                         if (conn != null)
@@ -74,20 +74,22 @@ namespace FitSammen_API.DatabaseAccessLayer
             return createdMemberBookingId;
         }
 
-        public bool IsMemberBookingThereForTest(int memberBookingId)
+        public bool IsMemberSignedUp(int memberID, int classID)
         {
             bool res = false;
 
             // Prepare the SQL query
             string queryString = "SELECT * " +
                 "FROM MemberBooking mb " +
-                "WHERE mb.memberBookingID = @MemberBookingId;";
+                "WHERE mb.memberUser_ID_FK = @MemberID " +
+                "AND mb.class_ID_FK = @classID;";
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, conn))
                 {
-                    readCommand.Parameters.AddWithValue("@MemberBookingId", memberBookingId);
+                    readCommand.Parameters.AddWithValue("@MemberBookingI", memberID);
+                    readCommand.Parameters.AddWithValue("@classID", classID);
                     if (conn != null)
                     {
                         conn.Open();
