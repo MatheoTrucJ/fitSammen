@@ -12,7 +12,7 @@ namespace FitSammen_API.DTOs
         public string ClassName { get; set; } = string.Empty;
         public Room Room { get; set; }
         public ClassType ClassType { get; set; }
-        public DateOnly Date { get; set; }
+        public DateOnly TrainingDate { get; set; }
         public TimeOnly StartTime { get; set; }
     }
 }
