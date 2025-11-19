@@ -50,7 +50,7 @@ namespace FitsammenMVCTests
 
             // Assert
             Assert.Single(list); // // hvis endpointet returnerer præcis én class
-            Assert.Equal(id, list[0].Id);
+            Assert.Equal(id, list[0].ClassId);
             Assert.Equal(1, list.Count());
         }
     }

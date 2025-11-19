@@ -1,6 +1,6 @@
 ﻿namespace FitSammenWebClient.Models
 {
-    public class WaitingList
+    public class WaitingListEntry
     {
         //Todo
     }

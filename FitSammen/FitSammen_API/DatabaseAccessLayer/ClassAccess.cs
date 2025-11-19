@@ -39,7 +39,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                 "u.lastName, " +
                 "r.roomName, " +
                 "l.streetName, " +
-                "l.housenumber " +
+                "l.housenumber, " +
                 "cty.cityName " +
                 "FROM Class c " +
                 "JOIN ClassType ct " +
@@ -54,7 +54,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                     "ON l.location_ID = r.location_ID_FK " +
                 "JOIN Zipcode z " +
                     "ON z.zipcodeNumber = l.zipcodeNumber_FK " +
-                "JOIN City c " +
+                "JOIN City cty " +
                     "ON cty.city_ID = z.city_ID_FK " +
                 "ORDER BY " +
                 "c.trainingDate, " +

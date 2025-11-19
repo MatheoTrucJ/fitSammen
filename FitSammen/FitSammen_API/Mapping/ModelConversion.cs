@@ -8,7 +8,10 @@ namespace FitSammen_API.Mapping
     {
         public static ClassListItemDTO ToClassListItemDTO(Class cls)
         {
-            var room = new Room();
+            Room room = new Room();
+            room.Location = new Location();
+            room.Location.Zipcode = new Zipcode();
+            room.Location.Zipcode.City = new City();
             room.Location.StreetName = cls.Room.Location.StreetName;
             room.Location.StreetName += " " + cls.Room.Location.HouseNumber;
             room.Location.Zipcode.City.CityName = 

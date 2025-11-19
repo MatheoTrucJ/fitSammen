@@ -39,8 +39,8 @@ namespace FitSammenWebClient.Controllers
             };
 
             Boolean result = false;
-            IEnumerable<Class>? classes = await _classLogic.GetAllClassesAsync(ClassId);
-            Class currentClass = classes.ElementAt(0);
+            //IEnumerable<Class>? classes = await _classLogic.GetAllClassesAsync(ClassId);
+            //Class currentClass = classes.ElementAt(0);
             
             result = await _classLogic.signUpAMember(userNumber, ClassId);
 

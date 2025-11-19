@@ -67,9 +67,14 @@ if (!string.IsNullOrEmpty(signUpMessage))
                     <br /> <b>Pladser tilbage: </b>@item.Remainingspots
                     <form method="post" asp-action="SignUpToClass">
                         <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
+<<<<<<< Updated upstream
                         <input name="ClassId" id="ClassId" value="@item.Id" hidden="hidden" />
                         <br /> <input type="submit" button id="tilmeldBtn" value="tilmeld" class="btn btn-primary" />
 
+=======
+                        <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
+                    <br /> <input type="submit" value="tilmeld" class="btn btn-primary" />
+>>>>>>> Stashed changes
                     </form>
                 </div>
             }
