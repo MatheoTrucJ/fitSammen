@@ -9,6 +9,7 @@ namespace FitSammen_API.DTOs
         public int DurationInMinutes { get; set; }
         public int Capacity { get; set; }
         public int MemberCount { get; set; }
+        public int RemainingSpots { get; set; } 
         public string ClassName { get; set; } = string.Empty;
         public Room Room { get; set; }
         public ClassType ClassType { get; set; }

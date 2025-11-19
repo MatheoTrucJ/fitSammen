@@ -26,7 +26,8 @@ namespace FitSammen_API.Mapping
                 StartTime = cls.StartTime,
                 DurationInMinutes = cls.DurationInMinutes,
                 Capacity = cls.Capacity,
-                MemberCount = cls.Participants.Count(),
+                MemberCount = cls.MemberCount,
+                RemainingSpots = cls.Capacity - cls.MemberCount,
                 Room = room
             };
         }

@@ -18,12 +18,8 @@ namespace FitSammenWebClient.Models
         public TimeOnly StartTime { get; set; }
         public ClassType ClassType { get; set; }
 
-        private int _RemainingSpots;
-        public int Remainingspots
-        {
-            get { return _RemainingSpots; }
-        }
-        
+        public int RemainingSpots { get; set; }
+
 
         public Class(int id, DateOnly trainingDate, Employee employee, string description,
             Room room, string name, int capacity, int durationInMinutes, TimeOnly startTime, ClassType classType)
@@ -39,7 +35,7 @@ namespace FitSammenWebClient.Models
             StartTime = startTime;
             ClassType = classType;
             Participants = new List<MemberBooking>();
-            _RemainingSpots = capacity - MemberCount;
+            RemainingSpots = Capacity - MemberCount;
         }
 
         public void addMember(MemberBooking booking)

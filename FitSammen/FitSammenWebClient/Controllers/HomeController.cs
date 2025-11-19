@@ -35,7 +35,7 @@ namespace FitSammenWebClient.Controllers
         {
             var user = new Member
             {
-                UserNumber = userNumber
+                User_Id = userNumber
             };
 
             Boolean result = false;

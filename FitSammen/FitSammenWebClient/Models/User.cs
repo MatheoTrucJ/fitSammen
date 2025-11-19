@@ -9,7 +9,7 @@ namespace FitSammenWebClient.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public DateOnly BirthDate { get; set; }
-        public int UserNumber { get; set; }
+        public int User_Id { get; set; }
         public UserType UserType { get; set; }
 
         protected User(string firstName, string lastName, string email, string phone, DateOnly birthDate, int userNumber, UserType userType)
@@ -19,7 +19,7 @@ namespace FitSammenWebClient.Models
             Email = email;
             Phone = phone;
             BirthDate = birthDate;
-            UserNumber = userNumber;
+            User_Id = userNumber;
             UserType = userType;
         }
 

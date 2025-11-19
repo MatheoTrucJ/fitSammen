@@ -64,7 +64,7 @@ if (!string.IsNullOrEmpty(signUpMessage))
                     <br /> <b>Lokation: </b>@item.Room.Location.StreetName
                     <b>, </b>@item.Room.Location.Zipcode.City.CityName
                     <br /> <b>Længde: </b>@item.DurationInMinutes minutter
-                    <br /> <b>Pladser tilbage: </b>@item.Remainingspots
+                    <br /> <b>Pladser tilbage: </b>@item.RemainingSpots
                     <form method="post" asp-action="SignUpToClass">
                         <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
                         <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
