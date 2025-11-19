@@ -2,6 +2,7 @@
 using FitSammen_API.Exceptions;
 using FitSammen_API.Model;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 {
 
 }
@@ -28,10 +29,23 @@ namespace FitsammenAPITest
                 "Gentle flexibility and breathing session.",
                 new Room
                 {
-                    RoomName = "Main Gym"
+                    RoomName = "Main Gym",
+                    Location = new Location
+                    {
+                        StreetName = "Fitness Street",
+                        HouseNumber = 12,
+                        Zipcode = new Zipcode
+                        {
+                            City = new City
+                            {
+                                CityName = "Copenhagen"
+                            }
+                        }
+                    }
                 },
                 "Morning Yoga",
                 30,
+                0,
                 60,
                 new TimeOnly(9, 0),
                 ClassType.Yoga);
@@ -52,6 +66,9 @@ namespace FitsammenAPITest
             Assert.Equal(retrievedClasses.FirstOrDefault().DurationInMinutes, classToCompare.DurationInMinutes);
             Assert.Equal(retrievedClasses.FirstOrDefault().StartTime, classToCompare.StartTime);
             Assert.Equal(retrievedClasses.FirstOrDefault().ClassType, classToCompare.ClassType);
+            Assert.Equal(retrievedClasses.FirstOrDefault().Room.Location.StreetName, classToCompare.Room.Location.StreetName);
+            Assert.Equal(retrievedClasses.FirstOrDefault().Room.Location.HouseNumber, classToCompare.Room.Location.HouseNumber);
+            Assert.Equal(retrievedClasses.FirstOrDefault().Room.Location.Zipcode.City.CityName, classToCompare.Room.Location.Zipcode.City.CityName);
         }
 
         [Fact]
@@ -67,6 +84,7 @@ namespace FitsammenAPITest
             Assert.True(res);
         }
 
+        [Fact]
         public void CreateMemberBookingClassFullFail()
         {
             //Arrange

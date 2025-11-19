@@ -16,6 +16,10 @@
             Zipcode = zipcode;
         }
 
+        public Location()
+        {
+        }
+
     }
 
     public class Zipcode

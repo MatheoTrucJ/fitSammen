@@ -11,12 +11,13 @@
         public IEnumerable<MemberBooking> Participants { get; set; }
         public IEnumerable<WaitingListEntry> WaitingListEntries { get; set; }
         public int Capacity { get; set; }
+        public int MemberCount { get; set; }
         public int DurationInMinutes { get; set; }
         public TimeOnly StartTime { get; set; }
         public ClassType ClassType { get; set; }
 
         public Class(int id, DateOnly trainingDate, Employee instructor, string description,
-            Room room, string name, int capacity, int durationInMinutes, TimeOnly startTime, ClassType classType)
+            Room room, string name, int capacity, int memberCount, int durationInMinutes, TimeOnly startTime, ClassType classType)
         {
             Id = id;
             TrainingDate = trainingDate;
@@ -25,6 +26,7 @@
             Room = room;
             Name = name;
             Capacity = capacity;
+            MemberCount = memberCount;
             DurationInMinutes = durationInMinutes;
             StartTime = startTime;
             ClassType = classType;

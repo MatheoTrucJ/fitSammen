@@ -40,6 +40,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                 "r.roomName, " +
                 "l.streetName, " +
                 "l.housenumber " +
+                "cty.cityName " +
                 "FROM Class c " +
                 "JOIN ClassType ct " +
                     "ON ct.classType_ID = c.classType_ID_FK " +
@@ -51,6 +52,10 @@ namespace FitSammen_API.DatabaseAccessLayer
                     "ON r.room_ID = c.room_ID_FK " +
                 "JOIN [Location] l " +
                     "ON l.location_ID = r.location_ID_FK " +
+                "JOIN Zipcode z " +
+                    "ON z.zipcodeNumber = l.zipcodeNumber_FK " +
+                "JOIN City c " +
+                    "ON cty.city_ID = z.city_ID_FK " +
                 "ORDER BY " +
                 "c.trainingDate, " +
                 "c.startTime;";
@@ -97,13 +102,26 @@ namespace FitSammen_API.DatabaseAccessLayer
                     Room room = new Room
                     {
                         RoomName = reader.GetString(reader.GetOrdinal("roomName")),
+                        Location = new Location
+                        {
+                            StreetName = reader.GetString(reader.GetOrdinal("streetName")),
+                            HouseNumber = reader.GetInt32(reader.GetOrdinal("housenumber")),
+                            Zipcode = new Zipcode
+                            {
+                                City = new City
+                                {
+                                    CityName = reader.GetString(reader.GetOrdinal("cityName"))
+                                }
+                            }
+                        }
                     };
                     string name = reader.GetString(reader.GetOrdinal("name"));
                     int capacity = reader.GetInt32(reader.GetOrdinal("capacity"));
+                    int memberCount = reader.GetInt32(reader.GetOrdinal("memberCount"));
                     int durationInMinutes = reader.GetInt32(reader.GetOrdinal("duration"));
-                    TimeOnly StartTime = TimeOnly.FromTimeSpan(reader.GetTimeSpan(reader.GetOrdinal("startTime")));
+                    TimeOnly startTime = TimeOnly.FromTimeSpan(reader.GetTimeSpan(reader.GetOrdinal("startTime")));
                     ClassType classType = Enum.Parse<ClassType>(reader.GetString(reader.GetOrdinal("classType")));
-                    Class cls = new Class(id, trainingDate, instructor, description, room, name, capacity, durationInMinutes, StartTime, classType);
+                    Class cls = new Class(id, trainingDate, instructor, name, room, name, capacity, memberCount, durationInMinutes, startTime, classType);
                     classes.Add(cls);
                 }
             }
