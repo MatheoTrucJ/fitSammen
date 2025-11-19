@@ -8,15 +8,23 @@ namespace FitSammen_API.Mapping
     {
         public static ClassListItemDTO ToClassListItemDTO(Class cls)
         {
+            var room = new Room();
+            room.Location.StreetName = cls.Room.Location.StreetName;
+            room.Location.StreetName += " " + cls.Room.Location.HouseNumber;
+            room.Location.Zipcode.City.CityName = 
+                cls.Room.Location.Zipcode.City.CityName;
+
             return new ClassListItemDTO
             {
                 ClassId = cls.Id,
-                Date = cls.TrainingDate,
+                TrainingDate = cls.TrainingDate,
                 ClassName = cls.Name,
                 ClassType = cls.ClassType,
                 StartTime = cls.StartTime,
                 DurationInMinutes = cls.DurationInMinutes,
-                Capacity = cls.Capacity
+                Capacity = cls.Capacity,
+                MemberCount = cls.Participants.Count(),
+                Room = room
             };
         }
 
