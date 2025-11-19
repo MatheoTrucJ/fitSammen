@@ -1,4 +1,5 @@
-﻿using FitSammen_API.Model;
+﻿using FitSammen_API.BusinessLogicLayer;
+using FitSammen_API.Model;
 using System.Collections.Generic;
 
 namespace FitSammen_API.DTOs

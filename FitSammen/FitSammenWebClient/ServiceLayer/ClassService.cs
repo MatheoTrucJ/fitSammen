@@ -56,9 +56,9 @@ namespace FitSammenWebClient.ServiceLayer
             return result;
         }
 
-        public async Task<bool> SignUpMemberToClass(int userNumber, int classId)
+        public async Task<MemberBookingResponse> SignUpMemberToClass(int userNumber, int classId)
         {
-            bool savedOk = false;
+            MemberBookingResponse? Reponse = null;
 
             UseUrl = BaseUrl;
             UseUrl += "classes/" + classId + "/bookings";
@@ -73,18 +73,22 @@ namespace FitSammenWebClient.ServiceLayer
                 var json = JsonConvert.SerializeObject(request);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var serviceResponse = await CallServicePost(content); 
+                var serviceResponse = await CallServicePost(content);
 
-                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                var responseContent = await serviceResponse.Content.ReadAsStringAsync();
+
+                Reponse = JsonConvert.DeserializeObject<MemberBookingResponse>(responseContent);
+
+                if (serviceResponse != null && Reponse !=null)
                 {
-                    savedOk = true;
+                    return Reponse;
                 }
             }
             catch
             {
-                savedOk = false;
+                Reponse = null;
             }
-            return savedOk;
+            return Reponse;
         }
     }
 }

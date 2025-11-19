@@ -29,6 +29,7 @@ namespace FitSammen_API.Controllers
             {
                 BookingStatus.Success => Created(string.Empty, dto),
                 BookingStatus.ClassFull => Conflict(dto),
+                BookingStatus.AlreadySignedUp => Conflict(dto),
                 BookingStatus.Error => StatusCode(500, dto),
                 _ => StatusCode(500, dto)
             };

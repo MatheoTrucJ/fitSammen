@@ -41,8 +41,9 @@ namespace FitSammen_API.Mapping
                 Message = result.Status switch
                 {
                     BookingStatus.Success => "Booking successful.",
-                    BookingStatus.ClassFull => "Booking failed: Member has already booked this class.",
+                    BookingStatus.ClassFull => "Booking failed: The class is already ful",
                     BookingStatus.Error => "Booking failed: Unknown error.",
+                    BookingStatus.AlreadySignedUp => "Booking failed: Member is already signed up for this class",
                     _ => "Booking failed: Unknown error."
                 }
             };

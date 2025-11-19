@@ -6,7 +6,7 @@ namespace FitSammenWebClient.ServiceLayer
     {
         Task<IEnumerable<Class>?> GetClasses(int id = -1);
 
-        Task<Boolean> SignUpMemberToClass(int userNumber, int ClassId);
+        Task<MemberBookingResponse> SignUpMemberToClass(int userNumber, int ClassId);
 
     }
 }

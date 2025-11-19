@@ -38,25 +38,42 @@ namespace FitSammenWebClient.Controllers
                 User_Id = userNumber
             };
 
-            Boolean result = false;
-            //IEnumerable<Class>? classes = await _classLogic.GetAllClassesAsync(ClassId);
-            //Class currentClass = classes.ElementAt(0);
-            
+            MemberBookingResponse result = null;
+
             result = await _classLogic.signUpAMember(userNumber, ClassId);
 
-            if (result)
+            // result.Status er en string, fx "Success"
+            if (!Enum.TryParse<BookingStatus>(result.Status, ignoreCase: true, out var status))
             {
-                TempData["SignUpStatus"] = "success";
-                TempData["SignUpMessage"] = "Du er nu tilmeldt holdet.";
+                // Hvis vi ikke kan parse, betragter vi det som en fejl
+                status = BookingStatus.Error;
             }
-            else
+
+            switch (status)
             {
-                TempData["SignUpStatus"] = "error";
-                TempData["SignUpMessage"] = "Tilmelding mislykkedes. Holdet Er fuldt.";
+                case BookingStatus.Success:
+                    TempData["SignUpStatus"] = "success";
+                    TempData["SignUpMessage"] = "Du er nu tilmeldt holdet.";
+                    break;
+
+                case BookingStatus.ClassFull:
+                    TempData["SignUpStatus"] = "error";
+                    TempData["SignUpMessage"] = "Holdet er fuldt. Du kunne ikke tilmeldes.";
+                    break;
+
+                case BookingStatus.AlreadySignedUp:
+                    TempData["SignUpStatus"] = "error";
+                    TempData["SignUpMessage"] = "Du er allerede tilmeldt dette hold.";
+                    break;
+
+                case BookingStatus.Error:
+                default:
+                    TempData["SignUpStatus"] = "error";
+                    TempData["SignUpMessage"] = "Der opstod en fejl under tilmelding. Prøv igen.";
+                    break;
             }
 
             return RedirectToAction("Index");
-
         }
 
         public IActionResult Privacy()
