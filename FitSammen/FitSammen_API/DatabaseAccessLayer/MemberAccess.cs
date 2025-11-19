@@ -56,10 +56,6 @@ namespace FitSammen_API.DatabaseAccessLayer
                             conn.Open();
                             var res = readCommand.ExecuteScalar();
                             createdMemberBookingId = Convert.ToInt32(res);
-                            if (createdMemberBookingId == 0)
-                            {
-                                throw new DataAccessException("Could not create member booking - class may be full");
-                            }
                         }
                         else
                         {

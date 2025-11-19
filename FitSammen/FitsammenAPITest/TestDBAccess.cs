@@ -71,8 +71,9 @@ namespace FitsammenAPITest
         {
             //Arrange
             //Act
+            int res = _memberAccess.CreateMemberBooking(3, 2);
             //Arrange
-            Assert.Throws<DataAccessException>(() => _memberAccess.CreateMemberBooking(3, 2));
+            Assert.Equal(0, res);
         }
     }
 }
