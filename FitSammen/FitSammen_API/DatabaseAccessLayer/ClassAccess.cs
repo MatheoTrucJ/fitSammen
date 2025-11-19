@@ -121,7 +121,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                     int durationInMinutes = reader.GetInt32(reader.GetOrdinal("duration"));
                     TimeOnly startTime = TimeOnly.FromTimeSpan(reader.GetTimeSpan(reader.GetOrdinal("startTime")));
                     ClassType classType = Enum.Parse<ClassType>(reader.GetString(reader.GetOrdinal("classType")));
-                    Class cls = new Class(id, trainingDate, instructor, name, room, name, capacity, memberCount, durationInMinutes, startTime, classType);
+                    Class cls = new Class(id, trainingDate, instructor, description, room, name, capacity, memberCount, durationInMinutes, startTime, classType);
                     classes.Add(cls);
                 }
             }
