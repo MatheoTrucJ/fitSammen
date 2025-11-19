@@ -11,14 +11,14 @@
 @{
     var signUpMessage = TempData["SignUpMessage"] as string;
     var signUpStatus = TempData["SignUpStatus"] as string;
-}
+    string headerClass = "modal-header";
+    string titleText = "Besked";
 
-@if (!string.IsNullOrEmpty(signUpMessage))
+if (!string.IsNullOrEmpty(signUpMessage))
 {
-    String cssClass = signUpStatus == "success" ? "alert-success" : "alert-danger";
-    <div class="alert @cssClass" role="alert">
-        @signUpMessage
-    </div>
+    headerClass = signUpStatus == "success" ? "bg-success text-white" : "bg-danger text-white";
+    titleText = signUpStatus == "success" ? "Tilmelding gennemført" : "Tilmelding mislykkedes";
+}
 }
 
 <section class="Hero">
@@ -31,9 +31,9 @@
             <div class="filterbar">
                 <select name="centre" id="centre">
                     <option value="all">Alle centre</option>
-                    <option value="aalborg">Kastetvej</option>
-                    <option value="aarhus">Aarhus</option>
-                    <option value="odense">Odense</option>
+                    <option value="Kastetvej">Kastetvej</option>
+                    <option value="Ryesgade">Ryesgade</option>
+                    <option value="Kongensgade">Kongensgade</option>
                 </select>
                 <select name="hold" id="hold">
 
@@ -68,13 +68,46 @@
                     <form method="post" asp-action="SignUpToClass">
                         <input name="User" id="UserNumber" value="@member" hidden="hidden" />
                         <input name="ClassId" id="ClassId" value="@item.Id" hidden="hidden" />
-                    <br /> <input type="submit" value="tilmeld" class="btn btn-primary" />
+                        <br /> <input type="submit" button id="tilmeldBtn" value="tilmeld" class="btn btn-primary" />
+
                     </form>
                 </div>
             }
+        </div>
+        <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header @headerClass">
+                    <h5 class="modal-title" id="signUpModalLabel">@titleText</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
+                </div>
+                <div class="modal-body">
+                    @signUpMessage
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+                </div>
+                </div>
+            </div>
         </div>
         <button type="button" onclick="ClickRight()" class="hold-arrow Hold-arrow-right">&#10095;</button>
     </div>
 </section>
 
 <script src="~/js/site.js" asp-append-version="true"></script>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var hasMessage = '@(string.IsNullOrEmpty(signUpMessage) ? "false" : "true")';
+
+            if (hasMessage === "true") {
+                var modalElement = document.getElementById('signUpModal');
+                if (modalElement) {
+                    var myModal = new bootstrap.Modal(modalElement);
+                    myModal.show();
+                }
+            }
+        });
+    </script>
+}
