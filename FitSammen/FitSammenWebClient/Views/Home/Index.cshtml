@@ -1,7 +1,7 @@
 ﻿@model FitSammenWebClient.ViewModel.ClassListViewModel
 
 @{
-    var memberNumber = 2; 
+    var memberNumber = 2;
 }
 
 @{
@@ -11,14 +11,35 @@
 @{
     var signUpMessage = TempData["SignUpMessage"] as string;
     var signUpStatus = TempData["SignUpStatus"] as string;
+
+    var waitingMessage = TempData["SignUpWaitingListMessage"] as string;
+    var waitingStatus = TempData["SignUpWaitingListStatus"] as string;
+
     string headerClass = "";
     string titleText = "Besked";
+    bool isWaitingList = false;
 
-if (!string.IsNullOrEmpty(signUpMessage))
-{
-    headerClass = signUpStatus == "success" ? "bg-success text-white" : "bg-danger text-white";
-    titleText = signUpStatus == "success" ? "Tilmelding gennemført" : "Tilmelding mislykkedes";
-}
+    // Til at håndtere både almindelig tilmelding og venteliste-tilmelding
+    if (string.IsNullOrEmpty(signUpMessage) && !string.IsNullOrEmpty(waitingMessage))
+    {
+        signUpMessage = waitingMessage;
+        signUpStatus = waitingStatus;
+        isWaitingList = true;
+    }
+
+    if (!string.IsNullOrEmpty(signUpMessage))
+    {
+        headerClass = signUpStatus == "success" ? "bg-success text-white" : "bg-danger text-white";
+
+        if (isWaitingList)
+        {
+            titleText = signUpStatus == "success"  ? "Venteliste tilmelding gennemført" : "Venteliste tilmelding mislykkedes";
+        }
+        else
+        {
+            titleText = signUpStatus == "success"  ? "Tilmelding gennemført" : "Tilmelding mislykkedes";
+        }
+    }
 }
 
 <section class="Hero">
@@ -65,27 +86,43 @@ if (!string.IsNullOrEmpty(signUpMessage))
                     <b>, </b>@item.Room.Location.Zipcode.City.CityName
                     <br /> <b>Længde: </b>@item.DurationInMinutes minutter
                     <br /> <b>Pladser tilbage: </b>@item.RemainingSpots
-                    <form method="post" asp-action="SignUpToClass">
-                        <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
-                        <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
-                    <br /> <input type="submit" value="tilmeld" class="btn btn-primary" />
-                    </form>
+
+                    @if (item.RemainingSpots > 0)
+                    {
+                        <!-- Der er stadig pladser: almindelig tilmelding -->
+                        <form method="post" asp-action="SignUpToClass">
+                            <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
+                            <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
+                            <br />
+                            <input type="submit" value="Tilmeld" class="btn btn-success" />
+                        </form>
+                    }
+                    else
+                    {
+                        <!-- Holdet er fuldt: tilmelding til venteliste -->
+                        <form method="post" asp-action="SignUpToWaitingList">
+                            <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
+                            <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
+                            <br />
+                            <input type="submit" value="Tilmeld venteliste" class="btn btn-primary" />
+                        </form>
+                    }
                 </div>
             }
         </div>
         <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header @headerClass">
-                    <h5 class="modal-title" id="signUpModalLabel">@titleText</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
-                </div>
-                <div class="modal-body">
-                    @signUpMessage
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
-                </div>
+                    <div class="modal-header @headerClass">
+                        <h5 class="modal-title" id="signUpModalLabel">@titleText</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
+                    </div>
+                    <div class="modal-body">
+                        @signUpMessage
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+                    </div>
                 </div>
             </div>
         </div>

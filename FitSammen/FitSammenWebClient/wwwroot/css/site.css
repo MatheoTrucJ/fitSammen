@@ -157,8 +157,6 @@ body {
     .hold-card input[type="submit"] {
         border-radius: 200px; /*Rundede kanter*/
         margin-top: 10px; /*Rykker knap ned*/
-        background-color: #3bb273;
-        border:none;
     }
 
 
