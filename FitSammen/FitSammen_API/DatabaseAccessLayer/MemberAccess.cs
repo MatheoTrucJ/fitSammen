@@ -1,6 +1,9 @@
 ﻿using FitSammen_API.Exceptions;
 using FitSammen_API.Model;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
+using Microsoft.OpenApi.Writers;
+using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Transactions;
 
@@ -110,6 +113,145 @@ namespace FitSammen_API.DatabaseAccessLayer
             }
             return res;
         }
+
+
+
+
+        public int CreateWaitingListEntry(int MemberUserId, int ClassId)
+        {
+            int waitingListPosition = -1;
+            int newId = 0;
+            DateTime createdAt;
+
+            string insertQuery = @"
+        INSERT INTO WaitingListEntry (memberUser_ID_FK, class_ID_FK, CreatedAt)
+        OUTPUT inserted.waitingList_ID, inserted.CreatedAt
+        SELECT @MemberUserId, @ClassId, SYSDATETIME()
+        FROM Class
+        WHERE class_ID = @ClassId
+          AND memberCount = capacity;";
+
+            try
+            {
+                var tOptions = new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.ReadCommitted
+                };
+
+                using (var scope = new TransactionScope(TransactionScopeOption.Required, tOptions))
+                {
+                    using (var conn = new SqlConnection(ConnectionString))
+                    using (var cmd = new SqlCommand(insertQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@MemberUserId", MemberUserId);
+                        cmd.Parameters.AddWithValue("@ClassId", ClassId);
+
+                        conn.Open();
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                newId = reader.GetInt32(reader.GetOrdinal("waitingList_ID"));
+                                createdAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"));
+                            }
+                            else
+                            {
+                                return -1;
+                            }
+                        }
+                    }
+
+
+                    scope.Complete();
+                }
+
+
+                string positionQuery = @"
+            SELECT COUNT(*) + 1 AS position
+            FROM WaitingListEntry
+            WHERE class_ID_FK = @ClassId
+              AND CreatedAt < @CreatedAt;";
+
+                using (var conn = new SqlConnection(ConnectionString))
+                using (var cmd = new SqlCommand(positionQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@ClassId", ClassId);
+                    cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
+
+                    conn.Open();
+                    waitingListPosition = (int)cmd.ExecuteScalar();
+                }
+
+                return waitingListPosition;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new DataAccessException("Error creating waiting list entry in database.", sqlEx);
+            }
+
+        }
+
+        public int IsMemberOnWaitingList(int MemberUserId, int ClassId)
+        {
+            int waitingListPosition = 0;
+
+            // Prepare the SQL query
+            string queryString = "SELECT * " +
+                "FROM WaitingListEntry " +
+                "WHERE memberUser_ID_FK = @MemberUserId " +
+                "AND class_ID_FK = @ClassID;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, conn))
+                {
+                    readCommand.Parameters.AddWithValue("@MemberUserId", MemberUserId);
+                    readCommand.Parameters.AddWithValue("@classID", ClassId);
+                    if (conn != null)
+                    {
+                        conn.Open();
+
+                        SqlDataReader reader = readCommand.ExecuteReader();
+                        bool res = reader.HasRows;
+                        if (res)
+                        {
+                            if (reader.Read())
+                            {
+                                DateTime CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"));
+
+                                string positionQuery = @"
+                                    SELECT COUNT(*) + 1 AS position
+                                    FROM WaitingListEntry
+                                    WHERE class_ID_FK = @ClassId
+                                    AND CreatedAt < @CreatedAt;";
+
+                                using (var cmd = new SqlCommand(positionQuery, conn))
+                                {
+                                    cmd.Parameters.AddWithValue("@ClassId", ClassId);
+                                    cmd.Parameters.AddWithValue("@CreatedAt", CreatedAt);
+
+                                    waitingListPosition = (int)cmd.ExecuteScalar();
+                                }
+                                return waitingListPosition;
+                            }
+                        }
+                        return waitingListPosition;
+                    }
+                    else
+                    {
+                        throw new DataAccessException("No database connection available.");
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new DataAccessException("Error retrieving WaitingListEntry result from database.", sqlEx);
+            }
+        }
+        
     }
 }
+
 
