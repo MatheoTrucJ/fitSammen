@@ -11,9 +11,9 @@ namespace FitSammenWebClient.BusinessLogicLayer
             _classService = new ClassService(inConfiguration);
         }
 
-        public async Task<MemberBookingResponse?> signUpAMember(int member, int theClass)
+        public async Task<MemberBookingResponse?> SignUpAMember(int member, int theClass)
         {
-            return await _classService.SignUpMemberToClass(member, theClass);
+            return await _classService.SignUpMemberToClassAsync(member, theClass);
         }
 
         public async Task<IEnumerable<Class>?> GetAllClassesAsync(int id = -1)

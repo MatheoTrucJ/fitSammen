@@ -31,7 +31,7 @@ namespace FitsammenMVCTests
                 int fullClassId = 6;  
 
                 // Act
-                MemberBookingResponse? result = await logic.signUpAMember(testMemberId, fullClassId);
+                MemberBookingResponse? result = await logic.SignUpAMember(testMemberId, fullClassId);
 
                 // Assert
                 Assert.NotNull(result);
@@ -51,7 +51,7 @@ namespace FitsammenMVCTests
                 int notFullClassId = 1; 
 
                 // Act
-                MemberBookingResponse? result = await logic.signUpAMember(testMemberId, notFullClassId);
+                MemberBookingResponse? result = await logic.SignUpAMember(testMemberId, notFullClassId);
 
                 // Assert
                 Assert.NotNull(result);
@@ -70,7 +70,7 @@ namespace FitsammenMVCTests
                 int classId = 1;
 
                 // Act – prøv igen
-                MemberBookingResponse? result = await logic.signUpAMember(testMemberId, classId);
+                MemberBookingResponse? result = await logic.SignUpAMember(testMemberId, classId);
 
                 // Assert
                 Assert.NotNull(result);

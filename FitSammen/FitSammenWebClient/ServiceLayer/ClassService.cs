@@ -56,7 +56,8 @@ namespace FitSammenWebClient.ServiceLayer
             return result;
         }
 
-        public async Task<MemberBookingResponse> SignUpMemberToClass(int userNumber, int classId)
+
+        public async Task<MemberBookingResponse> SignUpMemberToClassAsync(int userNumber, int classId)
         {
             MemberBookingResponse? Reponse = null;
 
