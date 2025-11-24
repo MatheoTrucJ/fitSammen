@@ -106,7 +106,19 @@ namespace FitSammen_APITest
                 return NewBookingId;
             }
 
+            public int CreateWaitingListEntry(int memberUserId, int classId)
+            {
+                throw new NotImplementedException();
+            }
+
+            public int IsMemberOnWaitingList(int memberUserId, int classId)
+            {
+                throw new NotImplementedException();
+            }
+
             public bool IsMemberSignedUp(int memberUserNumber, int classID) => AlreadySignedUp;
         }
+
+        
     }
 }

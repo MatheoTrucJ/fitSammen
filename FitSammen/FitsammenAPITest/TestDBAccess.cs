@@ -3,6 +3,7 @@ using FitSammen_API.Exceptions;
 using FitSammen_API.Model;
 using System.Linq;
 using System.Reflection.PortableExecutable;
+using System.Transactions;
 {
 
 }
@@ -92,6 +93,35 @@ namespace FitsammenAPITest
             int res = _memberAccess.CreateMemberBooking(3, 2);
             //Arrange
             Assert.Equal(0, res);
+        }
+
+        [Fact]
+        public void WhenMakingAWaitingListEntry_ThenMyPositionIsCorrect()
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                //Arrange
+
+                //Act
+                int SuccesPosition = _memberAccess.CreateWaitingListEntry(2, 4);
+                //Assert
+                Assert.Equal(1, SuccesPosition);
+            }
+        }
+
+        [Fact]
+        public void WhenMakingAWaitingListTwice_ThenMyPositionIsShownAndImNotAddedAgain()
+        {
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                //Arrange
+
+                //Act
+                int FailedAndShowedPosition = _memberAccess.IsMemberOnWaitingList(2, 4);
+
+                //Assert
+                Assert.Equal(1, FailedAndShowedPosition);
+            }
         }
     }
 }
