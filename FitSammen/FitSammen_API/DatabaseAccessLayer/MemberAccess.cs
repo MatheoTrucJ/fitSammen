@@ -212,34 +212,33 @@ namespace FitSammen_API.DatabaseAccessLayer
                     if (conn != null)
                     {
                         conn.Open();
+                        DateTime? CreatedAt = null;
 
-                        SqlDataReader reader = readCommand.ExecuteReader();
-                        bool res = reader.HasRows;
-                        if (res)
+                        using (SqlDataReader reader = readCommand.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                DateTime CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"));
-
-                                string positionQuery = @"
+                                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"));
+                            }
+                        }
+                        if (CreatedAt.HasValue)
+                        {
+                            string positionQuery = @"
                                     SELECT COUNT(*) + 1 AS position
                                     FROM WaitingListEntry
                                     WHERE class_ID_FK = @ClassId
                                     AND CreatedAt < @CreatedAt;";
 
-                                using (var cmd = new SqlCommand(positionQuery, conn))
-                                {
-                                    cmd.Parameters.AddWithValue("@ClassId", ClassId);
-                                    cmd.Parameters.AddWithValue("@CreatedAt", CreatedAt);
+                            using (var cmd = new SqlCommand(positionQuery, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@ClassId", ClassId);
+                                cmd.Parameters.AddWithValue("@CreatedAt", CreatedAt.Value);
 
-                                    waitingListPosition = (int)cmd.ExecuteScalar();
-                                }
-                                return waitingListPosition;
+                                waitingListPosition = (int)cmd.ExecuteScalar();
                             }
                         }
                         return waitingListPosition;
-                    }
-                    else
+                    } else
                     {
                         throw new DataAccessException("No database connection available.");
                     }
@@ -250,7 +249,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                 throw new DataAccessException("Error retrieving WaitingListEntry result from database.", sqlEx);
             }
         }
-        
+
     }
 }
 

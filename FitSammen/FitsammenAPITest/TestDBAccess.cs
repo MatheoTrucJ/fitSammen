@@ -96,7 +96,7 @@ namespace FitsammenAPITest
         }
 
         [Fact]
-        public void WhenMakingAWaitingListEntry_ThenMyPositionIsCorrect()
+        public void WhenMakingAWaitingListEntryOnAFullClass_ThenMyPositionIsCorrect()
         {
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -106,6 +106,20 @@ namespace FitsammenAPITest
                 int SuccesPosition = _memberAccess.CreateWaitingListEntry(2, 4);
                 //Assert
                 Assert.Equal(1, SuccesPosition);
+            }
+        }
+
+        [Fact]
+        public void WhenMakingAWaitingListEntryOnNotFullClass_ThenIShouldNotGetPositivePosition()
+        {
+            using(var scope = new TransactionScope( TransactionScopeAsyncFlowOption.Enabled))
+            {
+                //Arrange
+
+                //Act
+                int FailedAndShowedFalsePosition = _memberAccess.CreateWaitingListEntry(2, 1);
+                //Assert
+                Assert.Equal(-1, FailedAndShowedFalsePosition);
             }
         }
 
