@@ -64,13 +64,14 @@ namespace FitSammen_API.DatabaseAccessLayer
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, conn))
                 {
-                    if(conn != null)
+                    if (conn != null)
                     {
                         conn.Open();
 
                         SqlDataReader reader = readCommand.ExecuteReader();
                         classes = UpcomingClassesBuilder(reader);
-                    } else
+                    }
+                    else
                     {
                         throw new DataAccessException("No database connection available.");
                     }
@@ -130,6 +131,66 @@ namespace FitSammen_API.DatabaseAccessLayer
                 throw new DataAccessException("Error reading class data from database.", ex);
             }
             return classes;
+        }
+
+        public IEnumerable<Location> GetAllLocations()
+        {
+            IEnumerable<Location> locations = new List<Location>();
+
+            string queryString = @"SELECT
+            location_ID,
+            L.streetName,
+            C.cityName,
+            L.houseNumber
+            FROM Location L
+            JOIN
+            Zipcode Z ON L.zipcodeNumber_FK = Z.zipcodeNumber
+            JOIN
+            City C ON Z.city_ID_FK = C.city_ID
+            JOIN
+            Country Co ON C.country_ID_FK = Co.country_ID;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, conn))
+                {
+                    if (conn != null)
+                    {
+                        conn.Open();
+
+                        SqlDataReader reader = readCommand.ExecuteReader();
+                        try
+                        {
+                            while (reader.Read())
+                            {
+                                Location location = new Location {
+                                    LocationId = reader.GetInt32(reader.GetOrdinal("location_ID")),
+                                    StreetName = reader.GetString(reader.GetOrdinal("streetName")),
+                                    HouseNumber = reader.GetInt32(reader.GetOrdinal("houseNumber"))
+                                };
+                                locations.add()
+                                
+                               
+                            }
+                        }
+                        catch (SqlException ex)
+                        {
+                            throw new DataAccessException("Error reading class data from database.", ex);
+                        }
+                    }
+                    else
+                    {
+                        throw new DataAccessException("No database connection available.");
+                    }
+                }
+
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new DataAccessException("Error retrieving upcoming classes from database.", sqlEx);
+            }
+            return locations;
         }
     }
 }
