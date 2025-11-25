@@ -33,7 +33,7 @@
     public class City
     {
         public string CityName { get; set; }
-        public Country Country { get; set; }
+        public Country? Country { get; set; }
     }
 
     public class Country
