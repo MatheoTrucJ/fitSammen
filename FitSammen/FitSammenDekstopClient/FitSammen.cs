@@ -73,18 +73,18 @@ namespace FitSammenDekstopClient
 
         private void listViewAllClasses_DoubleClick(object sender, EventArgs e)
         {
-            // sikrer at vi ikke får en fejl hvis der ikke er valgt noget eller der er valgt flere
+            // sikrer at vi går videre kun hvis der er valgt præcis én række
             if (listViewAllClasses.SelectedItems.Count != 1)
                 return;
 
-            // 2) få fat i ListViewItem
-            var item = listViewAllClasses.SelectedItems[0];
+            // Henter den valgte række
+            ListViewItem listView = listViewAllClasses.SelectedItems[0];
 
-            // 3) Tag indeholder Class, som vi gemte før
-            if (item.Tag is not Class selectedClass)
+            // Henter det tilknyttede Class objekt fra Tag egenskaben
+            if (listView.Tag is not Class selectedClass)
                 return;
 
-            // 4) Brug selectedClass til at vise detaljer et andet sted på formen
+            // Udfylder detalje sektionen med oplysninger fra det valgte Class objekt
             lblTextClassType.Text = selectedClass.ClassType.ToString();
             lblTextDescription.Text = selectedClass.Description;
             txtBoxEmployee.Text = $"{selectedClass.Instructor.FirstName} {selectedClass.Instructor.LastName}";

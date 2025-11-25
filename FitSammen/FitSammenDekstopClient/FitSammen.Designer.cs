@@ -63,7 +63,7 @@
             groupBox1.Controls.Add(listViewAllClasses);
             groupBox1.Location = new Point(12, 67);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(593, 429);
+            groupBox1.Size = new Size(593, 470);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "TræningsHold";
@@ -72,7 +72,7 @@
             // 
             listViewAllClasses.Location = new Point(6, 22);
             listViewAllClasses.Name = "listViewAllClasses";
-            listViewAllClasses.Size = new Size(577, 399);
+            listViewAllClasses.Size = new Size(577, 442);
             listViewAllClasses.TabIndex = 3;
             listViewAllClasses.UseCompatibleStateImageBehavior = false;
             listViewAllClasses.DoubleClick += listViewAllClasses_DoubleClick;
@@ -98,9 +98,9 @@
             groupBox2.Controls.Add(lblEmployee);
             groupBox2.Controls.Add(lblClassDescription);
             groupBox2.Controls.Add(lblClassType);
-            groupBox2.Location = new Point(614, 12);
+            groupBox2.Location = new Point(611, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(318, 380);
+            groupBox2.Size = new Size(321, 422);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "Hold Informationer";
@@ -110,9 +110,11 @@
             lblTextDescription.AutoSize = true;
             lblTextDescription.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTextDescription.Location = new Point(101, 55);
+            lblTextDescription.MaximumSize = new Size(210, 0);
             lblTextDescription.Name = "lblTextDescription";
-            lblTextDescription.Size = new Size(0, 21);
+            lblTextDescription.Size = new Size(25, 21);
             lblTextDescription.TabIndex = 15;
+            lblTextDescription.Text = ".....";
             // 
             // lblTextClassType
             // 
@@ -120,40 +122,41 @@
             lblTextClassType.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTextClassType.Location = new Point(101, 19);
             lblTextClassType.Name = "lblTextClassType";
-            lblTextClassType.Size = new Size(0, 21);
+            lblTextClassType.Size = new Size(25, 21);
             lblTextClassType.TabIndex = 5;
+            lblTextClassType.Text = ".....";
             // 
             // txtBoxMemberCount
             // 
-            txtBoxMemberCount.Location = new Point(101, 344);
+            txtBoxMemberCount.Location = new Point(101, 384);
             txtBoxMemberCount.Name = "txtBoxMemberCount";
             txtBoxMemberCount.Size = new Size(211, 23);
             txtBoxMemberCount.TabIndex = 11;
             // 
             // txtBoxCapacity
             // 
-            txtBoxCapacity.Location = new Point(101, 302);
+            txtBoxCapacity.Location = new Point(101, 342);
             txtBoxCapacity.Name = "txtBoxCapacity";
             txtBoxCapacity.Size = new Size(211, 23);
             txtBoxCapacity.TabIndex = 11;
             // 
             // txtBoxLocation
             // 
-            txtBoxLocation.Location = new Point(101, 261);
+            txtBoxLocation.Location = new Point(101, 301);
             txtBoxLocation.Name = "txtBoxLocation";
-            txtBoxLocation.Size = new Size(170, 23);
+            txtBoxLocation.Size = new Size(211, 23);
             txtBoxLocation.TabIndex = 11;
             // 
             // txtBoxDuration
             // 
-            txtBoxDuration.Location = new Point(101, 217);
+            txtBoxDuration.Location = new Point(101, 257);
             txtBoxDuration.Name = "txtBoxDuration";
             txtBoxDuration.Size = new Size(211, 23);
             txtBoxDuration.TabIndex = 11;
             // 
             // txtBoxStartTime
             // 
-            txtBoxStartTime.Location = new Point(101, 176);
+            txtBoxStartTime.Location = new Point(101, 216);
             txtBoxStartTime.Name = "txtBoxStartTime";
             txtBoxStartTime.Size = new Size(211, 23);
             txtBoxStartTime.TabIndex = 11;
@@ -162,7 +165,7 @@
             // 
             lblMemberCount.AutoSize = true;
             lblMemberCount.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblMemberCount.Location = new Point(13, 342);
+            lblMemberCount.Location = new Point(13, 382);
             lblMemberCount.Name = "lblMemberCount";
             lblMemberCount.Size = new Size(77, 21);
             lblMemberCount.TabIndex = 14;
@@ -172,7 +175,7 @@
             // 
             lblDuration.AutoSize = true;
             lblDuration.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDuration.Location = new Point(13, 215);
+            lblDuration.Location = new Point(13, 255);
             lblDuration.Name = "lblDuration";
             lblDuration.Size = new Size(75, 21);
             lblDuration.TabIndex = 13;
@@ -189,14 +192,14 @@
             // 
             // txtBoxEmployee
             // 
-            txtBoxEmployee.Location = new Point(101, 94);
+            txtBoxEmployee.Location = new Point(101, 134);
             txtBoxEmployee.Name = "txtBoxEmployee";
             txtBoxEmployee.Size = new Size(211, 23);
             txtBoxEmployee.TabIndex = 11;
             // 
             // txtBoxDateTime
             // 
-            txtBoxDateTime.Location = new Point(101, 132);
+            txtBoxDateTime.Location = new Point(101, 172);
             txtBoxDateTime.Name = "txtBoxDateTime";
             txtBoxDateTime.Size = new Size(211, 23);
             txtBoxDateTime.TabIndex = 10;
@@ -205,7 +208,7 @@
             // 
             lblCapacity.AutoSize = true;
             lblCapacity.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblCapacity.Location = new Point(13, 302);
+            lblCapacity.Location = new Point(13, 342);
             lblCapacity.Name = "lblCapacity";
             lblCapacity.Size = new Size(76, 21);
             lblCapacity.TabIndex = 9;
@@ -215,7 +218,7 @@
             // 
             lblLocation.AutoSize = true;
             lblLocation.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblLocation.Location = new Point(13, 259);
+            lblLocation.Location = new Point(13, 299);
             lblLocation.Name = "lblLocation";
             lblLocation.Size = new Size(73, 21);
             lblLocation.TabIndex = 8;
@@ -225,7 +228,7 @@
             // 
             lblStartTime.AutoSize = true;
             lblStartTime.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblStartTime.Location = new Point(13, 174);
+            lblStartTime.Location = new Point(13, 214);
             lblStartTime.Name = "lblStartTime";
             lblStartTime.Size = new Size(81, 21);
             lblStartTime.TabIndex = 7;
@@ -235,7 +238,7 @@
             // 
             lblDateTime.AutoSize = true;
             lblDateTime.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDateTime.Location = new Point(13, 134);
+            lblDateTime.Location = new Point(13, 174);
             lblDateTime.Name = "lblDateTime";
             lblDateTime.Size = new Size(46, 21);
             lblDateTime.TabIndex = 6;
@@ -245,7 +248,7 @@
             // 
             lblEmployee.AutoSize = true;
             lblEmployee.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblEmployee.Location = new Point(13, 94);
+            lblEmployee.Location = new Point(13, 134);
             lblEmployee.Name = "lblEmployee";
             lblEmployee.Size = new Size(81, 21);
             lblEmployee.TabIndex = 5;
@@ -283,9 +286,9 @@
             // btnCreateNewClass
             // 
             btnCreateNewClass.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCreateNewClass.Location = new Point(613, 399);
+            btnCreateNewClass.Location = new Point(607, 440);
             btnCreateNewClass.Name = "btnCreateNewClass";
-            btnCreateNewClass.Size = new Size(264, 29);
+            btnCreateNewClass.Size = new Size(326, 29);
             btnCreateNewClass.TabIndex = 0;
             btnCreateNewClass.Text = "Opret nyt hold";
             btnCreateNewClass.UseVisualStyleBackColor = true;
@@ -294,9 +297,9 @@
             // btnUpdateClass
             // 
             btnUpdateClass.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnUpdateClass.Location = new Point(614, 434);
+            btnUpdateClass.Location = new Point(607, 475);
             btnUpdateClass.Name = "btnUpdateClass";
-            btnUpdateClass.Size = new Size(264, 28);
+            btnUpdateClass.Size = new Size(325, 28);
             btnUpdateClass.TabIndex = 3;
             btnUpdateClass.Text = "Rediger valgt træningshold";
             btnUpdateClass.UseVisualStyleBackColor = true;
@@ -304,9 +307,9 @@
             // btnDeleteClass
             // 
             btnDeleteClass.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnDeleteClass.Location = new Point(613, 468);
+            btnDeleteClass.Location = new Point(607, 509);
             btnDeleteClass.Name = "btnDeleteClass";
-            btnDeleteClass.Size = new Size(264, 28);
+            btnDeleteClass.Size = new Size(325, 28);
             btnDeleteClass.TabIndex = 4;
             btnDeleteClass.Text = "Slet valgt træningshold";
             btnDeleteClass.UseVisualStyleBackColor = true;
@@ -315,7 +318,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(944, 506);
+            ClientSize = new Size(944, 549);
             Controls.Add(btnDeleteClass);
             Controls.Add(btnUpdateClass);
             Controls.Add(btnCreateNewClass);

@@ -12,6 +12,7 @@ namespace FitSammenDekstopClient
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new FitSammen());
+            // Application.Run(new CreateClassForm());
         }
     }
 }
