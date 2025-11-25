@@ -17,6 +17,7 @@ builder.Services.AddTransient<IBookingService, BookingService>();
 builder.Services.AddTransient<IClassService, ClassService>();
 
 builder.Services.AddTransient<IWaitingListService, WaitingListService>();
+builder.Services.AddTransient<ILocationService, LocationService>();
 
 var app = builder.Build();
 

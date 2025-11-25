@@ -66,36 +66,36 @@ namespace FitSammen_API.Mapping
             return dto;
         }
 
-        public static LocationDTO LocationToLocationDTO(Location locations)
+        public static LocationDTO LocationToLocationDTO(Location location)
         {
             LocationDTO lDTO = new LocationDTO
             {
-                LocationId = locations.LocationId,
-                StreetName = locations.StreetName,
-                HouseNumber = locations.HouseNumber,
-                ZipcodeNumber = locations.Zipcode.ZipcodeNumber,
-                CityName = locations.Zipcode.City.CityName,
-                CountryName = locations.Zipcode.City.Country.CountryName
+                LocationId = location.LocationId,
+                StreetName = location.StreetName,
+                HouseNumber = location.HouseNumber,
+                ZipcodeNumber = location.Zipcode.ZipcodeNumber,
+                CityName = location.Zipcode.City.CityName,
+                CountryName = location.Zipcode.City.Country.CountryName
             };
 
             return lDTO;
         }
 
-        public static RoomDTO RoomToDTO(Room rooms)
+        public static RoomDTO RoomToDTO(Room room)
         {
             RoomDTO rDTO = new RoomDTO
             {
-                RoomId = rooms.RoomId,
-                RoomName = rooms.RoomName,
-                Capacity = rooms.Capacity,
+                RoomId = room.RoomId,
+                RoomName = room.RoomName,
+                Capacity = room.Capacity,
                 LocationDTO = new LocationDTO
                 {
-                    LocationId = rooms.Location.LocationId,
-                    StreetName = rooms.Location.StreetName,
-                    HouseNumber = rooms.Location.HouseNumber,
-                    ZipcodeNumber = rooms.Location.Zipcode.ZipcodeNumber,
-                    CityName = rooms.Location.Zipcode.City.CityName,
-                    CountryName = rooms.Location.Zipcode.City.Country.CountryName
+                    LocationId = room.Location.LocationId,
+                    StreetName = room.Location.StreetName,
+                    HouseNumber = room.Location.HouseNumber,
+                    ZipcodeNumber = room.Location.Zipcode.ZipcodeNumber,
+                    CityName = room.Location.Zipcode.City.CityName,
+                    CountryName = room.Location.Zipcode.City.Country.CountryName
                 }
             };
 

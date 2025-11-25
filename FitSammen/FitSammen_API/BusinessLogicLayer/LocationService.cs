@@ -33,12 +33,12 @@ namespace FitSammen_API.BusinessLogicLayer
             }
         }
 
-        public IEnumerable<RoomDTO> GetRoomsByLocation(int locationId)
+        public IEnumerable<RoomDTO> GetRoomsByLocationId(int locationId)
         {
             try
             {
                 List<RoomDTO> roomsDTO = new List<RoomDTO>();
-                IEnumerable<Room> rooms = _classAccess.GetRoomsByLocation(locationId);
+                IEnumerable<Room> rooms = _classAccess.GetRoomsByLocationId(locationId);
                 foreach (Room r in rooms)
                 {
                     roomsDTO.Add(ModelConversion.RoomToDTO(r));

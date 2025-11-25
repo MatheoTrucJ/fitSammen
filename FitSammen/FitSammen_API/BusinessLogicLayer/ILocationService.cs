@@ -5,6 +5,6 @@ namespace FitSammen_API.BusinessLogicLayer
     public interface ILocationService
     {
         public IEnumerable<LocationDTO> GetAllLocations();
-        public IEnumerable<RoomDTO> GetRoomsByLocation(int locationId);
+        public IEnumerable<RoomDTO> GetRoomsByLocationId(int locationId);
     }
 }

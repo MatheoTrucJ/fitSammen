@@ -63,6 +63,17 @@ namespace FitSammen_API.Tests
         {
             public IEnumerable<Class> ClassesToReturn { get; set; } = new List<Class>();
             public bool Throw { get; set; }
+
+            public IEnumerable<Location> GetAllLocations()
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerable<Room> GetRoomsByLocationId(int LocationId)
+            {
+                throw new NotImplementedException();
+            }
+
             public IEnumerable<Class> GetUpcomingClasses()
             {
                 if (Throw) throw new InvalidOperationException("Failure");

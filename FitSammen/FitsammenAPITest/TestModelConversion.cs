@@ -13,7 +13,7 @@ namespace FitsammenAPITest
         public void ToClassListItemDTO_MapsCoreFields()
         {
             // arrange
-            var location = new Location("Main St", 10, 12345, "Cityville", "Countryland");
+            var location = new Location(1,"Main St", 10, 12345, "Cityville", "Countryland");
             var room = new Room(1, "Room A", 30, location);
             var instructor = new Employee();
             var cls = new Class(
