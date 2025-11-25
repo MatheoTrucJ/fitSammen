@@ -1,5 +1,8 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
+using FitSammen_API.DTOs;
+using FitSammen_API.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitSammen_API.Controllers
@@ -16,18 +19,41 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<string>> GetLocations()
+        public ActionResult<IEnumerable<LocationDTO>> GetLocations()
         {
-            IEnumerable<string> locations = _locationService.GetAllLocations();
-            return Ok(locations);
+            try
+            {
+                IEnumerable<LocationDTO> l = _locationService.GetAllLocations();
+                return Ok(l);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while retrieving locations.");
+            }
         }
 
         [Route("api/locations/{locationId}/rooms")]
         [HttpGet]
-        public ActionResult<IEnumerable<string>> GetRoomsByLocation(int locationId)
+        public ActionResult<IEnumerable<RoomDTO>> GetRoomsByLocation(int locationId)
         {
-            IEnumerable<string> rooms = _locationService.GetRoomsByLocation(locationId);
-            return Ok(rooms);
+            try
+            {
+                IEnumerable<RoomDTO> r = _locationService.GetRoomsByLocation(locationId);
+                if (r == null || !r.Any())
+                {
+                    return NotFound($"No rooms found for location with ID {locationId}.");
+                }
+                else
+                {
+                    return Ok(r);
+                }
+
+            }
+            catch (DataAccessException)
+            {
+                return StatusCode(500, "An error occurred while retrieving rooms for the specified location.");
+            }
         }
     }
 }
+

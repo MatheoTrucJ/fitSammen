@@ -66,23 +66,40 @@ namespace FitSammen_API.Mapping
             return dto;
         }
 
-        public static IEnumerable<LocationDTO> LocationToLocationDTO(IEnumerable<Location> locations)
+        public static LocationDTO LocationToLocationDTO(Location locations)
         {
-            List<LocationDTO> locationDTOs = new List<LocationDTO>();
-
-            foreach (Location l in locations)
+            LocationDTO lDTO = new LocationDTO
             {
-                LocationDTO lDTO = new LocationDTO
+                LocationId = locations.LocationId,
+                StreetName = locations.StreetName,
+                HouseNumber = locations.HouseNumber,
+                ZipcodeNumber = locations.Zipcode.ZipcodeNumber,
+                CityName = locations.Zipcode.City.CityName,
+                CountryName = locations.Zipcode.City.Country.CountryName
+            };
+
+            return lDTO;
+        }
+
+        public static RoomDTO RoomToDTO(Room rooms)
+        {
+            RoomDTO rDTO = new RoomDTO
+            {
+                RoomId = rooms.RoomId,
+                RoomName = rooms.RoomName,
+                Capacity = rooms.Capacity,
+                LocationDTO = new LocationDTO
                 {
-                    StreetName = l.StreetName,
-                    HouseNumber = l.HouseNumber,
-                    ZipcodeNumber = l.Zipcode.ZipcodeNumber,
-                    CityName = l.Zipcode.City.CityName,
-                    CountryName = l.Zipcode.City.Country.CountryName
-                };
-                locationDTOs.Add(lDTO);
-            }
-            return locationDTOs;
+                    LocationId = rooms.Location.LocationId,
+                    StreetName = rooms.Location.StreetName,
+                    HouseNumber = rooms.Location.HouseNumber,
+                    ZipcodeNumber = rooms.Location.Zipcode.ZipcodeNumber,
+                    CityName = rooms.Location.Zipcode.City.CityName,
+                    CountryName = rooms.Location.Zipcode.City.Country.CountryName
+                }
+            };
+
+            return rDTO;
         }
     }
 }
