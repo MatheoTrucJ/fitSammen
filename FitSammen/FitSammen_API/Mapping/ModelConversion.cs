@@ -65,5 +65,24 @@ namespace FitSammen_API.Mapping
             }
             return dto;
         }
+
+        public static IEnumerable<LocationDTO> LocationToLocationDTO(IEnumerable<Location> locations)
+        {
+            List<LocationDTO> locationDTOs = new List<LocationDTO>();
+
+            foreach (Location l in locations)
+            {
+                LocationDTO lDTO = new LocationDTO
+                {
+                    StreetName = l.StreetName,
+                    HouseNumber = l.HouseNumber,
+                    ZipcodeNumber = l.Zipcode.ZipcodeNumber,
+                    CityName = l.Zipcode.City.CityName,
+                    CountryName = l.Zipcode.City.Country.CountryName
+                };
+                locationDTOs.Add(lDTO);
+            }
+            return locationDTOs;
+        }
     }
 }
