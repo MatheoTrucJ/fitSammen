@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.OpenApi.Writers;
 using Microsoft.VisualBasic;
 using System.Collections.Generic;
+using System.Data;
 using System.Transactions;
 
 namespace FitSammen_API.DatabaseAccessLayer
@@ -43,7 +44,7 @@ namespace FitSammen_API.DatabaseAccessLayer
             {
                 TransactionOptions tOptions = new TransactionOptions
                 {
-                    IsolationLevel = IsolationLevel.ReadUncommitted
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted
                 };
                 using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, tOptions))
                 {
@@ -135,7 +136,7 @@ namespace FitSammen_API.DatabaseAccessLayer
             {
                 var tOptions = new TransactionOptions
                 {
-                    IsolationLevel = IsolationLevel.ReadCommitted
+                    IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted
                 };
 
                 using (var scope = new TransactionScope(TransactionScopeOption.Required, tOptions))
@@ -177,7 +178,8 @@ namespace FitSammen_API.DatabaseAccessLayer
                 using (var cmd = new SqlCommand(positionQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@ClassId", ClassId);
-                    cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
+                    //cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
+                    cmd.Parameters.Add(new SqlParameter("@CreatedAt", SqlDbType.DateTime2) { Value = createdAt });
 
                     conn.Open();
                     waitingListPosition = (int)cmd.ExecuteScalar();

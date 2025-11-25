@@ -98,44 +98,32 @@ namespace FitsammenAPITest
         [Fact]
         public void WhenMakingAWaitingListEntryOnAFullClass_ThenMyPositionIsCorrect()
         {
-            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
                 //Arrange
-
                 //Act
-                int SuccesPosition = _memberAccess.CreateWaitingListEntry(2, 4);
+                int SuccesPosition = _memberAccess.CreateWaitingListEntry(2, 5);
                 //Assert
                 Assert.Equal(1, SuccesPosition);
-            }
         }
 
         [Fact]
         public void WhenMakingAWaitingListEntryOnNotFullClass_ThenIShouldNotGetPositivePosition()
         {
-            using(var scope = new TransactionScope( TransactionScopeAsyncFlowOption.Enabled))
-            {
                 //Arrange
-
                 //Act
                 int FailedAndShowedFalsePosition = _memberAccess.CreateWaitingListEntry(2, 1);
                 //Assert
                 Assert.Equal(-1, FailedAndShowedFalsePosition);
-            }
         }
 
         [Fact]
         public void WhenMakingAWaitingListTwice_ThenMyPositionIsShownAndImNotAddedAgain()
         {
-            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
                 //Arrange
-
                 //Act
                 int FailedAndShowedPosition = _memberAccess.IsMemberOnWaitingList(2, 4);
 
                 //Assert
                 Assert.Equal(1, FailedAndShowedPosition);
-            }
         }
     }
 }
