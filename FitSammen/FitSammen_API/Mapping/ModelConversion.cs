@@ -66,40 +66,28 @@ namespace FitSammen_API.Mapping
             return dto;
         }
 
-        public static LocationDTO LocationToLocationDTO(Location location)
+        public static LocationListDTO LocationToLocationListDTO(Location location)
         {
-            LocationDTO lDTO = new LocationDTO
-            {
-                LocationId = location.LocationId,
-                StreetName = location.StreetName,
-                HouseNumber = location.HouseNumber,
-                ZipcodeNumber = location.Zipcode.ZipcodeNumber,
-                CityName = location.Zipcode.City.CityName,
-                CountryName = location.Zipcode.City.Country.CountryName
-            };
+            LocationListDTO lDTO = new LocationListDTO(
+                location.LocationId,
+                location.StreetName,
+                location.HouseNumber,
+                location.Zipcode.City.CityName
+                );
+
 
             return lDTO;
         }
 
-        public static RoomDTO RoomToDTO(Room room)
+        public static RoomListDTO RoomToRoomListDTO(Room room)
         {
-            RoomDTO rDTO = new RoomDTO
-            {
-                RoomId = room.RoomId,
-                RoomName = room.RoomName,
-                Capacity = room.Capacity,
-                LocationDTO = new LocationDTO
-                {
-                    LocationId = room.Location.LocationId,
-                    StreetName = room.Location.StreetName,
-                    HouseNumber = room.Location.HouseNumber,
-                    ZipcodeNumber = room.Location.Zipcode.ZipcodeNumber,
-                    CityName = room.Location.Zipcode.City.CityName,
-                    CountryName = room.Location.Zipcode.City.Country.CountryName
-                }
-            };
-
-            return rDTO;
+            RoomListDTO rlDTO = new RoomListDTO(
+                room.RoomId,
+                room.RoomName,
+                room.Capacity,
+                new LocationMinimalDTO(room.Location.LocationId)
+                );
+            return rlDTO;
         }
     }
 }

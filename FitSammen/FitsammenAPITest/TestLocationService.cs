@@ -19,7 +19,7 @@ namespace FitsammenAPITest
             LocationService locationService = new LocationService(fakeClassAccess);
 
             //Act
-            IEnumerable<LocationDTO> locations = locationService.GetAllLocations();
+            IEnumerable<LocationListDTO> locations = locationService.GetAllLocations();
 
             //Assert
             Assert.NotNull(locations);
@@ -51,24 +51,24 @@ namespace FitsammenAPITest
             LocationService locationService = new LocationService(fakeClassAccess);
             int locationId = 1;
             //Act
-            IEnumerable<RoomDTO> rooms = locationService.GetRoomsByLocationId(locationId);
+            IEnumerable<RoomListDTO> rooms = locationService.GetRoomsByLocationId(locationId);
             //Assert
             Assert.NotNull(rooms);
             Assert.Collection(rooms,
-                room =>
+                (Action<RoomListDTO>)(                room =>
                 {
                     Assert.Equal(1, room.RoomId);
                     Assert.Equal("Room A", room.RoomName);
                     Assert.Equal(30, room.Capacity);
-                    Assert.Equal(1, room.LocationDTO.LocationId);
-                },
-                room =>
+                    Assert.Equal(1, (int?)room.LocationDTO.LocationId);
+                }),
+                (Action<RoomListDTO>)(                room =>
                 {
                     Assert.Equal(2, room.RoomId);
                     Assert.Equal("Room B", room.RoomName);
                     Assert.Equal(20, room.Capacity);
-                    Assert.Equal(1, room.LocationDTO.LocationId);
-                });
+                    Assert.Equal(1, (int?)room.LocationDTO.LocationId);
+                }));
         }
     }
 

@@ -19,11 +19,11 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<LocationDTO>> GetLocations()
+        public ActionResult<IEnumerable<LocationListDTO>> GetLocations()
         {
             try
             {
-                IEnumerable<LocationDTO> l = _locationService.GetAllLocations();
+                IEnumerable<LocationListDTO> l = _locationService.GetAllLocations();
                 return Ok(l);
             }
             catch (Exception)
@@ -34,11 +34,11 @@ namespace FitSammen_API.Controllers
 
         [Route("api/locations/{locationId}/rooms")]
         [HttpGet]
-        public ActionResult<IEnumerable<RoomDTO>> GetRoomsByLocation(int locationId)
+        public ActionResult<IEnumerable<RoomListDTO>> GetRoomsByLocation(int locationId)
         {
             try
             {
-                IEnumerable<RoomDTO> r = _locationService.GetRoomsByLocationId(locationId);
+                IEnumerable<RoomListDTO> r = _locationService.GetRoomsByLocationId(locationId);
                 if (r == null || !r.Any())
                 {
                     return NotFound($"No rooms found for location with ID {locationId}.");
@@ -54,6 +54,28 @@ namespace FitSammen_API.Controllers
                 return StatusCode(500, "An error occurred while retrieving rooms for the specified location.");
             }
         }
-    }
+
+        [Route("api/locations/{locationId}/employees")]
+        [HttpGet]
+        public ActionResult<IEnumerable<EmployeeListDTO>> GetEmployeesByLocation(int locationId)
+        {
+            try
+            {
+                IEnumerable<EmployeeListDTo> e = _locationService.GetRoomsByLocationId(locationId);
+                if (e == null || !e.Any())
+                {
+                    return NotFound($"No rooms found for location with ID {locationId}.");
+                }
+                else
+                {
+                    return Ok(e);
+                }
+
+            }
+            catch (DataAccessException)
+            {
+                return StatusCode(500, "An error occurred while retrieving rooms for the specified location.");
+            }
+        }
 }
 
