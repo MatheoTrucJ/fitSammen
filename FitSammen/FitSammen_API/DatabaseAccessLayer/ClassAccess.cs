@@ -135,7 +135,7 @@ namespace FitSammen_API.DatabaseAccessLayer
 
         public IEnumerable<Location> GetAllLocations()
         {
-            IEnumerable<Location> locations = new List<Location>();
+            List<Location> locations = new List<Location>();
 
             string queryString = @"SELECT
             location_ID,
@@ -164,14 +164,23 @@ namespace FitSammen_API.DatabaseAccessLayer
                         {
                             while (reader.Read())
                             {
-                                Location location = new Location {
+                                City city = new City
+                                {
+                                    CityName = reader.GetString(reader.GetOrdinal("cityName")),
+                                    Country = null
+                                };
+                                Zipcode zipcode = new Zipcode
+                                {
+                                    City = city
+                                };
+                                Location location = new Location
+                                {
                                     LocationId = reader.GetInt32(reader.GetOrdinal("location_ID")),
                                     StreetName = reader.GetString(reader.GetOrdinal("streetName")),
-                                    HouseNumber = reader.GetInt32(reader.GetOrdinal("houseNumber"))
+                                    HouseNumber = reader.GetInt32(reader.GetOrdinal("houseNumber")),
+                                    Zipcode = zipcode
                                 };
-                                locations.add()
-                                
-                               
+                                locations.Add(location);
                             }
                         }
                         catch (SqlException ex)
@@ -191,6 +200,25 @@ namespace FitSammen_API.DatabaseAccessLayer
                 throw new DataAccessException("Error retrieving upcoming classes from database.", sqlEx);
             }
             return locations;
+        }
+
+        public IEnumerable<Room> GetRoomsByLocationId(int LocationId)
+        {
+            List<Room> rooms = new List<Room>();
+
+            string queryString = @"SELECT
+             L.location_ID,
+             R.room_ID,
+             R.roomName
+             FROM
+             Room R
+             JOIN
+             Location L ON R.location_ID_FK = L.location_ID
+             WHERE
+             R.location_ID_FK = @LocationId";
+
+
+            return rooms;
         }
     }
 }
