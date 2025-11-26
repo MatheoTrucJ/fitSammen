@@ -45,10 +45,10 @@
     }
     public enum ClassType
     {
-        Yoga,
-        Spinning,
-        StrengthTraining,
-        Cardio,
-        Other
+        Yoga = 1,
+        StrengthTraining = 2,
+        Spinning = 3,
+        Cardio = 4,
+        Other = 5
     }
 }
