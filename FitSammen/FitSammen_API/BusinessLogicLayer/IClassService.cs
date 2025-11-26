@@ -5,7 +5,7 @@ namespace FitSammen_API.BusinessLogicLayer
 {
     public interface IClassService
     {
-        public IEnumerable<Model.Class> GetUpcomingClasses();
-        public ClassCreateResponseDTO CreateClass(ClassCreateRequestDTO classCreateRequestDTO);
+        public IEnumerable<Class> GetUpcomingClasses();
+        public BookingClassResult CreateClass(ClassCreateRequestDTO cls);
     }
 }

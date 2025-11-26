@@ -114,7 +114,7 @@ namespace FitsammenAPITest
             }
         }
 
-        public IEnumerable<Class> GetUpcomingClasses()
+        public IEnumerable<FitSammen_API.Model.Class> GetUpcomingClasses()
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,8 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DTOs;
 using FitSammen_API.Exceptions;
+using FitSammen_API.Mapping;
+using FitSammen_API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +25,9 @@ namespace FitSammen_API.Controllers
         {
             try
             {
-                IEnumerable<LocationListDTO> l = _locationService.GetAllLocations();
-                return Ok(l);
+                IEnumerable<Location> l = _locationService.GetAllLocations();
+                IEnumerable<LocationListDTO> lDTO = ModelConversion.LocationToLocationListDTO(l);
+                return Ok(lDTO);
             }
             catch (Exception)
             {
@@ -38,14 +41,15 @@ namespace FitSammen_API.Controllers
         {
             try
             {
-                IEnumerable<RoomListDTO> r = _locationService.GetRoomsByLocationId(locationId);
+                IEnumerable<Room> r = _locationService.GetRoomsByLocationId(locationId);
+                IEnumerable<RoomListDTO> rDTO = ModelConversion.RoomToRoomListDTO(r);
                 if (r == null || !r.Any())
                 {
                     return NotFound($"No rooms found for location with ID {locationId}.");
                 }
                 else
                 {
-                    return Ok(r);
+                    return Ok(rDTO);
                 }
 
             }
@@ -61,14 +65,15 @@ namespace FitSammen_API.Controllers
         {
             try
             {
-                IEnumerable<EmployeeListDTO> e = _locationService.GetEmployeesByLocationId(locationId);
+                IEnumerable<Employee> e = _locationService.GetEmployeesByLocationId(locationId);
+                IEnumerable<EmployeeListDTO> eDTO = ModelConversion.EmployeeToEmployeeListDTO(e);
                 if (e == null || !e.Any())
                 {
                     return NotFound($"No rooms found for location with ID {locationId}.");
                 }
                 else
                 {
-                    return Ok(e);
+                    return Ok(eDTO);
                 }
 
             }
@@ -77,5 +82,6 @@ namespace FitSammen_API.Controllers
                 return StatusCode(500, "An error occurred while retrieving rooms for the specified location.");
             }
         }
+    }
 }
 

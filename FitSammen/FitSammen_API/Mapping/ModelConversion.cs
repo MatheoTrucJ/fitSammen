@@ -50,29 +50,29 @@ namespace FitSammen_API.Mapping
             return res;
         }
 
-        public static ClassCreateResponseDTO ToClassCreateResponseDTO(int i)
+        public static ClassCreateResponseDTO ToClassCreateResponseDTO(BookingClassResult bookingClassResult)
         {
             ClassCreateResponseDTO dto;
-            switch (i)
+            switch (bookingClassResult.Status)
             {
-                case 0:
+                case BookingClassStatus.Conflict:
                     dto = new ClassCreateResponseDTO(
-                        ClassCreateStatus.Conflict,
+                        BookingClassStatus.Conflict,
                         "No class was created");
-                    break; case 1:
-                case -1:
+                    break;
+                case BookingClassStatus.Error:
                     dto = new ClassCreateResponseDTO(
-                        ClassCreateStatus.Error,
+                        BookingClassStatus.Error,
                         "An error occurred while creating the class");
                     break;
-                case -2:
+                case BookingClassStatus.BadRequest:
                     dto = new ClassCreateResponseDTO(
-                        ClassCreateStatus.BadRequest,
+                        BookingClassStatus.BadRequest,
                         "Faulty parameters");
                     break;
                 default:
                     dto = new ClassCreateResponseDTO(
-                        ClassCreateStatus.Success,
+                        BookingClassStatus.Success,
                         "Class created successfully");
                     break;
             }
@@ -113,29 +113,37 @@ namespace FitSammen_API.Mapping
             return dto;
         }
 
-        public static LocationListDTO LocationToLocationListDTO(Location location)
+        public static IEnumerable<LocationListDTO> LocationToLocationListDTO(IEnumerable<Location> locations)
         {
-            LocationListDTO lDTO = new LocationListDTO(
-                location.LocationId,
-                location.StreetName,
-                location.HouseNumber,
-                location.Zipcode.ZipcodeNumber,
-                location.Zipcode.City.CityName
-                );
-
-
-            return lDTO;
+            List<LocationListDTO> locationsDTO = new List<LocationListDTO>();
+            foreach (Location location in locations)
+            {
+                LocationListDTO lDTO = new LocationListDTO(
+                    location.LocationId,
+                    location.StreetName,
+                    location.HouseNumber,
+                    location.Zipcode.ZipcodeNumber,
+                    location.Zipcode.City.CityName
+                    );
+                locationsDTO.Add(lDTO);
+            }
+            return locationsDTO;
         }
 
-        public static RoomListDTO RoomToRoomListDTO(Room room)
+        public static IEnumerable<RoomListDTO> RoomToRoomListDTO(IEnumerable<Room> rooms)
         {
-            RoomListDTO rlDTO = new RoomListDTO(
+            List<RoomListDTO> roomsDTO = new List<RoomListDTO>();
+            foreach (Room room in rooms)
+            {
+                RoomListDTO rlDTO = new RoomListDTO(
                 room.RoomId,
                 room.RoomName,
                 room.Capacity,
                 new LocationMinimalDTO(room.Location.LocationId)
                 );
-            return rlDTO;
+                roomsDTO.Add(rlDTO);
+            }
+            return roomsDTO;
         }
 
         public static Room RoomMinimalDTOToRoom(RoomMinimalDTO room)
@@ -147,14 +155,19 @@ namespace FitSammen_API.Mapping
             return r;
         }
 
-        public static EmployeeListDTO EmployeeToEmployeeListDTO(Employee employee)
+        public static IEnumerable<EmployeeListDTO> EmployeeToEmployeeListDTO(IEnumerable<Employee> employees)
         {
-            EmployeeListDTO employeeListDTO = new EmployeeListDTO(
+            List<EmployeeListDTO> employeesDTO = new List<EmployeeListDTO>();
+            foreach (Employee employee in employees)
+            {
+                EmployeeListDTO eDTO = new EmployeeListDTO(
                 employee.User_ID,
                 employee.FirstName,
                 employee.LastName
             );
-            return employeeListDTO;
+                employeesDTO.Add(eDTO);
+            }
+            return employeesDTO;
         }
 
         public static Employee EmployeeMinimalDTOToEmployee(EmployeeMinimalDTO employeeDTO)

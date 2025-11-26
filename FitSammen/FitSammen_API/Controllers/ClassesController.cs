@@ -39,21 +39,20 @@ namespace FitSammen_API.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Class cls = ModelConversion.ClassCreateRequestDTOToClass(classCreateRequestDTO);
-                BookingClassResult res = _classService.CreateClass(cls);
-                ClassCreateResponseDTO dto = ModelConversion.ToClassCreateResponseDTO(res);
-            switch (res.Status)
+            BookingClassResult res = _classService.CreateClass(classCreateRequestDTO);
+            ClassCreateResponseDTO dto = ModelConversion.ToClassCreateResponseDTO(res);
+            switch (dto.Status)
                 {
-                    case ClassCreateStatus.Success:
-                        return Ok(res);
-                    case ClassCreateStatus.Conflict:
-                        return BadRequest("There was a conflict and no room was booked");
-                    case ClassCreateStatus.Error:
-                        return StatusCode(500, "An error occured");
-                    case ClassCreateStatus.BadRequest:
-                        return BadRequest("Bad request");
+                    case BookingClassStatus.Success:
+                        return Ok(dto);
+                    case BookingClassStatus.Conflict:
+                        return BadRequest(dto.Message);
+                    case BookingClassStatus.Error:
+                        return StatusCode(500, dto.Message);
+                    case BookingClassStatus.BadRequest:
+                        return BadRequest(dto.Message);
                     default:
-                        return Ok(res);
+                        return Ok(dto);
                 }
         }
     }

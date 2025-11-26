@@ -15,17 +15,13 @@ namespace FitSammen_API.BusinessLogicLayer
             _classAccess = classAccess;
         }
 
-        public IEnumerable<LocationListDTO> GetAllLocations()
+        public IEnumerable<Location> GetAllLocations()
         {
             try
             {
-                List<LocationListDTO> locationsDTO = new List<LocationListDTO>();
                 IEnumerable<Location> locations = _classAccess.GetAllLocations();
-                foreach (Location loc in locations)
-                {
-                    locationsDTO.Add(ModelConversion.LocationToLocationListDTO(loc));
-                }
-                return locationsDTO;
+                return locations;
+                
             }
             catch (DataAccessException)
             {
@@ -45,17 +41,12 @@ namespace FitSammen_API.BusinessLogicLayer
             }
         }
 
-        public IEnumerable<RoomListDTO> GetRoomsByLocationId(int locationId)
+        public IEnumerable<Room> GetRoomsByLocationId(int locationId)
         {
             try
             {
-                List<RoomListDTO> roomsDTO = new List<RoomListDTO>();
                 IEnumerable<Room> rooms = _classAccess.GetRoomsByLocationId(locationId);
-                foreach (Room r in rooms)
-                {
-                    roomsDTO.Add(ModelConversion.RoomToRoomListDTO(r));
-                }
-                return roomsDTO;
+                return rooms;
             }
             catch (DataAccessException)
             {

@@ -15,12 +15,12 @@ namespace FitSammen_API.BusinessLogicLayer
             _classAccess = classAccess;
         }
 
-        public BookingClassResult CreateClass(Class cls)
+        public BookingClassResult CreateClass(ClassCreateRequestDTO ccrDTO)
         {
             BookingClassResult result;
-            if(cls.TrainingDate < DateOnly.FromDateTime(DateTime.Now) || 
-                cls.StartTime < TimeOnly.Parse("7:00:00") || 
-                cls.StartTime > TimeOnly.Parse("17:00:00"))
+            if(ccrDTO.TrainingDate < DateOnly.FromDateTime(DateTime.Now) || 
+                ccrDTO.StartTime < TimeOnly.Parse("7:00:00") || 
+                ccrDTO.StartTime > TimeOnly.Parse("17:00:00"))
             {
                 return new BookingClassResult
                 {
@@ -30,6 +30,7 @@ namespace FitSammen_API.BusinessLogicLayer
             }
             try
             {
+                Class cls = ModelConversion.ClassCreateRequestDTOToClass(ccrDTO);
                 int res = _classAccess.CreateClass(cls);
                 switch (res)
                 {
@@ -60,7 +61,7 @@ namespace FitSammen_API.BusinessLogicLayer
             return result;
         }
 
-        public IEnumerable<Model.Class> GetUpcomingClasses()
+        public IEnumerable<Class> GetUpcomingClasses()
         {
             try
             {

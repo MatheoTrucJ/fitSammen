@@ -16,7 +16,7 @@ namespace FitsammenAPITest
             var location = new Location(1,"Main St", 10, 12345, "Cityville", "Countryland");
             var room = new Room(1, "Room A", 30, location);
             var instructor = new Employee();
-            var cls = new Class(
+            var cls = new FitSammen_API.Model.Class(
                 id: 5,
                 trainingDate: new DateOnly(2025, 1, 1),
                 instructor: instructor,
