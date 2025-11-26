@@ -22,7 +22,7 @@ namespace FitSammen_API.Mapping
             {
                 ClassId = cls.Id,
                 TrainingDate = cls.TrainingDate,
-                ClassName = cls.Name,
+                Name = cls.Name,
                 ClassType = cls.ClassType,
                 StartTime = cls.StartTime,
                 DurationInMinutes = cls.DurationInMinutes,

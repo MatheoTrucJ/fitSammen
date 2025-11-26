@@ -42,7 +42,7 @@ namespace FitsammenAPITest
             // assert
             Assert.Equal(5, dto.ClassId);
             Assert.Equal(new DateOnly(2025, 1, 1), dto.TrainingDate);
-            Assert.Equal("Strength", dto.ClassName);
+            Assert.Equal("Strength", dto.Name);
             Assert.Equal(ClassType.StrengthTraining, dto.ClassType);
             Assert.Equal(new TimeOnly(18, 30), dto.StartTime);
             Assert.Equal(50, dto.DurationInMinutes);

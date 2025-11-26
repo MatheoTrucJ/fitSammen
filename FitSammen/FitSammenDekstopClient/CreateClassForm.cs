@@ -1,4 +1,5 @@
-﻿using FitSammenDekstopClient.Model;
+﻿using FitSammenDekstopClient.BusinessLogicLayer;
+using FitSammenDekstopClient.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,30 +14,29 @@ namespace FitSammenDekstopClient
 {
     public partial class CreateClassForm : Form
     {
-        public Class? CreatedClass { get; private set; }
+        // public Class? CreatedClass { get; private set; }
 
-        private List<Location> _locations = new();
+        private IEnumerable<Location> _locations = new List<Location>();
 
-        private List<Room> _roomsForCurrentLocation = new();
+        private IEnumerable<Room> _roomsForCurrentLocation = new List<Room>();
 
-        private List<Employee> _employees = new List<Employee>();
+        private IEnumerable<Employee> _employees = new List<Employee>();
 
-        //private readonly ILocationLogic _locationLogic;
+        private readonly LocationLogic _locationLogic;
 
-        //private readonly IRoomLogic _roomLogic;
+        private readonly ClassLogic _classLogic;
 
-        //private readonly IEmployeeLogic _employeeLogic;
-
-        public CreateClassForm()
+        public CreateClassForm(LocationLogic locationLogic, ClassLogic classLogic)
         {
+            _locationLogic = locationLogic;
+            _classLogic = classLogic;
             InitializeComponent();
             SetupStartTimeCombo();
             SetupClassTypeCombo();
             SetupLocationCombo();
-
         }
 
-        private void btnCreateClass_Click(object sender, EventArgs e)
+        private async void btnCreateClass_Click(object sender, EventArgs e)
         {
             //Valider input
             if (string.IsNullOrWhiteSpace(textBoxName.Text))
@@ -103,29 +103,33 @@ namespace FitSammenDekstopClient
 
             DateOnly trainingDate = DateOnly.FromDateTime(dateTimePickerTrainingDate.Value.Date);
 
-            int id = 0; // Id vil blive sat af databasen ved oprettelse
-            int memberCount = 0; // Nyt hold har ingen medlemmer ved oprettelse
 
-            // Opret Class
-            var newClass = new Class(
-                id: id,
-                trainingDate: trainingDate,
-                instructor: instructor,
-                description: description,
-                room: room,
-                name: name,
-                capacity: capacity,
-                memberCount: memberCount,
-                durationInMinutes: duration,
-                startTime: startTime,
-                classType: classType
-            );
+            var request = new CreateClassRequest
+            {
+                TrainingDate = trainingDate,
+                Instructor = instructor,
+                Description = description,
+                Room = room,
+                Name = name,
+                Capacity = capacity,
+                DurationInMinutes = duration,
+                StartTime = startTime,
+                ClassType = classType
+            };
 
-            // Her skal omids betale til create ske
+            CreateClassResponse? Response = await _classLogic.CreateClassAsync(request);
 
+            if (Response == null || Response.Status == CreateClassStatus.Error)
+            {
+                MessageBox.Show("Holdet kunne ikke oprettes. Prøv igen senere.");
+                return;
+            }
+            else if (Response.Status == CreateClassStatus.Success)
+            {
+                MessageBox.Show($"Holdet er oprettet. {Response.Message}");
+                return;
+            }
 
-            CreatedClass = newClass;
-            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
@@ -158,134 +162,49 @@ namespace FitSammenDekstopClient
             comboBoxClassType.SelectedIndex = -1;
         }
 
-        private void SetupLocationCombo()
+        private async void SetupLocationCombo()
         {
-            _locations = CreateTestLocations();
+            _locations = await _locationLogic.GetAllLocationsAsync();
 
             comboBoxLocation.DataSource = _locations;
             comboBoxLocation.DisplayMember = "Address";
-            comboBoxLocation.ValueMember = "Zipcode"; // skal ændres til LocationId 
+            comboBoxLocation.ValueMember = "LocationId";
 
-            // SelectedIndexChanged er en EventHandler som er en delegate. Så vi kan tilknytte en metode til den.
             comboBoxLocation.SelectedIndexChanged += comboBoxLocation_SelectedIndexChanged;
-
-            // Vi kunne også bruge en lambda-udtryk som nedenfor og droppe mellemmetoden comboBoxLocation_SelectedIndexChanged()
-            //comboBoxLocation.SelectedIndexChanged += (s, e) => LoadRoomsForSelectedLocation();
 
             comboBoxLocation.SelectedIndex = -1;
         }
 
-        // Hvergang vi ændrer lokation i comboboxen, skal vi opdatere lokalerne i den anden combobox
         private void comboBoxLocation_SelectedIndexChanged(object? sender, EventArgs e)
         {
             LoadRoomsForSelectedLocation();
             LoadEmployeesForSelectedLocation();
         }
 
-        private void LoadRoomsForSelectedLocation()
+        private async void LoadRoomsForSelectedLocation()
         {
             var selectedLocation = comboBoxLocation.SelectedItem as Location;
             if (selectedLocation == null)
                 return;
 
-            // _roomsForCurrentLocation = _roomLogic.GetRoomsByLocation(selectedLocation).ToList();
-
-            _roomsForCurrentLocation = CreateRoomsForLocation(selectedLocation);
+            _roomsForCurrentLocation = await _locationLogic.GetAllRoomsFromLocationIdAsync(selectedLocation.LocationId);
 
             comboBoxRoom.DataSource = _roomsForCurrentLocation;
             comboBoxRoom.DisplayMember = "RoomName";
             comboBoxRoom.ValueMember = "RoomId";
-
         }
 
-        private void LoadEmployeesForSelectedLocation()
+        private async void LoadEmployeesForSelectedLocation()
         {
             var selectedLocation = comboBoxLocation.SelectedItem as Location;
             if (selectedLocation == null)
                 return;
 
-            // _employees = _employeeLogic.GetEmployeesByLocation(selectedLocation).ToList();
-
-            _employees = CreateEmployeesForLocation(selectedLocation);
+            _employees = await _locationLogic.GetAllEmployeesFromLocationIdAsync(selectedLocation.LocationId);
 
             comboBoxEmployee.DataSource = _employees;
             comboBoxEmployee.DisplayMember = "FullName";
             comboBoxEmployee.ValueMember = "User_ID";
-
         }
-
-        public static List<Location> CreateTestLocations()
-        {
-            var loc1 = new Location("Fitnessvej", 10, 9000, "Aalborg", "Danmark");
-            var loc2 = new Location("Træningsvej", 5, 8000, "Aarhus", "Danmark");
-            var loc3 = new Location("Motionstorvet", 2, 2100, "København", "Danmark");
-
-            return new List<Location> { loc1, loc2, loc3 };
-        }
-
-        public static List<Room> CreateRoomsForLocation(Location loc)
-        {
-            if (loc.Zipcode.ZipcodeNumber == 9000)
-            {
-                return new List<Room>
-            {
-                new Room(1, "Sal 1", 20, loc),
-                new Room(2, "Spinningsal", 25, loc),
-                new Room(3, "Yoga-rum", 15, loc)
-            };
-            }
-
-            if (loc.Zipcode.ZipcodeNumber == 8000)
-            {
-                return new List<Room>
-            {
-                new Room(4, "Styrkesal", 18, loc),
-                new Room(5, "Cardio-rum", 22, loc)
-            };
-            }
-
-            return new List<Room>
-        {
-            new Room(6, "Crossfit Box", 30, loc),
-            new Room(7, "Dance Studio", 20, loc)
-        };
-        }
-
-        public static List<Employee> CreateEmployeesForLocation(Location loc)
-        {
-            if (loc.Zipcode.ZipcodeNumber == 9000)
-            {
-                return new List<Employee>
-        {
-            new Employee("Lise", "Hansen", "lise@fitsammen.dk", "11111111",
-                new DateOnly(1990, 5, 12), 1, UserType.Employee, "111111-1111"),
-
-            new Employee("Mads", "Jensen", "mads@fitsammen.dk", "22222222",
-                new DateOnly(1988, 3, 20), 2, UserType.Employee, "222222-2222")
-        };
-            }
-
-            if (loc.Zipcode.ZipcodeNumber == 8000)
-            {
-                return new List<Employee>
-        {
-            new Employee("Sofie", "Lund", "sofie@fitsammen.dk", "33333333",
-                new DateOnly(1992, 8, 5), 3, UserType.Employee, "333333-3333"),
-
-            new Employee("Jonas", "Møller", "jonas@fitsammen.dk", "44444444",
-                new DateOnly(1987, 1, 15), 4, UserType.Employee, "444444-4444")
-        };
-            }
-
-            return new List<Employee>
-    {
-        new Employee("Camilla", "Nielsen", "camilla@fitsammen.dk", "55555555",
-            new DateOnly(1995, 11, 3), 5, UserType.Employee, "555555-5555"),
-
-        new Employee("Anders", "Kristensen", "anders@fitsammen.dk", "66666666",
-            new DateOnly(1989, 7, 22), 6, UserType.Employee, "666666-6666")
-    };
-        }
-
     }
 }

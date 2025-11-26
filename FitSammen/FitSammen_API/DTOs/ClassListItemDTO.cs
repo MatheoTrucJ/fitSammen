@@ -11,7 +11,7 @@ namespace FitSammen_API.DTOs
         public int Capacity { get; set; }
         public int MemberCount { get; set; }
         public int RemainingSpots { get; set; } 
-        public string ClassName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         public Room Room { get; set; }
         public ClassType ClassType { get; set; }
         public DateOnly TrainingDate { get; set; }

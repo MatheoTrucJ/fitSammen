@@ -63,16 +63,17 @@
             groupBox1.Controls.Add(listViewAllClasses);
             groupBox1.Location = new Point(12, 67);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(593, 470);
+            groupBox1.Size = new Size(569, 470);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "TræningsHold";
             // 
             // listViewAllClasses
             // 
+            listViewAllClasses.Enabled = false;
             listViewAllClasses.Location = new Point(6, 22);
             listViewAllClasses.Name = "listViewAllClasses";
-            listViewAllClasses.Size = new Size(577, 442);
+            listViewAllClasses.Size = new Size(552, 442);
             listViewAllClasses.TabIndex = 3;
             listViewAllClasses.UseCompatibleStateImageBehavior = false;
             listViewAllClasses.DoubleClick += listViewAllClasses_DoubleClick;
@@ -98,7 +99,7 @@
             groupBox2.Controls.Add(lblEmployee);
             groupBox2.Controls.Add(lblClassDescription);
             groupBox2.Controls.Add(lblClassType);
-            groupBox2.Location = new Point(611, 12);
+            groupBox2.Location = new Point(587, 12);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(321, 422);
             groupBox2.TabIndex = 0;
@@ -277,7 +278,7 @@
             // labelProcessText
             // 
             labelProcessText.AutoSize = true;
-            labelProcessText.Location = new Point(551, 49);
+            labelProcessText.Location = new Point(537, 49);
             labelProcessText.Name = "labelProcessText";
             labelProcessText.Size = new Size(44, 15);
             labelProcessText.TabIndex = 2;
@@ -286,9 +287,9 @@
             // btnCreateNewClass
             // 
             btnCreateNewClass.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCreateNewClass.Location = new Point(607, 440);
+            btnCreateNewClass.Location = new Point(587, 440);
             btnCreateNewClass.Name = "btnCreateNewClass";
-            btnCreateNewClass.Size = new Size(326, 29);
+            btnCreateNewClass.Size = new Size(321, 29);
             btnCreateNewClass.TabIndex = 0;
             btnCreateNewClass.Text = "Opret nyt hold";
             btnCreateNewClass.UseVisualStyleBackColor = true;
@@ -297,9 +298,9 @@
             // btnUpdateClass
             // 
             btnUpdateClass.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnUpdateClass.Location = new Point(607, 475);
+            btnUpdateClass.Location = new Point(588, 475);
             btnUpdateClass.Name = "btnUpdateClass";
-            btnUpdateClass.Size = new Size(325, 28);
+            btnUpdateClass.Size = new Size(320, 28);
             btnUpdateClass.TabIndex = 3;
             btnUpdateClass.Text = "Rediger valgt træningshold";
             btnUpdateClass.UseVisualStyleBackColor = true;
@@ -307,9 +308,9 @@
             // btnDeleteClass
             // 
             btnDeleteClass.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnDeleteClass.Location = new Point(607, 509);
+            btnDeleteClass.Location = new Point(588, 509);
             btnDeleteClass.Name = "btnDeleteClass";
-            btnDeleteClass.Size = new Size(325, 28);
+            btnDeleteClass.Size = new Size(320, 28);
             btnDeleteClass.TabIndex = 4;
             btnDeleteClass.Text = "Slet valgt træningshold";
             btnDeleteClass.UseVisualStyleBackColor = true;
@@ -318,7 +319,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(944, 549);
+            ClientSize = new Size(923, 549);
             Controls.Add(btnDeleteClass);
             Controls.Add(btnUpdateClass);
             Controls.Add(btnCreateNewClass);

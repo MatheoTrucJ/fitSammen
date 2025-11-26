@@ -1,3 +1,8 @@
+using FitSammenDekstopClient.BusinessLogicLayer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using System.Runtime.Intrinsics.X86;
+
 namespace FitSammenDekstopClient
 {
     internal static class Program
@@ -8,11 +13,16 @@ namespace FitSammenDekstopClient
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            //Application.Run(new FitSammen());
-            Application.Run(new CreateClassForm());
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            IConfiguration configuration = configBuilder.Build();
+
+            ClassLogic classLogic = new ClassLogic(configuration);
+            LocationLogic locationLogic = new LocationLogic(configuration);
+
+            Application.Run(new FitSammen(classLogic, locationLogic));
         }
     }
 }

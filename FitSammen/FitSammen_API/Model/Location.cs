@@ -6,7 +6,6 @@
         public int HouseNumber { get; set; }
         public Zipcode Zipcode { get; set; }
         public int LocationId { get; set; }
-
         public IEnumerable<Employee> Employees { get; set; }
 
         public Location(int locationId, string streetName, int housenumber, int zipCodeNumber, string cityName, string countryName)
@@ -32,13 +31,11 @@
         public int ZipcodeNumber { get; set; }
         public City City { get; set; }
     }
-
     public class City
     {
         public string CityName { get; set; }
         public Country Country { get; set; }
     }
-
     public class Country
     {
         public string CountryName { get; set; }
