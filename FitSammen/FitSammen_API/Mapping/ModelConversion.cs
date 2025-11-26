@@ -118,13 +118,21 @@ namespace FitSammen_API.Mapping
             List<LocationListDTO> locationsDTO = new List<LocationListDTO>();
             foreach (Location location in locations)
             {
-                LocationListDTO lDTO = new LocationListDTO(
-                    location.LocationId,
-                    location.StreetName,
-                    location.HouseNumber,
-                    location.Zipcode.ZipcodeNumber,
-                    location.Zipcode.City.CityName
-                    );
+                LocationListDTO lDTO = new LocationListDTO
+                {
+                    LocationId = location.LocationId,
+                    StreetName = location.StreetName,
+                    HouseNumber = location.HouseNumber,
+                    Zipcode = new ZipcodeDTO
+                    {
+                        ZipcodeNumber = location.Zipcode.ZipcodeNumber,
+                        City = new CityDTO
+                        {
+                            CityName = location.Zipcode.City.CityName,
+                            Country = new CountryDTO()
+                        }
+                    }
+                };
                 locationsDTO.Add(lDTO);
             }
             return locationsDTO;

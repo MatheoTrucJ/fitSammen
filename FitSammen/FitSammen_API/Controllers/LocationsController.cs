@@ -35,7 +35,7 @@ namespace FitSammen_API.Controllers
             }
         }
 
-        [Route("api/locations/{locationId}/rooms")]
+        [Route("api/[controller]/{locationId}/rooms")]
         [HttpGet]
         public ActionResult<IEnumerable<RoomListDTO>> GetRoomsByLocation(int locationId)
         {
