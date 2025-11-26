@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using FitSammen_API.Mapping;
 using System.Linq;
 using FitSammen_API.Model;
+using FitSammen_API.Exceptions;
 
 namespace FitSammen_API.Controllers
 {
@@ -29,6 +30,31 @@ namespace FitSammen_API.Controllers
                 .ToList();
 
             return Ok(dtoList);
+        }
+
+        [HttpPost]
+        public ActionResult<ClassCreateResponseDTO> CreateClass([FromBody] ClassCreateRequestDTO classCreateRequestDTO)
+        {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                Class cls = ModelConversion.ClassCreateRequestDTOToClass(classCreateRequestDTO);
+                BookingClassResult res = _classService.CreateClass(cls);
+                ClassCreateResponseDTO dto = ModelConversion.ToClassCreateResponseDTO(res);
+            switch (res.Status)
+                {
+                    case ClassCreateStatus.Success:
+                        return Ok(res);
+                    case ClassCreateStatus.Conflict:
+                        return BadRequest("There was a conflict and no room was booked");
+                    case ClassCreateStatus.Error:
+                        return StatusCode(500, "An error occured");
+                    case ClassCreateStatus.BadRequest:
+                        return BadRequest("Bad request");
+                    default:
+                        return Ok(res);
+                }
         }
     }
 }

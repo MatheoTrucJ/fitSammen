@@ -33,17 +33,11 @@ namespace FitSammen_API.BusinessLogicLayer
             }
         }
 
-        public IEnumerable<EmployeeListDTO> GetEmployeesByLocationId(int locationId)
+        public IEnumerable<Employee> GetEmployeesByLocationId(int locationId)
         {
             try
             {
-                List<EmployeeListDTO> employeesDTO = new List<EmployeeListDTO>();
-                IEnumerable<Employee> employees = _classAccess.GetEmployeesByLocationId(locationId);
-                foreach (Employee e in employees)
-                {
-                    employeesDTO.Add(ModelConversion.EmployeeToEmployeeListDTO(e));
-                }
-                return employeesDTO;
+                return _classAccess.GetEmployeesByLocationId(locationId);
             }
             catch (DataAccessException)
             {

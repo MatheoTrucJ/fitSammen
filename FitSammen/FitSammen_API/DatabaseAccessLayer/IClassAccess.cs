@@ -1,4 +1,5 @@
-﻿using FitSammen_API.Model;
+﻿using FitSammen_API.BusinessLogicLayer;
+using FitSammen_API.Model;
 
 namespace FitSammen_API.DatabaseAccessLayer
 {
@@ -7,5 +8,7 @@ namespace FitSammen_API.DatabaseAccessLayer
         public IEnumerable<Class> GetUpcomingClasses();
         public IEnumerable<Location> GetAllLocations();
         public IEnumerable<Room> GetRoomsByLocationId(int LocationId);
+        public IEnumerable<Employee> GetEmployeesByLocationId(int LocationId);
+        public BookingClassResult CreateClass(Class cls);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DTOs;
 using FitSammen_API.Model;
+using System.Net.NetworkInformation;
 
 namespace FitSammen_API.Mapping
 {
@@ -30,6 +31,52 @@ namespace FitSammen_API.Mapping
                 RemainingSpots = cls.Capacity - cls.MemberCount,
                 Room = room
             };
+        }
+
+        public static Class ClassCreateRequestDTOToClass(ClassCreateRequestDTO cls)
+        {
+            Class res = new Class
+            {
+                TrainingDate = cls.TrainingDate,
+                Instructor = EmployeeMinimalDTOToEmployee(cls.Instructor),
+                Room = RoomMinimalDTOToRoom(cls.Room),
+                Name = cls.Name,
+                Description = cls.Description,
+                Capacity = cls.Capacity,
+                DurationInMinutes = cls.DurationInMinutes,
+                StartTime = cls.StartTime,
+                ClassType = cls.ClassType
+            };
+            return res;
+        }
+
+        public static ClassCreateResponseDTO ToClassCreateResponseDTO(int i)
+        {
+            ClassCreateResponseDTO dto;
+            switch (i)
+            {
+                case 0:
+                    dto = new ClassCreateResponseDTO(
+                        ClassCreateStatus.Conflict,
+                        "No class was created");
+                    break; case 1:
+                case -1:
+                    dto = new ClassCreateResponseDTO(
+                        ClassCreateStatus.Error,
+                        "An error occurred while creating the class");
+                    break;
+                case -2:
+                    dto = new ClassCreateResponseDTO(
+                        ClassCreateStatus.BadRequest,
+                        "Faulty parameters");
+                    break;
+                default:
+                    dto = new ClassCreateResponseDTO(
+                        ClassCreateStatus.Success,
+                        "Class created successfully");
+                    break;
+            }
+            return dto;
         }
 
         public static BookingResponseDTO ToBookingResponseDTO(BookingResult result)
@@ -91,6 +138,15 @@ namespace FitSammen_API.Mapping
             return rlDTO;
         }
 
+        public static Room RoomMinimalDTOToRoom(RoomMinimalDTO room)
+        {
+            Room r = new Room
+            {
+                RoomId = room.RoomId
+            };
+            return r;
+        }
+
         public static EmployeeListDTO EmployeeToEmployeeListDTO(Employee employee)
         {
             EmployeeListDTO employeeListDTO = new EmployeeListDTO(
@@ -99,6 +155,15 @@ namespace FitSammen_API.Mapping
                 employee.LastName
             );
             return employeeListDTO;
+        }
+
+        public static Employee EmployeeMinimalDTOToEmployee(EmployeeMinimalDTO employeeDTO)
+        {
+            Employee employee = new Employee
+            {
+                User_ID = employeeDTO.EmployeeId
+            };
+            return employee;
         }
     }
 }
