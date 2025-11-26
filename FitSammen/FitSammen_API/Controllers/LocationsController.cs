@@ -61,7 +61,7 @@ namespace FitSammen_API.Controllers
         {
             try
             {
-                IEnumerable<EmployeeListDTo> e = _locationService.GetRoomsByLocationId(locationId);
+                IEnumerable<EmployeeListDTO> e = _locationService.GetEmployeesByLocationId(locationId);
                 if (e == null || !e.Any())
                 {
                     return NotFound($"No rooms found for location with ID {locationId}.");

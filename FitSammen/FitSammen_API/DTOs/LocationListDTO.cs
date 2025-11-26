@@ -5,13 +5,15 @@
         public int LocationId { get; set; }
         public string StreetName { get; set; }
         public int HouseNumber { get; set; }
+        public int Zipcode { get; set; }
         public string CityName { get; set; }
 
-        public LocationListDTO(int locationId, string streetName, int houseNumber, string cityName)
+        public LocationListDTO(int locationId, string streetName, int houseNumber, int zipcode, string cityName)
         {
             LocationId = locationId;
             StreetName = streetName;
             HouseNumber = houseNumber;
+            Zipcode = zipcode;
             CityName = cityName;
         }
     }

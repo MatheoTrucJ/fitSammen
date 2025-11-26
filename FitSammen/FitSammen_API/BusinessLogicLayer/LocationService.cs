@@ -35,7 +35,20 @@ namespace FitSammen_API.BusinessLogicLayer
 
         public IEnumerable<EmployeeListDTO> GetEmployeesByLocationId(int locationId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<EmployeeListDTO> employeesDTO = new List<EmployeeListDTO>();
+                IEnumerable<Employee> employees = _classAccess.GetEmployeesByLocationId(locationId);
+                foreach (Employee e in employees)
+                {
+                    employeesDTO.Add(ModelConversion.EmployeeToEmployeeListDTO(e));
+                }
+                return employeesDTO;
+            }
+            catch (DataAccessException)
+            {
+                throw new DataAccessException("Error retrieving employees from the database for the specified location.");
+            }
         }
 
         public IEnumerable<RoomListDTO> GetRoomsByLocationId(int locationId)

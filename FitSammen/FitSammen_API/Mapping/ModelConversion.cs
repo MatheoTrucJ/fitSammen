@@ -72,6 +72,7 @@ namespace FitSammen_API.Mapping
                 location.LocationId,
                 location.StreetName,
                 location.HouseNumber,
+                location.Zipcode.ZipcodeNumber,
                 location.Zipcode.City.CityName
                 );
 
@@ -88,6 +89,16 @@ namespace FitSammen_API.Mapping
                 new LocationMinimalDTO(room.Location.LocationId)
                 );
             return rlDTO;
+        }
+
+        public static EmployeeListDTO EmployeeToEmployeeListDTO(Employee employee)
+        {
+            EmployeeListDTO employeeListDTO = new EmployeeListDTO(
+                employee.User_ID,
+                employee.FirstName,
+                employee.LastName
+            );
+            return employeeListDTO;
         }
     }
 }
