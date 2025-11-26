@@ -22,9 +22,8 @@ namespace FitSammenDekstopClient.ServiceLayer
             try
             {
                 HttpResponseMessage? response = await CallServiceGet();
-                bool wasResponse = (response != null);
 
-                if (wasResponse && response != null && response.IsSuccessStatusCode)
+                if (response != null && response.IsSuccessStatusCode)
                 {
                     string? content = await response.Content.ReadAsStringAsync();
                     result = JsonConvert.DeserializeObject<List<Class>>(content);

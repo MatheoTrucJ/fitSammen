@@ -3,6 +3,7 @@ using FitSammenDekstopClient.ServiceLayer;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,20 @@ namespace FitSammenDekstopClient.BusinessLogicLayer
 
         public async Task<CreateClassResponse?> CreateClassAsync(CreateClassRequest request)
         {
-            return await _classService.CreateClassAsync(request);
+            // Måske skal der valideres input fra requesten her
+            // Bla bla bla
+            var response = await _classService.CreateClassAsync(request);
+
+            if (response == null)
+            {
+                return new CreateClassResponse
+                {
+                    Status = CreateClassStatus.Error,
+                    Message = "Holdet kunne ikke oprettes. Ukendt fejl"
+                };
+            }
+
+            return response;
         }
     }
 }
