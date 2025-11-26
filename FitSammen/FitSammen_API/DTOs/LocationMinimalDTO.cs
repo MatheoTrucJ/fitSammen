@@ -6,6 +6,7 @@ namespace FitSammen_API.DTOs
     {
         public int LocationId { get; set; }
 
+        public LocationMinimalDTO() { }
         public LocationMinimalDTO(int locationId)
         {
             LocationId = locationId;

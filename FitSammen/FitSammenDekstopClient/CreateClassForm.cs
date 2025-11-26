@@ -14,8 +14,6 @@ namespace FitSammenDekstopClient
 {
     public partial class CreateClassForm : Form
     {
-        // public Class? CreatedClass { get; private set; }
-
         private IEnumerable<Location> _locations = new List<Location>();
 
         private IEnumerable<Room> _roomsForCurrentLocation = new List<Room>();
@@ -127,9 +125,9 @@ namespace FitSammenDekstopClient
             else if (Response.Status == CreateClassStatus.Success)
             {
                 MessageBox.Show($"Holdet er oprettet. {Response.Message}");
-                return;
             }
 
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 

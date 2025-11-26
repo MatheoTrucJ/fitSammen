@@ -18,6 +18,8 @@ namespace FitSammen_API.DTOs
         public TimeOnly StartTime { get; set; }
         public ClassType ClassType { get; set; }
 
+        public ClassCreateRequestDTO() { }
+
         public ClassCreateRequestDTO(DateOnly trainingDate, EmployeeMinimalDTO instructor, string description, RoomMinimalDTO room, string name, int capacity, int durationInMinutes, TimeOnly startTime, ClassType classType)
         {
             TrainingDate = trainingDate;

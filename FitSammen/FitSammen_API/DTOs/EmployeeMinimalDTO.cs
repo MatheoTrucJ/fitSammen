@@ -6,9 +6,11 @@ namespace FitSammen_API.DTOs
     {
         [Range(1, int.MaxValue, ErrorMessage = "EmployeeId must be a positive integer.")]
         public int User_ID { get; set; }
-        public EmployeeMinimalDTO(int employeeId)
+
+        public EmployeeMinimalDTO() { }
+        public EmployeeMinimalDTO(int User_ID)
         {
-            User_ID = employeeId;
+            this.User_ID = User_ID;
         }
     }
 }

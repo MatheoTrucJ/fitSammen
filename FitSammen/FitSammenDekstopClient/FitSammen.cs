@@ -71,8 +71,18 @@ namespace FitSammenDekstopClient
 
         private void createNewClassBtn_Click(object sender, EventArgs e)
         {
-            CreateClassForm detailsForm = new CreateClassForm(_locationLogic, _classLogic);
-            detailsForm.ShowDialog();
+            //CreateClassForm detailsForm = new CreateClassForm(_locationLogic, _classLogic);
+            //detailsForm.ShowDialog();
+
+            using (CreateClassForm createClassForm = new CreateClassForm(_locationLogic, _classLogic))
+            {
+                DialogResult result = createClassForm.ShowDialog(this);
+
+                if (result == DialogResult.OK)
+                {
+                    GetAllClasses(this, EventArgs.Empty);
+                }
+            }
         }
 
         private void listViewAllClasses_DoubleClick(object sender, EventArgs e)

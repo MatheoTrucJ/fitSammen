@@ -8,6 +8,7 @@ namespace FitSammen_API.DTOs
         public int RoomId { get; set; }
 
         public LocationMinimalDTO Location { get; set; }
+        public RoomMinimalDTO() { }
         public RoomMinimalDTO(int roomId, int locationId)
         {
             RoomId = roomId;
