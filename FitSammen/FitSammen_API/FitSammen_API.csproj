@@ -15,6 +15,7 @@
   <ItemGroup>
     <Folder Include="Mapping\" />
     <Folder Include="DatabaseAccessLayer\" />
+    <Folder Include="Security\" />
   </ItemGroup>
 
 </Project>
