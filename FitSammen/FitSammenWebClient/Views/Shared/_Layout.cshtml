@@ -30,8 +30,15 @@
         </div>
         <div class="profil">
             <ul>
-            <li><a class="profilelogo" asp-area="" asp-controller="Profile" asp-action="Profile">&#128100;</a></li>
-                </ul>
+                <li>
+                    <button type="button"
+                            class="profilelogo btn btn-link p-0"
+                            data-bs-toggle="modal"
+                            data-bs-target="#loginModal">
+                        &#128100;
+                    </button>
+                </li>
+            </ul>
         </div>
 
         </div>
@@ -49,6 +56,61 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content fs-login-modal">
+                <div class="modal-body">
+
+                    <h2 class="fs-login-title">Log ind på din konto</h2>
+
+                    <form asp-controller="Account" asp-action="Login" method="post">
+                        <div class="mb-3">
+                            <label for="LoginEmail" class="form-label">Email</label>
+                            <input id="LoginEmail" name="Email" class="form-control fs-login-input" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="LoginPassword" class="form-label">Adgangskode</label>
+
+                            <div class="fs-password-container">
+                                <input id="LoginPassword"
+                                       name="Password"
+                                       type="password"
+                                       class="form-control fs-login-input" />
+
+                                <button type="button"
+                                        class="fs-password-toggle"
+                                        onclick="togglePassword()">
+                                    <span id="passwordToggleText">Vis</span>
+                                </button>
+                            </div>
+                        </div>
+
+
+
+                        <button type="submit" class="btn fs-login-btn w-100">Log ind</button>
+                    </form>
+
+                    <div class="fs-login-extra">
+                        <a href="#">Glemt adgangskode?</a><br />
+                        <span>Har du ikke en konto? <a href="#">Opret dig her</a></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function togglePassword() {
+            const input = document.getElementById("LoginPassword");
+            const label = document.getElementById("passwordToggleText");
+
+            const isHidden = input.type === "password";
+            input.type = isHidden ? "text" : "password";
+            label.textContent = isHidden ? "Skjul" : "Vis";
+        }
+    </script>
 </body>
 </html>
 

@@ -154,9 +154,106 @@ body {
     scroll-snap-align: start; /*Starter scroll snap ved starten af elementet*/
 }
 
-    .hold-card input[type="submit"] {
-        border-radius: 200px; /*Rundede kanter*/
-        margin-top: 10px; /*Rykker knap ned*/
+.hold-card input[type="submit"] {
+    border-radius: 200px; /*Rundede kanter*/
+    margin-top: 10px; /*Rykker knap ned*/
+}
+
+/* LOGIN MODAL — FITSAMMEN STYLE */
+.fs-login-modal {
+    border-radius: 30px;
+    border: none;
+    padding: 1rem 0;
+    background: white;
+    box-shadow: 0px 12px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Bold headline similar to the Hero version */
+.fs-login-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #1f1f1f;
+}
+
+/* Inputs */
+.fs-login-input {
+    border-radius: 20px;
+    padding: 0.7rem 1rem;
+    border: 1px solid #dcdcdc;
+    font-size: 15px;
+}
+
+    .fs-login-input:focus {
+        border-color: #3bb273;
+        box-shadow: 0 0 0 0.15rem rgba(59, 178, 115, 0.3);
     }
+
+/* CTA button that matches your green/yellow theme */
+.fs-login-btn {
+    border-radius: 25px;
+    border: none;
+    padding: 0.75rem;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    margin-top: 10px;
+    /* gradient like the hero */
+    background: linear-gradient(to right, #008c2e, #f8e71c);
+}
+
+    .fs-login-btn:hover {
+        filter: brightness(0.95);
+    }
+
+
+/* Links */
+.fs-login-extra {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 14px;
+    color: #444;
+}
+
+    .fs-login-extra a {
+        color: #3bb273;
+        text-decoration: none;
+    }
+
+        .fs-login-extra a:hover {
+            color: #2ea667;
+            text-decoration: underline;
+        }
+
+.modal-backdrop.show {
+    opacity: 1 !important;
+    background: linear-gradient( 135deg, rgba(0, 140, 46, 0.45), rgba(248, 231, 28, 0.45) ) !important;
+    backdrop-filter: blur(6px);
+}
+
+/* PASSWORD VISIBILITY TOGGLE */
+.fs-password-container {
+    position: relative;
+}
+
+.fs-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #777;
+    padding: 0;
+}
+
+    .fs-password-toggle:hover {
+        color: #444;
+    }
+
 
 

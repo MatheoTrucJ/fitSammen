@@ -9,6 +9,11 @@
 }
 
 @{
+    // TODO: Erstat med rigtig login-check når login er implementeret fra controlleren
+    bool isLoggedIn = false;
+}
+
+@{
     var signUpMessage = TempData["SignUpMessage"] as string;
     var signUpStatus = TempData["SignUpStatus"] as string;
 
@@ -87,25 +92,39 @@
                     <br /> <b>Længde: </b>@item.DurationInMinutes minutter
                     <br /> <b>Pladser tilbage: </b>@item.RemainingSpots
 
-                    @if (item.RemainingSpots > 0)
+                    @if (isLoggedIn)
                     {
-                        <!-- Der er stadig pladser: almindelig tilmelding -->
-                        <form method="post" asp-action="SignUpToClass">
-                            <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
-                            <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
-                            <br />
-                            <input type="submit" value="Tilmeld" class="btn btn-success" />
-                        </form>
+                        if (item.RemainingSpots > 0)
+                        {
+                            <!-- almindelig tilmelding -->
+                            <form method="post" asp-action="SignUpToClass">
+                                <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
+                                <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
+                                <br />
+                                <input type="submit" value="Tilmeld" class="btn btn-success" />
+                            </form>
+                        }
+                        else
+                        {
+                            <!-- venteliste -->
+                            <form method="post" asp-action="SignUpToWaitingList">
+                                <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
+                                <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
+                                <br />
+                                <input type="submit" value="Tilmeld venteliste" class="btn btn-primary" />
+                            </form>
+                        }
                     }
                     else
                     {
-                        <!-- Holdet er fuldt: tilmelding til venteliste -->
-                        <form method="post" asp-action="SignUpToWaitingList">
-                            <input name="userNumber" id="UserNumber" value="@memberNumber" hidden="hidden" />
-                            <input name="ClassId" id="ClassId" value="@item.ClassId" hidden="hidden" />
-                            <br />
-                            <input type="submit" value="Tilmeld venteliste" class="btn btn-primary" />
-                        </form>
+                        <!-- ikke logget ind: vis popup-knap i stedet -->
+                        <br />
+                        <button type="button"
+                                class="btn btn-success"
+                                data-bs-toggle="modal"
+                                data-bs-target="#loginRequiredModal">
+                            Tilmeld
+                        </button>
                     }
                 </div>
             }
@@ -126,6 +145,24 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-white">
+                        <h5 class="modal-title" id="loginRequiredLabel">Login påkrævet</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Luk"></button>
+                    </div>
+                    <div class="modal-body">
+                        Du skal være logget ind som medlem for at kunne tilmelde dig et hold.
+                    </div>
+                    <div class="modal-footer">
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-success">Log ind</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <button type="button" onclick="ClickRight()" class="hold-arrow Hold-arrow-right">&#10095;</button>
     </div>
 </section>
