@@ -62,24 +62,28 @@ namespace FitSammenWebClient.Controllers
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true,
-            };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            string redirectUrl = Url.Action("Index", "Home") ?? "/";
 
             return Ok(new
             {
-                token = responseModel.Token,
-                message = "Login succesfuldt"
+                message = "Login successfuldt",
+                redirectUrl = redirectUrl
             });
         }
 
         [HttpPost]
-        public async Task<ActionResult> SignUpToWaitingList(int userNumber, int ClassId)
+        [Authorize]
+        public async Task<ActionResult> SignUpToWaitingList(int ClassId)
         {
-            WaitingListEntryResponse? result = await _waitingListLogic.AddMemberToWaitingListAsync(ClassId, userNumber);
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? token = User.FindFirstValue("AccessToken");
+            if(userIdString == null || !int.TryParse(userIdString, out int userNumber) || string.IsNullOrEmpty(token))
+            {
+                return Challenge();
+            }
+            WaitingListEntryResponse? result = await _waitingListLogic.AddMemberToWaitingListAsync(userNumber, ClassId, token);
             
             if (result == null)
             {
@@ -116,9 +120,16 @@ namespace FitSammenWebClient.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> SignUpToClass(int userNumber, int ClassId)
+        public async Task<ActionResult> SignUpToClass(int ClassId)
         {
-            MemberBookingResponse? result = await _classLogic.SignUpAMember(userNumber, ClassId);
+            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? token = User.FindFirstValue("AccessToken");
+            if (userIdString == null || !int.TryParse(userIdString, out int userNumber) || string.IsNullOrEmpty(token))
+            {
+                return Challenge();
+            }
+
+            MemberBookingResponse? result = await _classLogic.SignUpAMember(userNumber, ClassId, token);
 
             if (result == null)
             {

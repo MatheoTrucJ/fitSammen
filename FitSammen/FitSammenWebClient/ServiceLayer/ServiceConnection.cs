@@ -1,10 +1,10 @@
 ﻿namespace FitSammenWebClient.ServiceLayer {
     public abstract class ServiceConnection {
 
-        private readonly HttpClient _httpEnabler;
+        protected readonly HttpClient _httpEnabler;
 
-        public ServiceConnection(string? inBaseUrl) {
-            _httpEnabler = new HttpClient();
+        public ServiceConnection(HttpClient httpEnabler, string? inBaseUrl) {
+            _httpEnabler = httpEnabler;
             BaseUrl = inBaseUrl;
             UseUrl = BaseUrl;
         }

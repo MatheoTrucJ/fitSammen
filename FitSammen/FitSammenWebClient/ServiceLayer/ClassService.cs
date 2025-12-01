@@ -1,12 +1,14 @@
 ﻿using FitSammenWebClient.Models;
 using Newtonsoft.Json;
 using System.Text;
+using System.Net.Http.Headers;
+using Microsoft.Extensions.Configuration;
 
 namespace FitSammenWebClient.ServiceLayer
 {
     public class ClassService : ServiceConnection, IClassAccess
     {
-        public ClassService(IConfiguration inBaseUrl) : base(inBaseUrl["ServiceUrlToUse"])
+        public ClassService(HttpClient httpClient, IConfiguration inBaseUrl) : base(httpClient, inBaseUrl["ServiceUrlToUse"])
         {
 
         }
@@ -57,7 +59,7 @@ namespace FitSammenWebClient.ServiceLayer
         }
 
 
-        public async Task<MemberBookingResponse> SignUpMemberToClassAsync(int userNumber, int classId)
+        public async Task<MemberBookingResponse> SignUpMemberToClassAsync(int userNumber, int classId, string token)
         {
             MemberBookingResponse? Reponse = null;
 
@@ -71,10 +73,13 @@ namespace FitSammenWebClient.ServiceLayer
 
             try
             {
+                _httpEnabler.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 string? json = JsonConvert.SerializeObject(request);
                 StringContent? content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage? serviceResponse = await CallServicePost(content);
+                _httpEnabler.DefaultRequestHeaders.Authorization = null;
 
                 if (serviceResponse != null)
                 {
@@ -87,9 +92,10 @@ namespace FitSammenWebClient.ServiceLayer
                     return Reponse;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                _httpEnabler.DefaultRequestHeaders.Authorization = null;
+                Console.WriteLine("Exception in SignUpMemberToClassAsync: " + ex.Message);
             }
             return new MemberBookingResponse
             {

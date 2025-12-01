@@ -1,40 +1,36 @@
 using FitSammenWebClient.BusinessLogicLayer;
 using FitSammenWebClient.ServiceLayer;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies; // Nødvendig for AddCookie
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<ILoginService, LoginService>();
+
+// --- 1. REGISTRERING AF SERVICES OG LOGIK ---
+// Logic (bruger IClassAccess, IWaitingListAccess, osv.) - AddScoped
 builder.Services.AddScoped<ILoginLogic, LoginLogic>();
-builder.Services.AddScoped<IClassAccess, ClassService>();
 builder.Services.AddScoped<IWaitingListLogic, WaitingListLogic>();
 builder.Services.AddScoped<IClassLogic, ClassLogic>();
-builder.Services.AddScoped<IWaitingListAccess, WaitingListService>();
+// Services (bruger HttpClient) - AddHttpClient
+builder.Services.AddHttpClient<ILoginService, LoginService>();
+builder.Services.AddHttpClient<IClassAccess, ClassService>();
+builder.Services.AddHttpClient<IWaitingListAccess, WaitingListService>();
 
 
-
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ?? throw new ArgumentNullException("SecretKey is missing"));
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+// --- 2. REGISTRERING AF COOKIE AUTHENTICATION ---
+// FJERNET: JWT Bearer kode.
+// Tilføj Cookie Authentication for MVC WebClient
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
-    };
+        options.LoginPath = "/Home/Index"; // Sæt den korrekte loginside/action
+        options.AccessDeniedPath = "/Home/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    });
 
-});
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(); // Behold denne
 
 var app = builder.Build();
 
@@ -42,7 +38,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -51,10 +46,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// MIDDLEWARE RÆKKEFØLGEN ER KORREKT
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllerRoute(
     name: "default",
