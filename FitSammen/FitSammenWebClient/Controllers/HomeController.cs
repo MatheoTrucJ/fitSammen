@@ -1,24 +1,34 @@
 using FitSammenWebClient.BusinessLogicLayer;
 using FitSammenWebClient.Models;
 using FitSammenWebClient.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace FitSammenWebClient.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ClassLogic _classLogic;
-        private readonly WaitingListLogic _waitingListLogic;
+        private readonly IClassLogic _classLogic;
+        private readonly IWaitingListLogic _waitingListLogic;
+        private readonly ILoginLogic _loginLogic;
+        
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration inConfiguration)
+        public HomeController(ILogger<HomeController> logger, IClassLogic classLogic, IWaitingListLogic waitingListLogic, ILoginLogic loginLogic)
         {
             _logger = logger;
-            _classLogic = new ClassLogic(inConfiguration);
-            _waitingListLogic = new WaitingListLogic(inConfiguration);
+            _classLogic = classLogic;
+            _waitingListLogic = waitingListLogic;
+            _loginLogic = loginLogic;
+            
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             IEnumerable<Class>? classes = await _classLogic.GetAllClassesAsync();
@@ -29,6 +39,41 @@ namespace FitSammenWebClient.Controllers
             };
 
             return View(allClassesViewModel);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginViewModel loginModel)
+        {
+           LoginResponseModel? responseModel = await _loginLogic.AuthenticateAndGetToken(loginModel.Email, loginModel.Password);
+
+            if (responseModel == null)
+            {
+                return Unauthorized(new { message = "Ugyldigt brugernavn eller adgangskode" });
+            }
+
+            //Gemmer token og userId i Cookie
+            var claims = new List<Claim>
+            {
+                //Gemmer UserId
+                new Claim(ClaimTypes.NameIdentifier, responseModel.UserId.ToString()),
+                //Gemmer hele JWT'en
+                new Claim("AccessToken", responseModel.Token)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+            };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            return Ok(new
+            {
+                token = responseModel.Token,
+                message = "Login succesfuldt"
+            });
         }
 
         [HttpPost]

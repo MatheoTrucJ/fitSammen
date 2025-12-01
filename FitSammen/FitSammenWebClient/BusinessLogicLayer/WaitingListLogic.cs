@@ -3,17 +3,11 @@ using FitSammenWebClient.ServiceLayer;
 
 namespace FitSammenWebClient.BusinessLogicLayer
 {
-    public class WaitingListLogic
+    public class WaitingListLogic : IWaitingListLogic
     {
         private readonly IWaitingListAccess _waitingListAccess;
 
-        // Production constructor keeps existing behavior
-        public WaitingListLogic(IConfiguration inConfiguration)
-        {
-            _waitingListAccess = new WaitingListService(inConfiguration);
-        }
-
-        // Test/DI friendly constructor
+        
         public WaitingListLogic(IWaitingListAccess waitingListAccess)
         {
             _waitingListAccess = waitingListAccess;

@@ -3,12 +3,12 @@ using FitSammenWebClient.ServiceLayer;
 
 namespace FitSammenWebClient.BusinessLogicLayer
 {
-    public class ClassLogic
+    public class ClassLogic : IClassLogic
     {
-        private readonly ClassService _classService;
-        public ClassLogic(IConfiguration inConfiguration)
+        private readonly IClassAccess _classService;
+        public ClassLogic(IClassAccess classAccess)
         {
-            _classService = new ClassService(inConfiguration);
+            _classService = classAccess;
         }
 
         public async Task<MemberBookingResponse?> SignUpAMember(int member, int theClass)
