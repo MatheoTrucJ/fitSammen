@@ -252,6 +252,50 @@ namespace FitSammen_API.DatabaseAccessLayer
             }
         }
 
+        public User FindUserByEmailAndPassword(string email, string password)
+        {
+            User foundUser = new Member();
+            // Prepare the SQL query
+            string queryString = @"SELECT user_ID, firstName, lastName, email, ut.usertype 
+            FROM [User] u JOIN UserTypes ut on u.userType_ID_FK = ut.UserType_ID  
+            WHERE email = @Email AND password = @Password;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                using (SqlCommand readCommand = new SqlCommand(queryString, conn))
+                {
+                    readCommand.Parameters.AddWithValue("@Email", email);
+                    readCommand.Parameters.AddWithValue("@Password", password);
+                    
+                    if (conn != null)
+                    {
+                        conn.Open(); 
+                        SqlDataReader reader = readCommand.ExecuteReader();
+                        while (reader.Read())
+                        {   
+                            foundUser = new Member
+                            {
+                                User_ID = reader.GetInt32(reader.GetOrdinal("user_ID")),
+                                FirstName = reader.GetString(reader.GetOrdinal("firstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("lastName")),
+                                Email = reader.GetString(reader.GetOrdinal("email")),
+                                UserType = Enum.Parse<UserType>(reader.GetString(reader.GetOrdinal("usertype")))
+                            };
+                        }
+                    }
+                    else
+                    {
+                        throw new DataAccessException("No database connection available.");
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new DataAccessException("Error retrieving user result from database.", sqlEx);
+            }
+            return foundUser;
+        }
     }
 }
 

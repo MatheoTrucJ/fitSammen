@@ -1,6 +1,10 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
+using FitSammen_API.DTOs;
+using FitSammen_API.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace FitSammen_API.Controllers
 {
@@ -9,23 +13,34 @@ namespace FitSammen_API.Controllers
     public class TokensController : ControllerBase
     {
         private readonly ITokenService _tokenService;
+
         public TokensController(ITokenService tokenService) 
         {
             _tokenService = tokenService;
         }
 
-        [HttpGet]
-        public ActionResult<string> GetToken()
+        [HttpPost]
+        public IActionResult CreateToken([FromBody] LoginRequestDTO dto)
         {
-            try
+            string foundToken;
+
+            bool hasInput = ((!string.IsNullOrWhiteSpace(dto.Email)) && (!string.IsNullOrWhiteSpace(dto.Password)));
+
+            if (hasInput)
             {
-                string token = _tokenService.GenerateToken();
-                return Ok(token);
+                foundToken = _tokenService.CreateToken(dto.Email!, dto.Password!);
+                return Ok(foundToken);
             }
-            catch (Exception)
+            else
             {
-                return StatusCode(500, "An error occurred while generating the token.");
+                return BadRequest();
             }
+        }
+
+        [Authorize]
+        public IActionResult Test()
+        {
+            return Ok("Du er autentificeret");
         }
     }
 }

@@ -1,16 +1,19 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DTOs;
+using FitSammen_API.Exceptions;
+using FitSammen_API.Mapping;
+using FitSammen_API.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using FitSammen_API.Mapping;
 using System.Linq;
-using FitSammen_API.Model;
-using FitSammen_API.Exceptions;
 
 namespace FitSammen_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ClassesController : ControllerBase
     {
         private readonly IClassService _classService;
@@ -21,6 +24,7 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<ClassListItemDTO>> GetAvailableClasses()
         {
             IEnumerable<Class> classes = _classService.GetUpcomingClasses();
@@ -33,6 +37,7 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult<ClassCreateResponseDTO> CreateClass([FromBody] ClassCreateRequestDTO classCreateRequestDTO)
         {
                 if (!ModelState.IsValid)

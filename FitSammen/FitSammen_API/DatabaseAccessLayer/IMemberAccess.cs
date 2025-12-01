@@ -10,5 +10,6 @@ namespace FitSammen_API.DatabaseAccessLayer
         public int CreateWaitingListEntry(int memberUserId, int classId);
 
         public int IsMemberOnWaitingList(int memberUserId, int classId);
+        User FindUserByEmailAndPassword(string email, string password);
     }
 }
