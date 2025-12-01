@@ -1,27 +1,23 @@
 using FitSammenWebClient.BusinessLogicLayer;
 using FitSammenWebClient.ServiceLayer;
-using Microsoft.AspNetCore.Authentication.Cookies; // Nødvendig for AddCookie
+using Microsoft.AspNetCore.Authentication.Cookies; 
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
 
-// --- 1. REGISTRERING AF SERVICES OG LOGIK ---
-// Logic (bruger IClassAccess, IWaitingListAccess, osv.) - AddScoped
+
 builder.Services.AddScoped<ILoginLogic, LoginLogic>();
 builder.Services.AddScoped<IWaitingListLogic, WaitingListLogic>();
 builder.Services.AddScoped<IClassLogic, ClassLogic>();
-// Services (bruger HttpClient) - AddHttpClient
 builder.Services.AddHttpClient<ILoginService, LoginService>();
 builder.Services.AddHttpClient<IClassAccess, ClassService>();
 builder.Services.AddHttpClient<IWaitingListAccess, WaitingListService>();
 
 
-// --- 2. REGISTRERING AF COOKIE AUTHENTICATION ---
-// FJERNET: JWT Bearer kode.
-// Tilføj Cookie Authentication for MVC WebClient
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -30,11 +26,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     });
 
-builder.Services.AddAuthorization(); // Behold denne
+builder.Services.AddAuthorization(); 
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -46,7 +41,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// MIDDLEWARE RÆKKEFØLGEN ER KORREKT
+
 app.UseAuthentication();
 app.UseAuthorization();
 
