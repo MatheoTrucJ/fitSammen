@@ -7,7 +7,7 @@ namespace FitSammenWebClient.ServiceLayer
 {
     public class LoginService : ServiceConnection, ILoginService
     {
-        public LoginService(IConfiguration inBaseUrl) : base(inBaseUrl["ServiceUrlToUse"])
+        public LoginService(HttpClient httpClient, IConfiguration inBaseUrl) : base(httpClient, inBaseUrl["ServiceUrlToUse"])
         {
 
         }
