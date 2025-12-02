@@ -1,19 +1,14 @@
 ﻿@model FitSammenWebClient.ViewModel.ClassListViewModel
 
 @{
-    // Hent medlemsnummer dynamisk hvis sat (ellers 0)
-    var memberNumber = ViewBag.MemberNumber is int m ? m : 0;
-}
-
-@{
     ViewData["Title"] = "Home Page";
 }
 
 @{
-    // Bliver sat i controlleren senere:
-    // ViewBag.IsLoggedIn = true/false;
-    bool isLoggedIn = ViewBag.IsLoggedIn is bool b && b;
+
+    bool isLoggedIn = User.Identity.IsAuthenticated;
 }
+
 
 @{
     var signUpMessage = TempData["SignUpMessage"] as string;
@@ -97,13 +92,13 @@
                     <br /> <b>Længde: </b>@item.DurationInMinutes minutter
                     <br /> <b>Pladser tilbage: </b>@item.RemainingSpots
 
+
                     @if (isLoggedIn)
                     {
                         if (hasSpots)
                         {
                             <!-- almindelig tilmelding -->
                             <form method="post" asp-action="SignUpToClass">
-                                <input name="userNumber" id="UserNumber" value="@memberNumber" hidden />
                                 <input name="ClassId" id="ClassId" value="@item.ClassId" hidden />
                                 <br />
                                 <input type="submit" value="@buttonText" class="@buttonClass" />
@@ -113,7 +108,6 @@
                         {
                             <!-- venteliste -->
                             <form method="post" asp-action="SignUpToWaitingList">
-                                <input name="userNumber" id="UserNumber" value="@memberNumber" hidden />
                                 <input name="ClassId" id="ClassId" value="@item.ClassId" hidden />
                                 <br />
                                 <input type="submit" value="@buttonText" class="@buttonClass" />

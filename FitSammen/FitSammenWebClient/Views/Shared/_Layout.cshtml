@@ -64,7 +64,17 @@
 
                     <h2 class="fs-login-title">Log ind på din konto</h2>
 
-                    <form asp-controller="Account" asp-action="Login" method="post">
+                    @{
+                        var loginError = TempData["LoginError"] as string;
+                    }
+                    @if(!string.IsNullOrEmpty(loginError))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @loginError
+                        </div>
+                    }
+
+                    <form asp-controller="Home" asp-action="Login" method="post">
                         <div class="mb-3">
                             <label for="LoginEmail" class="form-label">Email</label>
                             <input id="LoginEmail" name="Email" class="form-control fs-login-input" />
@@ -110,6 +120,18 @@
             input.type = isHidden ? "text" : "password";
             label.textContent = isHidden ? "Skjul" : "Vis";
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var hasLoginError = '@(string.IsNullOrEmpty(loginError) ? "false" : "true" )';
+            if(hasLoginError === "true"){
+                var loginModalElement = document.getElementById('loginModal');
+                if(loginModalElement){
+                    var myModal = new bootstrap.Modal(loginModalElement);
+                    myModal.show();
+                }
+            }
+        });
     </script>
 </body>
 </html>

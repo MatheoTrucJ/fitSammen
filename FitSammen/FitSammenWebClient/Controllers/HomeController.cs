@@ -43,13 +43,19 @@ namespace FitSammenWebClient.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel loginModel)
+        public async Task<IActionResult> Login(LoginViewModel loginModel)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["LoginError"] = "Udfyld venligst både email og adgangskode";
+                return RedirectToAction("Index");
+            }
            LoginResponseModel? responseModel = await _loginLogic.AuthenticateAndGetToken(loginModel.Email, loginModel.Password);
 
             if (responseModel == null)
             {
-                return Unauthorized(new { message = "Ugyldigt brugernavn eller adgangskode" });
+                TempData["LoginError"] = "Ugyldigt brugernavn eller adgangskode. Prøv igen.";
+                return RedirectToAction("Index");  
             }
 
             //Gemmer token og userId i Cookie
@@ -63,13 +69,7 @@ namespace FitSammenWebClient.Controllers
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-            string redirectUrl = Url.Action("Index", "Home") ?? "/";
-
-            return Ok(new
-            {
-                message = "Login successfuldt",
-                redirectUrl = redirectUrl
-            });
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
