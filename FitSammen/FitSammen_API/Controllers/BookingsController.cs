@@ -1,9 +1,11 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DTOs;
 using FitSammen_API.Mapping;
+using FitSammen_API.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FitSammen_API.Controllers
 {
@@ -21,9 +23,19 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<BookingResponseDTO> CreateBooking(int classId, [FromBody] BookingRequestDTO request)
+        [Authorize(Roles = nameof(UserType.Member))]
+        public ActionResult<BookingResponseDTO> CreateBooking(int classId)
         {
-            BookingResult? result = _bookingService.BookClass(request.MemberId, classId);
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return Unauthorized("User identifier not found.");
+            }
+
+            int userId = int.Parse(userIdString);
+
+            BookingResult? result = _bookingService.BookClass(userId, classId);
 
             BookingResponseDTO dto = ModelConversion.ToBookingResponseDTO(result);
 

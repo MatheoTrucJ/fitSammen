@@ -2,6 +2,7 @@ using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DatabaseAccessLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +40,9 @@ builder.Services
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+
+            RoleClaimType = ClaimTypes.Role,          // matcher din ClaimTypes.Role
         };
     });
 

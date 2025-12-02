@@ -3,6 +3,7 @@ using FitSammen_API.DTOs;
 using FitSammen_API.Exceptions;
 using FitSammen_API.Mapping;
 using FitSammen_API.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace FitSammen_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LocationsController : ControllerBase
     {
         private readonly ILocationService _locationService;
@@ -21,6 +23,7 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<LocationListDTO>> GetLocations()
         {
             try
@@ -37,6 +40,7 @@ namespace FitSammen_API.Controllers
 
         [Route("/api/[controller]/{locationId}/rooms")]
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<RoomListDTO>> GetRoomsByLocation(int locationId)
         {
             try
@@ -61,6 +65,7 @@ namespace FitSammen_API.Controllers
 
         [Route("/api/locations/{locationId}/employees")]
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<EmployeeListDTO>> GetEmployeesByLocation(int locationId)
         {
             try

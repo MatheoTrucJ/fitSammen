@@ -74,6 +74,7 @@ namespace FitSammen_API.BusinessLogicLayer
             return jwtString;
         }
 
+
         public User FindUserByEmailAndPassword(string email, string password)
         {
             try

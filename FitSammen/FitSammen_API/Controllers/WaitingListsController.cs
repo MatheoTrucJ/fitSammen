@@ -1,10 +1,12 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DTOs;
 using FitSammen_API.Mapping;
+using FitSammen_API.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FitSammen_API.Controllers
 {
@@ -21,9 +23,19 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<WaitingListEntryResponseDTO> CreateWaitingListEntry(int classId, [FromBody] WaitingListEntryRequestDTO wleRequest)
+        [Authorize(Roles = nameof(UserType.Member))]
+        public ActionResult<WaitingListEntryResponseDTO> CreateWaitingListEntry(int classId)
         {
-            WaitingListResult result = _waitingListService.AddMemberToWaitingList(classId, wleRequest.MemberId);
+            var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (id == null)
+            {
+                return Unauthorized("User identifier not found.");
+            }
+
+            int userId = int.Parse(id);
+
+
+            WaitingListResult result = _waitingListService.AddMemberToWaitingList(classId, userId);
 
             WaitingListEntryResponseDTO wleResponseDTO = ModelConversion.ToWaitingListEntryResponseDTO(result);
 
