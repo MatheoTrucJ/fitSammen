@@ -14,7 +14,7 @@ namespace FitSammenWebClient.ServiceLayer
         public async Task<LoginResponseModel?> GetTokenFromApiAsync(string email, string password)
         {
             UseUrl = BaseUrl;
-            UseUrl += "/tokens";
+            UseUrl += "tokens";
 
             try
             {
@@ -26,13 +26,16 @@ namespace FitSammenWebClient.ServiceLayer
                 string jsonContent = JsonSerializer.Serialize(loginRequest);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 HttpResponseMessage? response = await CallServicePost(content);
+
                 if (response != null && response.IsSuccessStatusCode)
                 {
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    var loginResponse = JsonSerializer.Deserialize<LoginResponseModel>(responseBody,
-                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                    return loginResponse;
+                    var token = JsonSerializer.Deserialize<string>(responseBody,
+                       new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    return new LoginResponseModel { Token = token };
+
                 }
                 else if (response != null && (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.BadRequest))
                 {
