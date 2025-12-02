@@ -55,8 +55,7 @@ namespace FitSammenWebClient.Controllers
             //Gemmer token og userId i Cookie
             var claims = new List<Claim>
             {
-                //Gemmer UserId
-                new Claim(ClaimTypes.NameIdentifier, responseModel.UserId.ToString()),
+
                 //Gemmer hele JWT'en
                 new Claim("AccessToken", responseModel.Token)
             };
@@ -77,13 +76,12 @@ namespace FitSammenWebClient.Controllers
         [Authorize]
         public async Task<ActionResult> SignUpToWaitingList(int ClassId)
         {
-            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             string? token = User.FindFirstValue("AccessToken");
-            if(userIdString == null || !int.TryParse(userIdString, out int userNumber) || string.IsNullOrEmpty(token))
+            if(string.IsNullOrEmpty(token))
             {
                 return Challenge();
             }
-            WaitingListEntryResponse? result = await _waitingListLogic.AddMemberToWaitingListAsync(userNumber, ClassId, token);
+            WaitingListEntryResponse? result = await _waitingListLogic.AddMemberToWaitingListAsync(ClassId, token);
             
             if (result == null)
             {
@@ -122,14 +120,13 @@ namespace FitSammenWebClient.Controllers
         [HttpPost]
         public async Task<ActionResult> SignUpToClass(int ClassId)
         {
-            string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             string? token = User.FindFirstValue("AccessToken");
-            if (userIdString == null || !int.TryParse(userIdString, out int userNumber) || string.IsNullOrEmpty(token))
+            if (string.IsNullOrEmpty(token))
             {
                 return Challenge();
             }
 
-            MemberBookingResponse? result = await _classLogic.SignUpAMember(userNumber, ClassId, token);
+            MemberBookingResponse? result = await _classLogic.SignUpAMember(ClassId, token);
 
             if (result == null)
             {

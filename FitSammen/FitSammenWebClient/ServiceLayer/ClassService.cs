@@ -59,24 +59,19 @@ namespace FitSammenWebClient.ServiceLayer
         }
 
 
-        public async Task<MemberBookingResponse> SignUpMemberToClassAsync(int userNumber, int classId, string token)
+        public async Task<MemberBookingResponse> SignUpMemberToClassAsync(int classId, string token)
         {
             MemberBookingResponse? Reponse = null;
 
             UseUrl = BaseUrl;
             UseUrl += "classes/" + classId + "/bookings";
 
-            MemberBookingRequest request = new MemberBookingRequest
-            {
-                MemberId = userNumber,
-            };
+            const string emptyJson = "{}";
 
             try
             {
                 _httpEnabler.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                string? json = JsonConvert.SerializeObject(request);
-                StringContent? content = new StringContent(json, Encoding.UTF8, "application/json");
+                StringContent? content = new StringContent(emptyJson, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage? serviceResponse = await CallServicePost(content);
                 _httpEnabler.DefaultRequestHeaders.Authorization = null;

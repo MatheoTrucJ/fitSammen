@@ -13,9 +13,9 @@ namespace FitSammenWebClient.BusinessLogicLayer
             _waitingListAccess = waitingListAccess;
         }
 
-        public async Task<WaitingListEntryResponse?> AddMemberToWaitingListAsync(int classId, int memberNumber, string token)
+        public async Task<WaitingListEntryResponse?> AddMemberToWaitingListAsync(int classId, string token)
         {
-            return await _waitingListAccess.AddMemberToWaitingListAsync(classId, memberNumber, token);
+            return await _waitingListAccess.AddMemberToWaitingListAsync(classId, token);
         }
     }
 }

@@ -14,24 +14,17 @@ namespace FitSammenWebClient.ServiceLayer
         {
         }
 
-        public async Task<WaitingListEntryResponse> AddMemberToWaitingListAsync(int classId, int memberId, string token)
+        public async Task<WaitingListEntryResponse> AddMemberToWaitingListAsync(int classId, string token)
         {
             WaitingListEntryResponse? responseDto = null;
 
             UseUrl = BaseUrl;
             UseUrl += $"classes/{classId}/waitinglists";
-
-            WaitingListEntryRequest request = new WaitingListEntryRequest
-            {
-                MemberId = memberId
-            };
-
+            const string emptyJson = "{}";
             try
             {
                 _httpEnabler.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                string json = JsonConvert.SerializeObject(request);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(emptyJson, Encoding.UTF8, "application/json");
 
                 HttpResponseMessage? serviceResponse = await CallServicePost(content);
                 _httpEnabler.DefaultRequestHeaders.Authorization = null;
