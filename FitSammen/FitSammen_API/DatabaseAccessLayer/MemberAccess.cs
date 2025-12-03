@@ -260,7 +260,7 @@ namespace FitSammen_API.DatabaseAccessLayer
             // Prepare the SQL query
             string queryString = @"SELECT user_ID, firstName, lastName, email, ut.usertype 
             FROM [User] u JOIN UserTypes ut on u.userType_ID_FK = ut.UserType_ID  
-            WHERE email = @Email AND password = @PasswordHash;";
+            WHERE email = @Email AND PasswordHash = @PasswordHash;";
 
             try
             {
@@ -295,14 +295,14 @@ namespace FitSammen_API.DatabaseAccessLayer
         {
             byte[] StoredSalt = RandomNumberGenerator.GetBytes(16);
             string queryString = @"SELECT PasswordSalt
-            FROM[User]
+            FROM [User]
             WHERE email = @email;";
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
                 using (SqlCommand readCommand = new SqlCommand(queryString, conn))
                 {
-                    readCommand.Parameters.AddWithValue("@Email", email);
+                    readCommand.Parameters.AddWithValue("@email", email);
                     conn.Open();
                     SqlDataReader reader = readCommand.ExecuteReader();
                     if (reader.Read())

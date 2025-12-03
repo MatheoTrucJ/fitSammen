@@ -30,11 +30,11 @@ namespace FitSammen_API.BusinessLogicLayer
         {
             try
             {
-               byte[] salt = _memberAccess.GetSaltByEmail(email); 
+                byte[] salt = _memberAccess.GetSaltByEmail(email);
                 byte[] hashedPassword = _security.HashPassword(password, salt);
 
                 User user = _memberAccess.FindUserByEmailAndPassword(email, hashedPassword);
-                if(user is null)
+                if (user is null)
                 {
                     throw new UnauthorizedAccessException("Ugyldig email eller password");
                 }
@@ -74,7 +74,7 @@ namespace FitSammen_API.BusinessLogicLayer
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JwtSettings:Issuer"],
-                audience: _configuration["JwtSettings:Audience"], 
+                audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials);

@@ -37,6 +37,7 @@ namespace FitSammen_API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult<ClassCreateResponseDTO> CreateClass([FromBody] ClassCreateRequestDTO classCreateRequestDTO)
         {
                 if (!ModelState.IsValid)
