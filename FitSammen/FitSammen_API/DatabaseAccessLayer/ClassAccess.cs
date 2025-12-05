@@ -276,7 +276,7 @@ namespace FitSammen_API.DatabaseAccessLayer
             U.lastName
             FROM[User] U
             JOIN Employee E
-            ON U.userType_ID_FK = E.employeeUser_ID_FK
+            ON U.user_ID = E.employeeUser_ID_FK
             JOIN Location L
             ON E.location_ID_FK = L.location_ID
             WHERE
