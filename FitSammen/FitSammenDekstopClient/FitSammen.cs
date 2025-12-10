@@ -40,15 +40,8 @@ namespace FitSammenDekstopClient
                     item.Tag = c;
 
                     listViewAllClasses.Items.Add(item);
-                    string processText = "Virkede";
-                    labelProcessText.Text = processText;
-
+                    
                 }
-            }
-            else
-            {
-                string processText = "Ingen træningshold fundet.";
-                labelProcessText.Text = processText;
             }
         }
 
@@ -108,6 +101,11 @@ namespace FitSammenDekstopClient
             txtBoxLocation.Text = $"{selectedClass.Room.Location.StreetName} {selectedClass.Room.Location.HouseNumber}, {selectedClass.Room.Location.Zipcode.ZipcodeNumber} {selectedClass.Room.Location.Zipcode.City.CityName}";
             txtBoxCapacity.Text = $"{selectedClass.Capacity}";
             txtBoxMemberCount.Text = $"{selectedClass.MemberCount}";
+        }
+
+        private void refreshClassesBtn_Click(object sender, EventArgs e)
+        {
+            GetAllClasses(sender, e);
         }
     }
 }

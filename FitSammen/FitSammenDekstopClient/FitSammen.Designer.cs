@@ -50,10 +50,10 @@
             lblEmployee = new Label();
             lblClassDescription = new Label();
             lblClassType = new Label();
-            labelProcessText = new Label();
             btnCreateNewClass = new Button();
             btnUpdateClass = new Button();
             btnDeleteClass = new Button();
+            refreshClassesBtn = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -275,15 +275,6 @@
             lblClassType.TabIndex = 3;
             lblClassType.Text = "Hold Type:";
             // 
-            // labelProcessText
-            // 
-            labelProcessText.AutoSize = true;
-            labelProcessText.Location = new Point(537, 49);
-            labelProcessText.Name = "labelProcessText";
-            labelProcessText.Size = new Size(44, 15);
-            labelProcessText.TabIndex = 2;
-            labelProcessText.Text = "Besked";
-            // 
             // btnCreateNewClass
             // 
             btnCreateNewClass.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -315,15 +306,25 @@
             btnDeleteClass.Text = "Slet valgt træningshold";
             btnDeleteClass.UseVisualStyleBackColor = true;
             // 
+            // refreshClassesBtn
+            // 
+            refreshClassesBtn.Location = new Point(506, 60);
+            refreshClassesBtn.Name = "refreshClassesBtn";
+            refreshClassesBtn.Size = new Size(75, 23);
+            refreshClassesBtn.TabIndex = 5;
+            refreshClassesBtn.Text = "Refresh";
+            refreshClassesBtn.UseVisualStyleBackColor = true;
+            refreshClassesBtn.Click += refreshClassesBtn_Click;
+            // 
             // FitSammen
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(923, 549);
+            Controls.Add(refreshClassesBtn);
             Controls.Add(btnDeleteClass);
             Controls.Add(btnUpdateClass);
             Controls.Add(btnCreateNewClass);
-            Controls.Add(labelProcessText);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "FitSammen";
@@ -332,14 +333,12 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private GroupBox groupBox1;
         private GroupBox groupBox2;
-        private Label labelProcessText;
         private ListView listViewAllClasses;
         private Button btnCreateNewClass;
         private Label lblClassDescription;
@@ -363,5 +362,6 @@
         private Button btnDeleteClass;
         private Label lblTextDescription;
         private Label lblTextClassType;
+        private Button refreshClassesBtn;
     }
 }
