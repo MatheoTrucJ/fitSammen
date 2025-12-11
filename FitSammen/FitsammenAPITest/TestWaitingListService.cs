@@ -3,6 +3,7 @@ using FitSammen_API.Exceptions;
 using FitSammen_API.BusinessLogicLayer;
 using System;
 using Xunit;
+using FitSammen_API.Model;
 
 namespace FitsammenAPITest
 {
@@ -15,7 +16,8 @@ namespace FitsammenAPITest
             {
                 WaitingListEntryPosition = 1,
                 ThrowDataAccessException = false,
-                AlreadySignedUp = false
+                AlreadySignedUpClass = false,
+                AlreadySignedUpWaitingList = false
             });
 
             WaitingListResult result = service.AddMemberToWaitingList(1, 10);
@@ -25,11 +27,26 @@ namespace FitsammenAPITest
         }
 
         [Fact]
-        public void AddMemberToWaitingListAlreadySignedUp()
+        public void AddMemberToWaitingListAlreadySignedUpToClass()
         {
             WaitingListService service = new WaitingListService(new MemberAccessMock
             {
-                AlreadySignedUp = true,
+                AlreadySignedUpClass = true,
+                AlreadySignedUpWaitingList = false,
+            });
+
+            WaitingListResult result = service.AddMemberToWaitingList(1, 10);
+
+            Assert.Equal(WaitingListStatus.AlreadySignedUpMB, result.Status);
+            Assert.Null(result.WaitingListPosition);
+        }
+        [Fact]
+        public void AddMemberToWaitingListAlreadySignedUpToWaitingList()
+        {
+            WaitingListService service = new WaitingListService(new MemberAccessMock
+            {
+                AlreadySignedUpClass = false,
+                AlreadySignedUpWaitingList = true,
                 WaitingListEntryPosition = 5
             });
 
@@ -45,7 +62,6 @@ namespace FitsammenAPITest
             WaitingListService service = new WaitingListService(new MemberAccessMock
             {
                 ThrowDataAccessException = true,
-                AlreadySignedUp = false
             });
 
             WaitingListResult result = service.AddMemberToWaitingList(1, 10);
@@ -59,7 +75,8 @@ namespace FitsammenAPITest
             public int WaitingListEntryPosition { get; set; }
             public bool ThrowDataAccessException { get; set; }
             public bool ThrowGenericException { get; set; }
-            public bool AlreadySignedUp { get; set; }
+            public bool AlreadySignedUpClass { get; set; }
+            public bool AlreadySignedUpWaitingList { get; set; }
 
             public int CreateMemberBooking(int memberUserNumber, int classId)
             {
@@ -81,16 +98,31 @@ namespace FitsammenAPITest
                 return WaitingListEntryPosition;
             }
 
+            public User FindUserByEmailAndPassword(string email, byte[] password)
+            {
+                throw new NotImplementedException();
+            }
+
+            public int GetMemberCountFromClassId(int classId)
+            {
+                throw new NotImplementedException();
+            }
+
+            public byte[] GetSaltByEmail(string email)
+            {
+                throw new NotImplementedException();
+            }
+
             public int IsMemberOnWaitingList(int memberId, int classId)
             {
-                if (AlreadySignedUp)
+                if (AlreadySignedUpWaitingList)
                 {
                     return WaitingListEntryPosition;
                 }
                 return 0;
             }
 
-            public bool IsMemberSignedUp(int memberUserNumber, int classID) => AlreadySignedUp;
+            public bool IsMemberSignedUp(int memberUserNumber, int classID) => AlreadySignedUpClass;
         }
     }
 }

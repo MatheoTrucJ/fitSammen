@@ -75,14 +75,19 @@ namespace FitsammenAPITest
         [Fact]
         public void CreateMemberBookingSuccess()
         {
-            //Arrange
+            using (TransactionScope scope = new TransactionScope())
+            {
+                //Arrange
 
-            //Act - create a member booking for member with user number 2 for class with id 1
-            int memberBookingId = _memberAccess.CreateMemberBooking(2, 1);
-            bool res = _memberAccess.IsMemberSignedUp(2, 1);
+                //Act - create a member booking for member with user number 2 for class with id 1
+                int memberBookingId = _memberAccess.CreateMemberBooking(2, 1);
+                bool res = _memberAccess.IsMemberSignedUp(2, 1);
 
-            //Assert
-            Assert.True(res);
+                //Assert
+                Assert.True(res);
+
+                scope.Dispose();
+            }
         }
 
         [Fact]

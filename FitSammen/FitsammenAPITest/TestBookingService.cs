@@ -1,6 +1,7 @@
 ﻿using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DatabaseAccessLayer;
 using FitSammen_API.Exceptions;
+using FitSammen_API.Model;
 using System;
 using Xunit;
 
@@ -107,6 +108,21 @@ namespace FitSammen_APITest
             }
 
             public int CreateWaitingListEntry(int memberUserId, int classId)
+            {
+                throw new NotImplementedException();
+            }
+
+            public User FindUserByEmailAndPassword(string email, byte[] password)
+            {
+                throw new NotImplementedException();
+            }
+
+            public int GetMemberCountFromClassId(int classId)
+            {
+                throw new NotImplementedException();
+            }
+
+            public byte[] GetSaltByEmail(string email)
             {
                 throw new NotImplementedException();
             }
