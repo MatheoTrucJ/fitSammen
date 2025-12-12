@@ -10,7 +10,6 @@ namespace FitSammen_API.DatabaseAccessLayer
     {
         public ClassAccess(IConfiguration inConfiguration, IMemberAccess memberAccess)
         {
-            // From configuration data get name of conn-string - and then fetch the conn-string
             string? useConnectionString = inConfiguration["ConnectionStringToUse"];
             ConnectionString = useConnectionString is not null ? inConfiguration.GetConnectionString(useConnectionString) : null;
             _memberAccess = memberAccess;
@@ -29,7 +28,6 @@ namespace FitSammen_API.DatabaseAccessLayer
         {
             IEnumerable<Class>? classes = null;
 
-            // Prepare the SQL query
             string queryString = "SELECT c.class_ID, " +
                 "c.trainingDate, " +
                 "c.startTime, " +
@@ -383,12 +381,11 @@ namespace FitSammen_API.DatabaseAccessLayer
                         conn.Open();
                         using (SqlCommand readCommand = new SqlCommand(queryString, conn))
                         {
-                            //Overlap check
                             readCommand.Parameters.AddWithValue("@NewStartDateTime", newClassStartDateTime);
                             readCommand.Parameters.AddWithValue("@NewEndDateTime", newClassEndDateTime);
                             readCommand.Parameters.AddWithValue("@RoomId", roomId);
                             readCommand.Parameters.AddWithValue("@EmployeeId", employeeId);
-                            //Insert parametre
+
                             readCommand.Parameters.AddWithValue("@ClassName", NewClass.Name);
                             readCommand.Parameters.AddWithValue("@Description", NewClass.Description);
                             readCommand.Parameters.AddWithValue("@Capacity", NewClass.Capacity);

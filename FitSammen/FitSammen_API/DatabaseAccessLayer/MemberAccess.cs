@@ -13,9 +13,10 @@ namespace FitSammen_API.DatabaseAccessLayer
 {
     public class MemberAccess : IMemberAccess
     {
+        public string? ConnectionString { get; }
+
         public MemberAccess(IConfiguration inConfiguration)
         {
-            // From configuration data get name of conn-string - and then fetch the conn-string
             string? useConnectionString = inConfiguration["ConnectionStringToUse"];
             ConnectionString = useConnectionString is not null ? inConfiguration.GetConnectionString(useConnectionString) : null;
         }
@@ -24,8 +25,6 @@ namespace FitSammen_API.DatabaseAccessLayer
         {
             ConnectionString = inConnectionString;
         }
-
-        public string? ConnectionString { get; }
 
         public int CreateMemberBooking(int memberUserID, int classId)
         {
@@ -69,6 +68,7 @@ namespace FitSammen_API.DatabaseAccessLayer
                             {
                                 throw new DataAccessException("No database connection available.");
                             }
+                            readCommand.Parameters.Clear();
                             readCommand.CommandText = insertBooking;
                             readCommand.Parameters.AddWithValue("@MemberUserID", memberUserID);
                             readCommand.Parameters.AddWithValue("@ClassIdInsert", classId);
@@ -110,7 +110,6 @@ namespace FitSammen_API.DatabaseAccessLayer
         {
             bool res = false;
 
-            // Prepare the SQL query
             string queryString = "SELECT * " +
                 "FROM MemberBooking mb " +
                 "WHERE mb.memberUser_ID_FK = @MemberID " +
@@ -155,7 +154,6 @@ namespace FitSammen_API.DatabaseAccessLayer
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@ClassId", classId);
-                    //cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
                     conn.Open();
                     var temp = cmd.ExecuteScalar();
                     res = Convert.ToInt32(temp);
@@ -230,7 +228,6 @@ namespace FitSammen_API.DatabaseAccessLayer
                 using (var cmd = new SqlCommand(positionQuery, conn))
                 {
                     cmd.Parameters.AddWithValue("@ClassId", ClassId);
-                    //cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
                     cmd.Parameters.Add(new SqlParameter("@CreatedAt", SqlDbType.DateTime2) { Value = createdAt });
 
                     conn.Open();
@@ -250,7 +247,6 @@ namespace FitSammen_API.DatabaseAccessLayer
         {
             int waitingListPosition = 0;
 
-            // Prepare the SQL query
             string queryString = "SELECT * " +
                 "FROM WaitingListEntry " +
                 "WHERE memberUser_ID_FK = @MemberUserId " +
@@ -266,27 +262,27 @@ namespace FitSammen_API.DatabaseAccessLayer
                     if (conn != null)
                     {
                         conn.Open();
-                        DateTime? CreatedAt = null;
+                        int waitingListEntryId = 0; 
 
                         using (SqlDataReader reader = readCommand.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                CreatedAt = reader.GetDateTime(reader.GetOrdinal("CreatedAt"));
+                                waitingListEntryId = reader.GetInt32(reader.GetOrdinal("waitingList_ID"));
                             }
                         }
-                        if (CreatedAt.HasValue)
+                        if (waitingListEntryId > 0)
                         {
                             string positionQuery = @"
                                     SELECT COUNT(*) + 1 AS position
                                     FROM WaitingListEntry
                                     WHERE class_ID_FK = @ClassId
-                                    AND CreatedAt < @CreatedAt;";
+                                    AND waitingList_ID < @WaitingListEntryId;";
 
                             using (var cmd = new SqlCommand(positionQuery, conn))
                             {
                                 cmd.Parameters.AddWithValue("@ClassId", ClassId);
-                                cmd.Parameters.AddWithValue("@CreatedAt", CreatedAt.Value);
+                                cmd.Parameters.AddWithValue("@WaitingListEntryId", waitingListEntryId);
 
                                 waitingListPosition = (int)cmd.ExecuteScalar();
                             }
@@ -308,7 +304,6 @@ namespace FitSammen_API.DatabaseAccessLayer
         public User FindUserByEmailAndPassword(string email, byte[] hashedPassword)
         {
             User foundUser = new Member();
-            // Prepare the SQL query
             string queryString = @"SELECT user_ID, firstName, lastName, email, ut.usertype 
             FROM [User] u JOIN UserTypes ut on u.userType_ID_FK = ut.UserType_ID  
             WHERE email = @Email AND PasswordHash = @PasswordHash;";

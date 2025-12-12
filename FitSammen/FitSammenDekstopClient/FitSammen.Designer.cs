@@ -76,7 +76,6 @@
             listViewAllClasses.Size = new Size(552, 442);
             listViewAllClasses.TabIndex = 3;
             listViewAllClasses.UseCompatibleStateImageBehavior = false;
-            listViewAllClasses.DoubleClick += listViewAllClasses_DoubleClick;
             // 
             // groupBox2
             // 

@@ -36,7 +36,6 @@ namespace FitSammenDekstopClient
 
         private async void btnCreateClass_Click(object sender, EventArgs e)
         {
-            //Valider input
             if (string.IsNullOrWhiteSpace(textBoxName.Text))
             {
                 MessageBox.Show("Navn på hold skal udfyldes.");
@@ -134,8 +133,8 @@ namespace FitSammenDekstopClient
         private void SetupStartTimeCombo()
         {
             var times = new List<TimeOnly>();
-            var start = new TimeOnly(6, 0);
-            var end = new TimeOnly(22, 0);
+            var start = new TimeOnly(7, 0);
+            var end = new TimeOnly(17, 0);
 
             var current = start;
             while (current <= end)

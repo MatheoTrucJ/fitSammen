@@ -64,9 +64,6 @@ namespace FitSammenDekstopClient
 
         private void createNewClassBtn_Click(object sender, EventArgs e)
         {
-            //CreateClassForm detailsForm = new CreateClassForm(_locationLogic, _classLogic);
-            //detailsForm.ShowDialog();
-
             using (CreateClassForm createClassForm = new CreateClassForm(_locationLogic, _classLogic))
             {
                 DialogResult result = createClassForm.ShowDialog(this);
@@ -76,31 +73,6 @@ namespace FitSammenDekstopClient
                     GetAllClasses(this, EventArgs.Empty);
                 }
             }
-        }
-
-        private void listViewAllClasses_DoubleClick(object sender, EventArgs e)
-        {
-            // sikrer at vi går videre kun hvis der er valgt præcis én række
-            if (listViewAllClasses.SelectedItems.Count != 1)
-                return;
-
-            // Henter den valgte række
-            ListViewItem listView = listViewAllClasses.SelectedItems[0];
-
-            // Henter det tilknyttede Class objekt fra Tag egenskaben
-            if (listView.Tag is not Class selectedClass)
-                return;
-
-            // Udfylder detalje sektionen med oplysninger fra det valgte Class objekt
-            lblTextClassType.Text = selectedClass.ClassType.ToString();
-            lblTextDescription.Text = selectedClass.Description;
-            txtBoxEmployee.Text = $"{selectedClass.Instructor.FirstName} {selectedClass.Instructor.LastName}";
-            txtBoxDateTime.Text = $"{selectedClass.TrainingDate:dd/MM/yyyy} kl. {selectedClass.StartTime:HH\\:mm}";
-            txtBoxStartTime.Text = $"{selectedClass.StartTime:HH\\:mm}";
-            txtBoxDuration.Text = $"{selectedClass.DurationInMinutes} minutter";
-            txtBoxLocation.Text = $"{selectedClass.Room.Location.StreetName} {selectedClass.Room.Location.HouseNumber}, {selectedClass.Room.Location.Zipcode.ZipcodeNumber} {selectedClass.Room.Location.Zipcode.City.CityName}";
-            txtBoxCapacity.Text = $"{selectedClass.Capacity}";
-            txtBoxMemberCount.Text = $"{selectedClass.MemberCount}";
         }
 
         private void refreshClassesBtn_Click(object sender, EventArgs e)

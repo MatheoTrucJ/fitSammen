@@ -21,7 +21,7 @@
     string titleText = "Besked";
     bool isWaitingList = false;
 
-    // Til at håndtere både almindelig tilmelding og venteliste-tilmelding
+    // håndterer både almindelig tilmelding og venteliste-tilmelding
     if (string.IsNullOrEmpty(signUpMessage) && !string.IsNullOrEmpty(waitingMessage))
     {
         signUpMessage = waitingMessage;
@@ -116,7 +116,7 @@
                     }
                     else
                     {
-                        <!-- ikke logget ind: samme knapper, men de åbner kun login-modal -->
+                        <!-- ikke logget ind samme knapper, men de åbner kun login-modal -->
                         <br />
                         <button type="button"
                                 class="@buttonClass"

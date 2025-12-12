@@ -92,7 +92,7 @@ namespace FitsammenAPITest
             {
                 //Arrange
 
-                //Act - create a member booking for member with user number 2 for class with id 1
+                //Act 
                 int memberBookingId = _memberAccess.CreateMemberBooking(2, 1);
                 bool res = _memberAccess.IsMemberSignedUp(2, 1);
 
@@ -127,6 +127,7 @@ namespace FitsammenAPITest
             using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, tOptions))
             {
                 //Arrange
+
                 //Act
                 int SuccesPosition = _memberAccess.CreateWaitingListEntry(2, 9);
                 //Assert
@@ -146,17 +147,18 @@ namespace FitsammenAPITest
             Assert.Equal(-1, FailedAndShowedFalsePosition);
         }
 
-        //[Fact]
-        //public void WhenMakingAWaitingListTwice_ThenMyPositionIsShownAndImNotAddedAgain()
-        //{
+        [Fact]
+        public void whenmakingawaitinglisttwice_thenmypositionisshownandimnotaddedagain()
+        {
 
-        //    //Arrange
-        //    //Act
-        //    int FailedAndShowedPosition = _memberAccess.IsMemberOnWaitingList(2, 4);
+            //arrange
 
-        //    //Assert
-        //    Assert.Equal(1, FailedAndShowedPosition);
-        //}
+            //act
+            int failedandshowedposition = _memberAccess.IsMemberOnWaitingList(3, 9);
+
+            //assert
+            Assert.Equal(1, failedandshowedposition);
+        }
 
         [Fact]
         public void WhenGettingAllLocations_AllTheLocationsAreReturned()

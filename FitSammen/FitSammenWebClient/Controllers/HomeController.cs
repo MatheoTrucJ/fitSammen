@@ -61,7 +61,6 @@ namespace FitSammenWebClient.Controllers
             //Gemmer token og userId i Cookie
             var claims = new List<Claim>
             {
-
                 //Gemmer hele JWT'en
                 new Claim("AccessToken", responseModel.Token)
             };

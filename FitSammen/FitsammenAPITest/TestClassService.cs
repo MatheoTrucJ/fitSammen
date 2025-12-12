@@ -30,7 +30,7 @@ namespace FitSammen_API.Tests
             var result = service.GetUpcomingClasses();
 
             // Assert
-            Assert.Same(expectedClasses, result); // Reference equality because service just passes through
+            Assert.Same(expectedClasses, result); 
         }
 
         [Fact]

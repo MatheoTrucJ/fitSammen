@@ -26,8 +26,6 @@ namespace FitSammenDekstopClient.BusinessLogicLayer
 
         public async Task<CreateClassResponse?> CreateClassAsync(CreateClassRequest request)
         {
-            // Måske skal der valideres input fra requesten her
-            // Bla bla bla
             var response = await _classService.CreateClassAsync(request);
 
             if (response == null)

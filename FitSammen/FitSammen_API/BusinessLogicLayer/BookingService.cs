@@ -15,7 +15,6 @@ namespace FitSammen_API.BusinessLogicLayer
 
         public BookingResult BookClass(int memberId, int classId)
         {
-            // Already signed up => AlreadySignedUp, no booking id
             if (_memberAccess.IsMemberSignedUp(memberId, classId))
             {
                 return new BookingResult

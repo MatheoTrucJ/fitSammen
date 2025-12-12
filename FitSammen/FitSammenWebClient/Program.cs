@@ -21,7 +21,7 @@ builder.Services.AddHttpClient<IWaitingListAccess, WaitingListService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Home/Index"; // Sæt den korrekte loginside/action
+        options.LoginPath = "/Home/Index"; 
         options.AccessDeniedPath = "/Home/AccessDenied";
         options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     });

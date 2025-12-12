@@ -50,8 +50,10 @@ namespace FitsammenAPITest
             FakeClassAccess fakeClassAccess = new FakeClassAccess();
             LocationService locationService = new LocationService(fakeClassAccess);
             int locationId = 1;
+
             //Act
             IEnumerable<Room> rooms = locationService.GetRoomsByLocationId(locationId);
+
             //Assert
             Assert.NotNull(rooms);
             Assert.Collection(rooms,

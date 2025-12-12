@@ -42,7 +42,6 @@ namespace FitSammen_APITest
         [Fact]
         public void BookClass_ReturnsError_WhenDalThrowsDataAccessException()
         {
-            // DataAccessException means the DAL call failed before returning a booking id
             // Arrange
             var fakeMemberAccess = new MemberAccessMock { ThrowDataAccessException = true };
             var service = new BookingService(fakeMemberAccess);
