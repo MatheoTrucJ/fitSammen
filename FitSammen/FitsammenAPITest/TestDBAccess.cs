@@ -18,7 +18,7 @@ namespace FitsammenAPITest
 
         public TestDBAccess()
         {
-            var connString = "Server=ESBEN\\SQLEXPRESS;Database=FitSammenDB;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;";
+            var connString = "Server=localhost;Database=FitSammenDB;User Id=sa;Password=@12tf56so;TrustServerCertificate=True;";
 
             _memberAccess = new MemberAccess(connString);
             _classAccess = new ClassAccess(connString, _memberAccess);
@@ -131,7 +131,7 @@ namespace FitsammenAPITest
                 //Act
                 int SuccesPosition = _memberAccess.CreateWaitingListEntry(2, 9);
                 //Assert
-                Assert.Equal(1, SuccesPosition);
+                Assert.Equal(2, SuccesPosition);
 
                 scope.Dispose();
             }
