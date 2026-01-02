@@ -1,5 +1,6 @@
 using FitSammen_API.BusinessLogicLayer;
 using FitSammen_API.DatabaseAccessLayer;
+using FitSammen_API.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -48,6 +49,8 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -63,5 +66,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Vores Hub endpoint til connection fra klienten
+// https://localhost:7229/hubs/classes
+app.MapHub<ClassHub>("/hubs/classes");
 
 app.Run();

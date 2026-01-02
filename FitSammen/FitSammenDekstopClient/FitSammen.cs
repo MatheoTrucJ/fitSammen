@@ -1,5 +1,6 @@
 using FitSammenDekstopClient.BusinessLogicLayer;
 using FitSammenDekstopClient.Model;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
@@ -9,14 +10,41 @@ namespace FitSammenDekstopClient
     {
         private readonly ClassLogic _classLogic;
         private readonly LocationLogic _locationLogic;
+        private readonly string _hubUrl;
 
-        public FitSammen(ClassLogic classLogic, LocationLogic locationLogic)
+        private HubConnection? _hubConnection;
+
+        public FitSammen(ClassLogic classLogic, LocationLogic locationLogic, string hubUrl)
         {
             _classLogic = classLogic;
             _locationLogic = locationLogic;
+            _hubUrl = hubUrl;
             InitializeComponent();
             SetupClassListView();
             GetAllClasses(this, EventArgs.Empty);
+            _ = StartSignalRAsync();
+        }
+
+        // “UI-tråden er den tråd, der styrer WinForms-brugerfladen.Kun UI-tråden må opdatere controls.
+        // SignalR callbacks kører på baggrundstråde, så vi bruger BeginInvoke til at skifte tilbage til UI-tråden.
+        // _ = bruges til at starte en async metode uden at await’e den, typisk i konstruktører.”
+
+        private sealed record ClassBookingChangedMessage(int ClassId, int IncrementMemberCount);
+
+        private async Task StartSignalRAsync()
+        {
+
+            _hubConnection = new HubConnectionBuilder().WithUrl(_hubUrl).Build();
+
+            _hubConnection.On<ClassBookingChangedMessage>("MemberSignUpToClass", data =>
+            {
+                BeginInvoke(new Action(() =>
+                {
+                    GetAllClasses(this, EventArgs.Empty);
+                }));
+            });
+
+            await _hubConnection.StartAsync();
         }
 
         private async void GetAllClasses(object sender, EventArgs e)
