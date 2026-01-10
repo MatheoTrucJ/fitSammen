@@ -42,12 +42,5 @@ namespace FitSammen_API.Controllers
                 return StatusCode(500, "Error");
             }
         }
-
-        [Authorize]
-        [Authorize(Roles = nameof(UserType.Member))]
-        public IActionResult Test()
-        {
-            return Ok("Du er autentificeret");
-        }
     }
 }
