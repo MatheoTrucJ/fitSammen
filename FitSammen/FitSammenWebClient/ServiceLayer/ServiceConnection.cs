@@ -44,5 +44,12 @@
             return hrm;
         }
 
+        // PER REQUEST SEND SOM GIVER MULIGHED FOR AT TILPASSE HttpRequestMessage MERE DETALJERET
+        public async Task<HttpResponseMessage?> CallServiceSend(HttpRequestMessage request) {
+            if (request.RequestUri == null && UseUrl != null) {
+                request.RequestUri = new Uri(UseUrl, UriKind.RelativeOrAbsolute);
+            }
+            return await _httpEnabler.SendAsync(request);
+        }
     }
 }

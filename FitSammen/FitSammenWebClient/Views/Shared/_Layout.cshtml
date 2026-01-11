@@ -29,21 +29,29 @@
             </nav>
         </div>
             <div>
-                <form asp-action="Logout" asp-controller="Home" method="post">
-
-                    <button type="submit" class="btn btn-outline-danger">Log ud</button>
-
-                </form>
+                @if (User.Identity?.IsAuthenticated == true) //LOG UD KNAP VISES KUN HVIS BRUGEREN ER LOGGET IND
+                {
+                    <form asp-action="Logout" asp-controller="Home" method="post">
+                        <button type="submit" class="btn btn-outline-danger">Log ud</button>
+                    </form>
+                }
             </div>
         <div class="profil">
             <ul>
                 <li>
-                    <button type="button"
-                            class="profilelogo btn btn-link p-0"
-                            data-bs-toggle="modal" 
-                            data-bs-target="#loginModal">
-                        &#128100;
-                    </button>
+                @if (User.Identity?.IsAuthenticated == true) //PROFIL IKON FUNGERER KUN SOM KNAP HVIS BRUGEREN IKKE ER LOGGET IND
+                    {
+                        <span class="profilelogo btn btn-link p-0" aria-hidden="true">&#128100;</span>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="profilelogo btn btn-link p-0"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#loginModal">
+                            &#128100;
+                        </button>
+                    }
                 </li>
             </ul>
         </div>

@@ -49,6 +49,14 @@ namespace FitSammen_API.BusinessLogicLayer
 
                 return jwtToken;
             }
+            catch (UnauthorizedAccessException)
+            {
+                throw;
+            }
+            catch (DataAccessException)
+            {
+                throw;
+            }
             catch (Exception)
             {
                 throw new DataAccessException("Error creating token.");
@@ -69,14 +77,13 @@ namespace FitSammen_API.BusinessLogicLayer
                 new Claim(ClaimTypes.Role, user.UserType.ToString())
             };
 
-            int durationInMinutes = 60;
-            DateTime expireAt = DateTime.Now.AddMinutes(durationInMinutes);
+            DateTime tokenExpireTime = DateTime.Now.AddMinutes(30);
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JwtSettings:Issuer"],
                 audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: tokenExpireTime,
                 signingCredentials: credentials);
 
             jwtString = new JwtSecurityTokenHandler().WriteToken(token);

@@ -10,7 +10,6 @@ namespace FitSammenWebClient.ServiceLayer
     {
         public ClassService(HttpClient httpClient, IConfiguration inBaseUrl) : base(httpClient, inBaseUrl["ServiceUrlToUse"])
         {
-
         }
 
         public async Task<IEnumerable<Class>?> GetClasses(int id = -1)
@@ -58,7 +57,6 @@ namespace FitSammenWebClient.ServiceLayer
             return result;
         }
 
-
         public async Task<MemberBookingResponse> SignUpMemberToClassAsync(int classId, string token)
         {
             MemberBookingResponse? Reponse = null;
@@ -66,30 +64,28 @@ namespace FitSammenWebClient.ServiceLayer
             UseUrl = BaseUrl;
             UseUrl += "classes/" + classId + "/bookings";
 
-            const string emptyJson = "{}";
-
             try
             {
-                _httpEnabler.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                StringContent? content = new StringContent(emptyJson, Encoding.UTF8, "application/json");
+                //Ændret til HttpRequestMessage for at kunne tilføje Authorization header
+                using var req = new HttpRequestMessage(HttpMethod.Post, UseUrl);
+                req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                req.Content = new StringContent("{}", Encoding.UTF8, "application/json");
 
-                HttpResponseMessage? serviceResponse = await CallServicePost(content);
-                _httpEnabler.DefaultRequestHeaders.Authorization = null;
+                var resp = await CallServiceSend(req);
 
-                if (serviceResponse != null)
+                if (resp != null)
                 {
-                    string? responseContent = await serviceResponse.Content.ReadAsStringAsync();
+                    string? responseContent = await resp.Content.ReadAsStringAsync();
                     Reponse = JsonConvert.DeserializeObject<MemberBookingResponse>(responseContent);
                 }
 
-                if (serviceResponse != null && Reponse != null)
+                if (resp != null && Reponse != null)
                 {
                     return Reponse;
                 }
             }
             catch (Exception ex)
             {
-                _httpEnabler.DefaultRequestHeaders.Authorization = null;
                 Console.WriteLine("Exception in SignUpMemberToClassAsync: " + ex.Message);
             }
             return new MemberBookingResponse

@@ -70,7 +70,7 @@ namespace FitsammenAPITest
             var dto = ModelConversion.ToBookingResponseDTO(result);
             Assert.Equal(0, dto.BookingId);
             Assert.Equal("ClassFull", dto.Status);
-            Assert.Equal("Booking failed: The class is already ful", dto.Message);
+            Assert.Equal("Booking failed: The class is already full", dto.Message);
         }
 
         [Fact]

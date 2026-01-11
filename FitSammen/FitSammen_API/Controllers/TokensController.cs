@@ -14,7 +14,7 @@ namespace FitSammen_API.Controllers
     {
         private readonly ITokenService _tokenService;
 
-        public TokensController(ITokenService tokenService) 
+        public TokensController(ITokenService tokenService)
         {
             _tokenService = tokenService;
         }
@@ -22,23 +22,27 @@ namespace FitSammen_API.Controllers
         [HttpPost]
         public ActionResult<LoginResponseDto> CreateToken([FromBody] LoginRequestDTO dto)
         {
+            if (dto is null || string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
+            {
+                return BadRequest("Email and password are required.");
+            }
+
             try
             {
-                string foundToken;
-
-                bool hasInput = ((!string.IsNullOrWhiteSpace(dto.Email)) && (!string.IsNullOrWhiteSpace(dto.Password)));
-
-                if (hasInput)
-                {
-                    foundToken = _tokenService.CreateToken(dto.Email!, dto.Password!);
-                    return Ok(new LoginResponseDto { Token = foundToken });
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                string token = _tokenService.CreateToken(dto.Email!, dto.Password!);
+                return Ok(new LoginResponseDto { Token = token });
             }
-            catch {
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
+            catch (FitSammen_API.Exceptions.DataAccessException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            catch (Exception)
+            {
+
                 return StatusCode(500, "Error");
             }
         }
