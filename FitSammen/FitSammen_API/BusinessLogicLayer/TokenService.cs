@@ -77,6 +77,7 @@ namespace FitSammen_API.BusinessLogicLayer
                 new Claim(ClaimTypes.Role, user.UserType.ToString())
             };
 
+            // TOKEN EXPIRE TIME ER ÆNDRET TIL 30 MINUTTER - Omid
             DateTime tokenExpireTime = DateTime.Now.AddMinutes(30);
 
             var token = new JwtSecurityToken(

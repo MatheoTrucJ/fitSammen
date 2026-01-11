@@ -66,7 +66,7 @@ namespace FitSammenWebClient.ServiceLayer
 
             try
             {
-                //Ændret til HttpRequestMessage for at kunne tilføje Authorization header
+                //ÆNDRET TIL HTTTTREQUESTMESSAGE FOR AT KUNNE SENDE BEHOV FOR AUTHORIZATION HEADER PER REQUEST - Omid
                 using var req = new HttpRequestMessage(HttpMethod.Post, UseUrl);
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 req.Content = new StringContent("{}", Encoding.UTF8, "application/json");

@@ -23,8 +23,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Home/Index"; 
         options.AccessDeniedPath = "/Home/AccessDenied";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); //COOKIE TID MATCHER EXPPIRES PÅ TOKEN
+        options.Cookie.HttpOnly = true; //TILFØJET FOR SIKKERHED, UNDGÅ XSS angreb, ingen js
     });
 
 builder.Services.AddAuthorization(); 
